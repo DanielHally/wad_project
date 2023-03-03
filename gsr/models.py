@@ -131,7 +131,7 @@ class Review(DatedModel):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
     """The user who wrote the review"""
-    author = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     """The stars given for the customer interaction of the shop"""
     customer_interaction_rating = models.IntegerField(choices=STAR_CHOICES)
