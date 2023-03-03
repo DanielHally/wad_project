@@ -55,6 +55,9 @@ class Category(models.Model):
     
     These can be created by admins and requested by users in the shop owner group"""
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+
     MAX_NAME_LENGTH = 32
     MAX_DESCRIPTION_LENGTH = 512
 
@@ -159,6 +162,9 @@ class ReviewReply(DatedModel):
     """A reply to a review of a shop
     
     These can be created by any user on any review"""
+
+    class Meta:
+        verbose_name_plural = 'Review replies'
 
     """The review being replied to"""
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
