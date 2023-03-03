@@ -13,6 +13,9 @@ class DatedModel(models.Model):
     
     date_updated is set on save() based on any difference in the fields listed in DATED_FIELDS"""
 
+    class Meta:
+        abstract = True
+
     """The date the entity was created"""
     date_added = models.DateField(null=True)
 
