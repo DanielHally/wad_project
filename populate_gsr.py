@@ -55,8 +55,8 @@ categories = {
         'description': "A general supermarket.",
     },
     "Corner Shop": {
-        'description': "A corner shop."
-    }
+        'description': "A corner shop.",
+    },
 }
 
 shops = {
@@ -74,7 +74,7 @@ shops = {
         'owners': ["Owner 1", "Owner 2"],
         'categories': ["Corner Shop"],
         'views': 200,
-        'date_added': "2022-10-2"
+        'date_added': "2022-10-2",
     }
 }
 
