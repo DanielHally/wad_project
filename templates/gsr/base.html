@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+    <head lang="en">
+		<meta charset="UTF-8" />
+        <title>Glasgow Shop Ratings - 
+		{% block title_block %}
+			Base title
+		{% endblock %}
+		</title>
+    </head>
+
+    <body>
+		<!-- Page specific content -->
+		<div>
+		{% block heading_block %}
+			<a href="{% url 'gsr:index' %}">Home</a>
+			<!-- This is body_block's default content. -->
+			<h1>Glasgow Shop Ratings</h1>
+			<!--
+			<a href=" <url 'gsr:login'> ">Login</a>
+			<a href=" <url 'gsr:signup'> ">Signup</a>
+			-->
+		{% endblock %}
+		</div>
+		<div>
+		{% block body_block %}
+			<!-- This is body_block's default content. -->
+		{% endblock %}
+		</div>
+	</body>
+</html>
