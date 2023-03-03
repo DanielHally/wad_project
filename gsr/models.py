@@ -37,7 +37,7 @@ class DatedModel(models.Model):
         """Override to handle date_added and date_updated"""
 
         # Get the current saved details
-        prev = Shop.objects.filter(pk=self.pk).first()
+        prev = type(self).objects.filter(pk=self.pk).first()
 
         if prev is None:
             # Set date added & updated to now if just created
