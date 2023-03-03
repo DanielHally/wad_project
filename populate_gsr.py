@@ -39,21 +39,21 @@ groups = [
 
 users = [
     {
-        'username': "Owner 1",
+        'username': "Owner1",
         'email': "owner1@email.com",
         'groups': ["Shop Owner"],
     },
     {
-        'username': "Owner 2",
+        'username': "Owner2",
         'email': "owner2@email.com",
         'groups': ["Shop Owner"],
     },
     {
-        'username': "User 1",
+        'username': "User1",
         'email': "user1@email.com",
     },
     {
-        'username': "User 2",
+        'username': "User2",
         'email': "user2@email.com",
     },
 ]
