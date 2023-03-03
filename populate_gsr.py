@@ -120,6 +120,27 @@ reviews = [
     },
 ]
 
+review_replies = [
+    {
+        'id': 1,
+        'review': 1,
+        'author': "Owner 2",
+        'comment': "Maybe",
+    },
+    {
+        'id': 2,
+        'review': 1,
+        'author': "Owner 1",
+        'comment': "Yes",
+    },
+    {
+        'id': 3,
+        'review': 3,
+        'author': "User 2",
+        'comment': "I agree",
+    }
+]
+
 
 def handle_date_added(obj: DatedModel, data: Dict[str, Any]):
     """Set date_added if given for a DatedModel"""
@@ -214,6 +235,25 @@ def add_review(data: Dict[str, Any]) -> Review:
     return review
 
 
+def add_review_reply(data: Dict[str, Any]) -> ReviewReply:
+    """Create a gsr review reply"""
+
+    reply = ReviewReply.objects.get_or_create(
+        id=data['id'],
+        defaults={
+            'review': Review.objects.get(id=data['review']),
+            'author': User.objects.get(username=data['author']),
+            'comment': data['comment'],
+        }
+    )[0]
+
+    handle_date_added(reply, data)
+
+    reply.save()
+
+    return reply
+
+
 def populate():
     """Populate the database with example data"""
 
@@ -227,6 +267,8 @@ def populate():
         add_shop(data)
     for data in reviews:
         add_review(data)
+    for data in review_replies:
+        add_review_reply(data)
 
 
 if __name__ == "__main__":

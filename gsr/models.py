@@ -174,3 +174,8 @@ class ReviewReply(DatedModel):
 
     """The text of the reply"""
     comment = models.CharField(max_length=Review.MAX_COMMENT_LENGTH)
+
+    def __str__(self) -> str:
+        """Display a reply by its comment and the string for its target review"""
+
+        return f"ReviewReply(\"{self.comment[:10]}...\", {self.review})"
