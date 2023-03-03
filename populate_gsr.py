@@ -77,6 +77,7 @@ shops = [
         'location': 'TODO',
         'owners': ["Owner 1"],
         'categories': ["Supermarket"],
+        'date_added': "2020-10-2",
     },
     {
         'name': "The Other Shop",
@@ -86,8 +87,37 @@ shops = [
         'owners': ["Owner 1", "Owner 2"],
         'categories': ["Corner Shop"],
         'views': 200,
-        'date_added': "2022-10-2",
     }
+]
+
+reviews = [
+    {
+        'id': 1,
+        'shop': "The Shop",
+        'author': "Owner 1",
+        'customer_interaction_rating': 5,
+        'price_rating': 1,
+        'quality_rating': 1,
+        'comment': "Owner is a very nice person.",
+        'date_added': "2021-9-12"
+    },
+    {
+        'id': 2,
+        'shop': "The Shop",
+        'author': "Owner 2",
+        'customer_interaction_rating': 1,
+        'price_rating': 4,
+        'quality_rating': 3,
+    },
+    {
+        'id': 3,
+        'shop': "The Shop",
+        'author': "User 1",
+        'customer_interaction_rating': 4,
+        'price_rating': 2,
+        'quality_rating': 5,
+        'comment': "Very good quality products, quite pricy."
+    },
 ]
 
 
@@ -162,6 +192,28 @@ def add_shop(data: Dict[str, Any]) -> Shop:
     return shop
 
 
+def add_review(data: Dict[str, Any]) -> Review:
+    """Create a gsr review"""
+
+    review = Review.objects.get_or_create(
+        id=data['id'],
+        defaults={
+            'customer_interaction_rating': data['customer_interaction_rating'],
+            'price_rating': data['price_rating'],
+            'quality_rating': data['quality_rating'],
+            'shop': Shop.objects.get(name=data['shop']),
+            'author': User.objects.get(username=data['author']),
+            'comment': data.get('comment', ""),
+        }
+    )[0]
+
+    handle_date_added(review, data)
+
+    review.save()
+
+    return review
+
+
 def populate():
     """Populate the database with example data"""
 
@@ -173,6 +225,8 @@ def populate():
         add_category(data)
     for data in shops:
         add_shop(data)
+    for data in reviews:
+        add_review(data)
 
 
 if __name__ == "__main__":
