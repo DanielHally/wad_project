@@ -1,0 +1,21 @@
+{% extends 'gsr/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Sign Up
+{% endblock %}
+
+{% block body_block %}
+
+{% if registered %}
+    <strong>Your ready to go</strong>
+    <a href="{% url 'gsr:index' %}">Home</a>
+{% else %}
+    <h1>create an account</h1>
+    <form id="user_form" method="post" action="{% url 'gsr:sign_up' %}">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        <input type="submit" name="sign_up" value="sign Up" />
+    </form>
+{% endif %}
+{% endblock %}

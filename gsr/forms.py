@@ -33,3 +33,12 @@ class ShopForm(forms.ModelForm):
     class Meta:
         model = Shop
         fields = ('name', 'description', 'picture', 'opening_hours', 'location', 'categories', 'owners')
+
+
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username','email','password','groups')
