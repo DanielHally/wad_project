@@ -28,55 +28,118 @@ from gsr.models import Category, DatedModel, Shop, Review, ReviewReply
 # TODO: pictures
 # TODO: reviews, review replies
 
-groups = {
-    "Shop Owner": {},
-    "Admin": {},
-}
+groups = [
+    {
+        'name': "Shop Owner",
+    },
+    {
+        'name': "Admin",
+    },
+]
 
-users = {
-    "Owner 1": {
+users = [
+    {
+        'username': "Owner1",
         'email': "owner1@email.com",
         'groups': ["Shop Owner"],
     },
-    "Owner 2": {
+    {
+        'username': "Owner2",
         'email': "owner2@email.com",
         'groups': ["Shop Owner"],
     },
-    "User 1": {
+    {
+        'username': "User1",
         'email': "user1@email.com",
     },
-    "User 2": {
+    {
+        'username': "User2",
         'email': "user2@email.com",
     },
-}
+]
 
-categories = {
-    "Supermarket": {
+categories = [
+    {
+        'name': "Supermarket",
         'description': "A general supermarket.",
     },
-    "Corner Shop": {
-        'description': "A corner shop."
-    }
-}
+    {
+        'name': "Corner Shop",
+        'description': "A corner shop.",
+    },
+]
 
-shops = {
-    "The Shop": {
+shops = [
+    {
+        'name': "The Shop",
         'description': "It's The Shop.",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
         'location': 'TODO',
         'owners': ["Owner 1"],
         'categories': ["Supermarket"],
+        'date_added': "2020-10-2",
     },
-    "The Other Shop": {
+    {
+        'name': "The Other Shop",
         'description': "It's not The Shop.",
         'opening_hours': "Wednesday 1-4",
         'location': 'TODO',
         'owners': ["Owner 1", "Owner 2"],
         'categories': ["Corner Shop"],
         'views': 200,
-        'date_added': "2022-10-2"
     }
-}
+]
+
+reviews = [
+    {
+        'id': 1,
+        'shop': "The Shop",
+        'author': "Owner 1",
+        'customer_interaction_rating': 5,
+        'price_rating': 1,
+        'quality_rating': 1,
+        'comment': "Owner is a very nice person.",
+        'date_added': "2021-9-12"
+    },
+    {
+        'id': 2,
+        'shop': "The Shop",
+        'author': "Owner 2",
+        'customer_interaction_rating': 1,
+        'price_rating': 4,
+        'quality_rating': 3,
+    },
+    {
+        'id': 3,
+        'shop': "The Shop",
+        'author': "User 1",
+        'customer_interaction_rating': 4,
+        'price_rating': 2,
+        'quality_rating': 5,
+        'comment': "Very good quality products, quite pricy."
+    },
+]
+
+review_replies = [
+    {
+        'id': 1,
+        'review': 1,
+        'author': "Owner 2",
+        'comment': "Maybe",
+    },
+    {
+        'id': 2,
+        'review': 1,
+        'author': "Owner 1",
+        'comment': "Yes",
+    },
+    {
+        'id': 3,
+        'review': 3,
+        'author': "User 2",
+        'comment': "I agree",
+    }
+]
 
 
 def handle_date_added(obj: DatedModel, data: Dict[str, Any]):
@@ -87,10 +150,10 @@ def handle_date_added(obj: DatedModel, data: Dict[str, Any]):
         obj.date_added = date
 
 
-def add_group(name: str, data: Dict[str, Any]) -> Group:
+def add_group(data: Dict[str, Any]) -> Group:
     """Create a django user group"""
 
-    group = Group.objects.get_or_create(name=name)[0]
+    group = Group.objects.get_or_create(name=data['name'])[0]
 
     # TODO: permissions?
 
@@ -99,10 +162,10 @@ def add_group(name: str, data: Dict[str, Any]) -> Group:
     return group
 
 
-def add_user(name: str, data: Dict[str, Any]) -> User:
+def add_user(data: Dict[str, Any]) -> User:
     """Create a django user"""
 
-    user = User.objects.get_or_create(username=name)[0]
+    user = User.objects.get_or_create(username=data['username'])[0]
     user.email = data['email']
 
     for group_name in data.get('groups', []):
@@ -114,10 +177,10 @@ def add_user(name: str, data: Dict[str, Any]) -> User:
     return user
 
 
-def add_category(name: str, data: Dict[str, Any]) -> Category:
+def add_category(data: Dict[str, Any]) -> Category:
     """Create a gsr shop category"""
 
-    category = Category.objects.get_or_create(name=name)[0]
+    category = Category.objects.get_or_create(name=data['name'])[0]
     category.description = data['description']
 
     category.save()
@@ -125,10 +188,10 @@ def add_category(name: str, data: Dict[str, Any]) -> Category:
     return category
 
 
-def add_shop(name: str, data: Dict[str, Any]) -> Shop:
+def add_shop(data: Dict[str, Any]) -> Shop:
     """Create a gsr shop"""
 
-    shop = Shop.objects.get_or_create(name=name)[0]
+    shop = Shop.objects.get_or_create(name=data['name'])[0]
     shop.description = data.get('description', "")
     shop.opening_hours = data['opening_hours']
     shop.location = data['location']
@@ -150,17 +213,62 @@ def add_shop(name: str, data: Dict[str, Any]) -> Shop:
     return shop
 
 
+def add_review(data: Dict[str, Any]) -> Review:
+    """Create a gsr review"""
+
+    review = Review.objects.get_or_create(
+        id=data['id'],
+        defaults={
+            'customer_interaction_rating': data['customer_interaction_rating'],
+            'price_rating': data['price_rating'],
+            'quality_rating': data['quality_rating'],
+            'shop': Shop.objects.get(name=data['shop']),
+            'author': User.objects.get(username=data['author']),
+            'comment': data.get('comment', ""),
+        }
+    )[0]
+
+    handle_date_added(review, data)
+
+    review.save()
+
+    return review
+
+
+def add_review_reply(data: Dict[str, Any]) -> ReviewReply:
+    """Create a gsr review reply"""
+
+    reply = ReviewReply.objects.get_or_create(
+        id=data['id'],
+        defaults={
+            'review': Review.objects.get(id=data['review']),
+            'author': User.objects.get(username=data['author']),
+            'comment': data['comment'],
+        }
+    )[0]
+
+    handle_date_added(reply, data)
+
+    reply.save()
+
+    return reply
+
+
 def populate():
     """Populate the database with example data"""
 
-    for name, data in groups.items():
-        add_group(name, data)
-    for name, data in users.items():
-        add_user(name, data)
-    for name, data in categories.items():
-        add_category(name, data)
-    for name, data in shops.items():
-        add_shop(name, data)
+    for data in groups:
+        add_group(data)
+    for data in users:
+        add_user(data)
+    for data in categories:
+        add_category(data)
+    for data in shops:
+        add_shop(data)
+    for data in reviews:
+        add_review(data)
+    for data in review_replies:
+        add_review_reply(data)
 
 
 if __name__ == "__main__":

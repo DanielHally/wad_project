@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shop Form Test</title>
+    </head>
+    <body>
+        {% if success %}
+            <p><strong>Shop added!</strong></p>
+        {% else %}
+            <form id="shop_form" method="post" action="/gsr/test/shopform/">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" name="submit" value="Create Shop" />
+            </form>
+        {% endif %}
+    </body>
+</html>

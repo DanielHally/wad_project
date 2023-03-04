@@ -37,7 +37,7 @@ class DatedModel(models.Model):
         """Override to handle date_added and date_updated"""
 
         # Get the current saved details
-        prev = Shop.objects.filter(pk=self.pk).first()
+        prev = type(self).objects.filter(pk=self.pk).first()
 
         if prev is None:
             # Set date added & updated to now if just created
@@ -174,3 +174,8 @@ class ReviewReply(DatedModel):
 
     """The text of the reply"""
     comment = models.CharField(max_length=Review.MAX_COMMENT_LENGTH)
+
+    def __str__(self) -> str:
+        """Display a reply by its comment and the string for its target review"""
+
+        return f"ReviewReply(\"{self.comment[:10]}...\", {self.review})"
