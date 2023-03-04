@@ -44,7 +44,7 @@ def test_shop_form(request: HttpRequest) -> HttpResponse:
 
 def signup(request):
     """TODO: Need to change the groups input probably to a boolean of is shop owner
-    or not shop owner also change url as it kind of poopy"""
+    or not shop owner"""
     registered = False
 
     if request.method == 'POST':
@@ -60,6 +60,6 @@ def signup(request):
     else:
         user_form = UserForm()
 
-    return render(request,'gsr/sign_up.html',context={'user_form':user_form,'registered':registered})
+    return render(request,'gsr/signup.html',context={'user_form':user_form,'registered':registered})
 
 

@@ -12,10 +12,10 @@
     <a href="{% url 'gsr:index' %}">Home</a>
 {% else %}
     <h1>create an account</h1>
-    <form id="user_form" method="post" action="{% url 'gsr:sign_up' %}">
+    <form id="user_form" method="post" action="{% url 'gsr:signup' %}">
         {% csrf_token %}
         {{ user_form.as_p }}
-        <input type="submit" name="sign_up" value="sign Up" />
+        <input type="submit" name="signup" value="Sign Up" />
     </form>
 {% endif %}
 {% endblock %}
