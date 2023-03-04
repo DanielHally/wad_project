@@ -1,7 +1,8 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from gsr.forms import CategoryForm, ShopForm, UserForm
 
@@ -83,4 +84,9 @@ def user_login(request):
             return render(request, 'gsr/login.html', context={"error": "Invalid login details"})
     else:
         return render(request, 'gsr/login.html')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('gsr:index'))
 

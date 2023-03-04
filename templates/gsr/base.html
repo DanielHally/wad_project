@@ -19,11 +19,11 @@
 			<h1>Glasgow Shop Ratings</h1>
 
 			{% if user.is_authenticated %}
-			<a href=" <% url 'gsr:profile' > %">Profile</a>
-			<a href=" <% url 'gsr:logout'> %">Logout</a>
+			<!--<a href="% url 'gsr:profile' %">Profile</a> -->
+			<a href="{% url 'gsr:logout' %}">Logout</a>
 			{% else %}
-			<a href=" <% url 'gsr:login'> %">Login</a>
-			<a href=" <%url 'gsr:signup'> %">Signup</a>
+			<a href="{% url 'gsr:login' %}">Login</a>
+			<a href="{% url 'gsr:signup' %}">Signup</a>
 			{% endif %}
 		{% endblock %}
 		</div>

@@ -5,11 +5,16 @@
     Sign Up
 {% endblock %}
 
+{% block heading_block %}
+    <a href="{% url 'gsr:index' %}">Home</a>
+    <h1>Glasgow Shop Ratings</h1>
+    <a href="{% url 'gsr:login' %}">Login</a>
+{% endblock %}
+
 {% block body_block %}
 
 {% if registered %}
     <strong>Your ready to go</strong>
-    <a href="{% url 'gsr:index' %}">Home</a>
 {% else %}
     <h1>Create an account</h1>
     <form id="user_form" method="post" action="{% url 'gsr:signup' %}">
@@ -18,5 +23,4 @@
         <input type="submit" name="signup" value="Sign Up" />
     </form>
 {% endif %}
-Already have in account?<a href="{% url 'gsr:login' %}">Login</a>
 {% endblock %}
