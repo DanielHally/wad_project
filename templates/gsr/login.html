@@ -15,5 +15,7 @@
     <br />
     <input type="submit" value="Login" />
     </form>
-    Don't have an account?<a href="{% url 'gsr:signup' %}">Sign Up</a>
+    <strong>{{ error }}</strong><br />
+    Don't have an account?
+    <a href="{% url 'gsr:signup' %}">Sign Up</a>
 {% endblock %}

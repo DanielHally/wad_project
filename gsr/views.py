@@ -78,11 +78,9 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('gsr:index'))
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                return render(request, 'gsr/login.html', context={"error": "Your account is disabled"})
         else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            return render(request, 'gsr/login.html', context={"error": "Invalid login details"})
     else:
         return render(request, 'gsr/login.html')
-
 
