@@ -11,11 +11,12 @@
     <strong>Your ready to go</strong>
     <a href="{% url 'gsr:index' %}">Home</a>
 {% else %}
-    <h1>create an account</h1>
+    <h1>Create an account</h1>
     <form id="user_form" method="post" action="{% url 'gsr:signup' %}">
         {% csrf_token %}
         {{ user_form.as_p }}
         <input type="submit" name="signup" value="Sign Up" />
     </form>
 {% endif %}
+Already have in account?<a href="{% url 'gsr:login' %}">Login</a>
 {% endblock %}
