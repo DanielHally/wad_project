@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -121,6 +122,39 @@ class Shop(DatedModel):
 
         return self.name
 
+    def get_reviews(self) -> List["Review"]:
+        """Gets all of the reviews for this shop"""
+
+        return list(Review.objects.filter(shop=self))
+
+    def overall_rating(self) -> int:
+        """Calculates the star rating for a shop"""
+
+        reviews = self.get_reviews()
+        average = sum(review.overall_rating() for review in reviews) / len(reviews)
+        return round(average)
+    
+    def customer_interaction_rating(self) -> int:
+        """Calculates the customer interaction star rating for a shop"""
+
+        reviews = self.get_reviews()
+        average = sum(review.customer_interaction_rating for review in reviews) / len(reviews)
+        return round(average)
+
+    def price_rating(self) -> int:
+        """Calculates the price star rating for a shop"""
+
+        reviews = self.get_reviews()
+        average = sum(review.price_rating for review in reviews) / len(reviews)
+        return round(average)
+
+    def quality_rating(self) -> int:
+        """Calculates the quality star rating for a shop"""
+
+        reviews = self.get_reviews()
+        average = sum(review.quality_rating for review in reviews) / len(reviews)
+        return round(average)
+
 
 class Review(DatedModel):
     """A review of a shop
@@ -156,6 +190,11 @@ class Review(DatedModel):
 
         stars = (self.customer_interaction_rating, self.price_rating, self.quality_rating)
         return f"Review({stars} \"{self.comment[:10]}...\")"
+
+    def overall_rating(self) -> float:
+        """Calculates the overall star rating for a review"""
+
+        return (self.customer_interaction_rating + self.price_rating + self.quality_rating) / 3
 
 
 class ReviewReply(DatedModel):
