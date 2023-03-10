@@ -90,3 +90,18 @@ def user_logout(request):
     logout(request)
     return redirect(reverse('gsr:index'))
 
+@login_required    
+def add_shop(request):
+    form = ShopForm()
+    
+    if request.method == 'POST':
+        form = ShopForm(request.POST)
+        
+        if form.is_valid():
+            # form.save(commit=True)
+            
+            return redirect('/gsr/')
+        else:
+            print(form.errors)
+    
+    return render(request, 'gsr/add_shop.html', {'form': form})

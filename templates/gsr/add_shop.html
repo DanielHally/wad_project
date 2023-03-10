@@ -1,0 +1,21 @@
+{% extends 'gsr/base.html' %}
+{% load staticfiles %}
+
+<title>
+    {% block title_block %}
+	    Add Shop
+    {% endblock %}
+</title>   
+
+{% block body_block %}
+	<h1>Add Your Shop</h1>
+	<div>
+		<form id="add_shop_form" method="post" action="{% url 'gsr:add_shop' %}">
+			{% csrf_token %}   
+			{{ form.as_p }}
+			<input type="submit" name="submit" value="Create Shop" />
+		</form>
+	</div>
+{% endblock %}
+
+
