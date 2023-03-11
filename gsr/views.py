@@ -10,7 +10,6 @@ from gsr.forms import CategoryForm, ShopForm, UserForm
 
 # Create your views here.
 def index(request: HttpRequest) -> HttpResponse:
-
     return render(request, 'gsr/index.html')
 
 
@@ -113,6 +112,13 @@ def add_shop(request):
 
 
 def home(request):
-        data = ['item1', 'item2', 'item3']
-        context = {'data': data}
-        return render(request, 'home.html', context)
+    data = shop.overall_rating()
+    starsyellow = []
+    for i in range(data):
+        starsyellow.append(1)
+    starsgery = []
+    for i in range(5-data):
+        starsgery.append(1)
+   
+    context = {'starsyellow': starsyellow, 'starsgery': starsgery,'shopname': shop.name}
+    return render(request, 'home.html', context)

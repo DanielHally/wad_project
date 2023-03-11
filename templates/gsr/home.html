@@ -10,7 +10,7 @@
     <title>Home</title>
 <!-- Font Awesome Icon Library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="../../css/home.css">
 </head>
 <body>
     <div class="container" >
@@ -76,10 +76,13 @@
 
         <div class="shops">
                 <div class="text">
-                    <p>ddd</p>
+                    <p>{{ shopname }}</p>
                     <div class="stars">
-                    {% for i in data %}
+                    {% for i in starsyellow %}
                         <span class="fa fa-star checked"></span>
+                    {% end-for %}
+                    {% for i in starsgery %}
+                        <span class="fa fa-star "></span>
                     {% end-for %}
                     </div>
                 </div>
