@@ -1,72 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+<div>
+    {% for item in data %}
+        <p>{{ item }}</p>
+    {% endfor %}
+    {% extends 'gsr/base.html' %}
+</div>
 <head>
-    <style>
-        body {
-            background-color: grey;
-            text-align: center;
-        }
-        .yellowbox {
-            text-align: center;
-            background-color: yellow;
-        }
-        .shops {
-            position: relative;
-            background-image: url("rango.jpg");
-            background-position: center;
-            background-size: cover;
-            margin-top: 0;
-            margin-left: 50px;
-            width: 200px;
-            height: 300px;
-            display: inline-block;
-        }
-        .text {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        .container{
-            display: flex;
-        }
-
-        .container2{
-            position: relative;
-            display: flex;
-            background-color:white ;
-            padding: 20px;
-            width: 1200px;
-            height:auto;
-            margin-left: 100px;
-        }
-        .triangle-left {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        border-top: 50px solid transparent;
-        border-right: 50px solid grey;
-        border-bottom: 50px solid transparent;
-        z-index: 1;
-}
-
-        .triangle-right {
-         position: absolute;
-         right:0;
-         top: 50%;
-         transform: translateY(-50%);
-         border-top: 50px solid transparent;
-         border-left: 50px solid grey;
-         border-bottom: 50px solid transparent;
-         z-index: 1;
-}
-
-
-    </style>
+    <title>Home</title>
+<!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="home.css">
 </head>
 <body>
     <div class="container" >
@@ -126,28 +70,22 @@
             <div class="triangle-right"></div>
 
     </div>
-    <p class="yellowbox" style="margin-bottom: 0;margin-top:50px;margin-left:100px;width:15%">Recently viewed</p>
+    <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Recently Added Shops</p>
     <div class="container2" >
         <div class="triangle-left"></div>
+
         <div class="shops">
                 <div class="text">
                     <p>ddd</p>
+                    <div class="stars">
+                    {% for i in data %}
+                        <span class="fa fa-star checked"></span>
+                    {% end-for %}
+                    </div>
                 </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-        <div class="triangle-right"></div>
+
+
+        </div>
      </div>
+
+
