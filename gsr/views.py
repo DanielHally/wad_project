@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from django.models import Shop
+from gsr.models import Shop
 from gsr.forms import CategoryForm, ShopForm, UserForm
 
 
@@ -112,7 +112,7 @@ def add_shop(request):
 
 
 def home(request):
-    data = shop.overall_rating()
+    data = Shop.overall_rating()
     starsyellow = []
     for i in range(data):
         starsyellow.append(1)
@@ -122,3 +122,6 @@ def home(request):
    
     context = {'starsyellow': starsyellow, 'starsgery': starsgery,'shopname': shop.name}
     return render(request, 'home.html', context)
+
+def user(request):
+    return render(request, 'user.html')
