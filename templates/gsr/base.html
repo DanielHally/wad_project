@@ -9,7 +9,14 @@
 			Base title
 		{% endblock %}
 		</title>
-    </head>
+
+		<!-- Import jquery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+
+		<!-- Allow templates to add extra head tags-->
+		{% block head_block %}
+		{% endblock %}
+	</head>
 
     <body>
 		<!-- Page specific content -->
