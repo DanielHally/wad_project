@@ -1,29 +1,38 @@
 from datetime import datetime, timedelta
+from typing import List
+
+from django.contrib.auth.models import User
+from django.db import models
 from django.test import TestCase
 
-from gsr.models import Shop
+from gsr.models import DatedModel, Review, Shop
 
 class DatedModelUtils:
     """Helpers for DatedModelTests"""
 
-    # TODO: use custom subclass instead of Shop?
+    """A time in the past"""
+    PAST = datetime(2000, 1, 1)
 
     @staticmethod
     def make_new() -> Shop:
-        return Shop(
+        """Creates a Shop as an example of a dated model with a modern date_updated"""
+
+        ret = Shop(
             name="Shop",
             description="Shop desc",
             opening_hours="Opening hours",
             location="TODO",
         )
+        ret.save()
 
-    PAST = datetime(2000, 1, 1)
+        return ret
 
     @staticmethod
     def make_old() -> Shop:
+        """Creates a Shop as an example of a dated model with the date_updated in the past"""
+
         # Create initial model
         model = DatedModelUtils.make_new()
-        model.save()
 
         # Set time updated to the past
         model.date_updated = DatedModelUtils.PAST
@@ -33,6 +42,8 @@ class DatedModelUtils:
 
     @staticmethod
     def trigger_update(model: Shop):
+        """Triggers a date_updated change for a shop"""
+
         model.name = model.name + " changed"
         model.save()
 
@@ -43,7 +54,6 @@ class DatedModelTests(TestCase):
         """Test that date added is set for a new object"""
 
         model = DatedModelUtils.make_new()
-        model.save()
         self.assertLessEqual(
             datetime.now() - model.date_added,
             timedelta(minutes=5)
@@ -53,11 +63,10 @@ class DatedModelTests(TestCase):
         """Test that date updated is set for a new object"""
 
         model = DatedModelUtils.make_new()
-        model.save()
         self.assertLessEqual(datetime.now().day - model.date_updated.day, 1)
 
     def test_old_date_writeable(self):
-        """Test that date updated is set for an old object with changes"""
+        """Test that date updated is writeable for an object"""
 
         model = DatedModelUtils.make_old()
         self.assertEqual(DatedModelUtils.PAST, model.date_updated)
@@ -73,3 +82,102 @@ class DatedModelTests(TestCase):
         )
     
     # TODO: test non-dated fields
+
+class ReviewUtils:
+    """Helpers for ReviewTest"""
+
+    """Data to make example reviews from"""
+    rating_data = [
+        {
+            "customer_interaction_rating" : 5,
+            "price_rating" : 5,
+            "quality_rating" : 5,
+        },
+        {
+            "customer_interaction_rating" : 4,
+            "price_rating" : 4,
+            "quality_rating" : 4,
+        },
+        {
+            "customer_interaction_rating" : 4,
+            "price_rating" : 3,
+            "quality_rating" : 1,
+        }
+    ]
+
+    """Expected overall ratings for the example reviews"""
+    expected_overall = [
+        5,
+        4,
+        8/3
+    ]
+
+    """Expected overall ratings for a shop with the example reviews"""
+    expected_stars = 4
+
+    @staticmethod
+    def make_examples(shop=None) -> List[Review]:
+        """Makes a group of example reviews"""
+
+        # Make a default shop if needed
+        if shop is None:
+            shop = Shop()
+            shop.save()
+        
+        # Make an author user
+        author = User(username="Author")
+        author.save()
+
+        # Create reviews from data
+        ret = []
+        for entry in ReviewUtils.rating_data:
+            review = Review(**entry, shop=shop, author=author)
+            review.save()
+            ret.append(review)
+
+        return ret
+
+class ReviewTest(TestCase):
+    """Tests for Review"""
+
+    def test_overall_rating(self):
+        """Checks the overall_rating of a Review works"""
+
+        reviews = ReviewUtils.make_examples()
+
+        for i, review in enumerate(reviews):
+            self.assertEqual(
+                review.overall_rating(),
+                ReviewUtils.expected_overall[i]
+            )
+
+class ShopUtils:
+    """Helpers for ShopTest"""
+
+    @staticmethod
+    def make_example() -> Shop:
+        """Makes an example Shop"""
+
+        # Make base shop
+        shop = Shop(
+            name="Test shop",
+            description="Test description",
+            # TODO: picture, categories, owners
+            opening_hours="Test opening hours",
+            location="TODO",
+        )
+        shop.save()
+
+        # Add reviews to the shop
+        ReviewUtils.make_examples(shop)
+
+        return shop
+
+class ShopTest(TestCase):
+    """Tests for Shop"""
+
+    def test_stars(self):
+        """Tests the star calculation of the example shop"""
+
+        shop = ShopUtils.make_example()
+        self.assertEqual(4, shop.overall_rating())
