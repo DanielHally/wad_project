@@ -157,6 +157,19 @@ class Shop(DatedModel):
         reviews = self.get_reviews()
         return self._stars(sum(review.quality_rating for review in reviews), len(reviews))
 
+    class RatingMethod:
+        OVERALL_RATING = "Overall Rating"
+        CUSTOMER_INTERACTION_RATING = "Customer Interaction Rating"
+        QUALITY_RATING = "Quality Rating"
+        PRICE_RATING = "Price Rating"
+
+        methods = {
+            OVERALL_RATING : lambda s: s.overall_rating(),
+            CUSTOMER_INTERACTION_RATING : lambda s: s.customer_interaction_rating(),
+            QUALITY_RATING : lambda s: s.quality_rating(),
+            PRICE_RATING : lambda  s: s.price_rating(),
+        }
+
 
 class Review(DatedModel):
     """A review of a shop
