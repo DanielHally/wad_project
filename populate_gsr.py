@@ -118,6 +118,14 @@ reviews = [
         'quality_rating': 5,
         'comment': "Very good quality products, quite pricy."
     },
+    {
+        'id' : 4,
+        'shop' : "The Other Shop",
+        'author' : "User1",
+        'customer_interaction_rating' : 5,
+        'price_rating' : 1,
+        'quality_rating' : 1,
+    }
 ]
 
 review_replies = [
