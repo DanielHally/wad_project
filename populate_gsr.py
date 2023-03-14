@@ -75,7 +75,7 @@ shops = [
         'description': "It's The Shop.",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
         'location': 'TODO',
-        'owners': ["Owner 1"],
+        'owners': ["Owner1"],
         'categories': ["Supermarket"],
         'date_added': "2020-10-2",
     },
@@ -84,7 +84,7 @@ shops = [
         'description': "It's not The Shop.",
         'opening_hours': "Wednesday 1-4",
         'location': 'TODO',
-        'owners': ["Owner 1", "Owner 2"],
+        'owners': ["Owner1", "Owner2"],
         'categories': ["Corner Shop"],
         'views': 200,
     }
@@ -94,7 +94,7 @@ reviews = [
     {
         'id': 1,
         'shop': "The Shop",
-        'author': "Owner 1",
+        'author': "Owner1",
         'customer_interaction_rating': 5,
         'price_rating': 1,
         'quality_rating': 1,
@@ -104,7 +104,7 @@ reviews = [
     {
         'id': 2,
         'shop': "The Shop",
-        'author': "Owner 2",
+        'author': "Owner2",
         'customer_interaction_rating': 1,
         'price_rating': 4,
         'quality_rating': 3,
@@ -112,7 +112,7 @@ reviews = [
     {
         'id': 3,
         'shop': "The Shop",
-        'author': "User 1",
+        'author': "User1",
         'customer_interaction_rating': 4,
         'price_rating': 2,
         'quality_rating': 5,
@@ -124,19 +124,19 @@ review_replies = [
     {
         'id': 1,
         'review': 1,
-        'author': "Owner 2",
+        'author': "Owner2",
         'comment': "Maybe",
     },
     {
         'id': 2,
         'review': 1,
-        'author': "Owner 1",
+        'author': "Owner1",
         'comment': "Yes",
     },
     {
         'id': 3,
         'review': 3,
-        'author': "User 2",
+        'author': "User2",
         'comment': "I agree",
     }
 ]
