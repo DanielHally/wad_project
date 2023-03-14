@@ -1,0 +1,48 @@
+{% extends 'gsr/base.html' %}
+{% load staticfiles %}
+{% load gsr_template_tags %}
+
+{% block title_block %}
+Search
+{% endblock %}
+
+{% block head_block %}
+<script src="{% static 'js/gsr/search.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body_block %}
+
+<div id="input-section">
+    <div id="query-section">
+        <input id="query" placeholder="Enter your query"/>
+    </div>
+
+    <div id="category-section">
+        <label for="category">Category:</label>
+        <select name="category" id="category" autocomplete="off">
+            {% for name in category_names %}
+                <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div id="sort-section">
+        <label for="rating-method">Sort By:</label>
+        <select name="rating-method" id="rating-method" autocomplete="off">
+            {% for method in rating_methods %}
+                <option value="{{ method }}">{{ method }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div id="results-section">
+    {% for shop in results %}
+        <div>
+            {{ shop }} {% star_rating shop rating_method %}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+

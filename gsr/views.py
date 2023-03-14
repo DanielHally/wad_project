@@ -1,10 +1,11 @@
+from itertools import chain
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from gsr.models import Shop
+from gsr.models import Category, Shop
 from gsr.forms import CategoryForm, ShopForm, UserForm
 
 
@@ -125,3 +126,40 @@ def home(request):
 
 def user(request):
     return render(request, 'user.html')
+
+def search(request: HttpRequest):
+    # GET parameter names (sync with javascript)
+    QUERY_PARAM = 'query'
+    CATEGORY_PARAM = 'category'
+    RATING_PARAM = 'rating'
+
+    # Special category name for no filtering (sync with javascript)
+    ANY_CATEGORY = 'Any'
+
+    # Get GET parameters from request url
+    query = request.GET.get(QUERY_PARAM)
+    rating_method = request.GET.get(RATING_PARAM, Shop.RatingMethod.OVERALL_RATING)
+    category = request.GET.get(CATEGORY_PARAM, ANY_CATEGORY)
+    if category == ANY_CATEGORY:
+        category = None
+
+    # Filter shops by category and query, sort in descending order of rating
+    results = [
+        shop
+        for shop in Shop.objects.all()
+        if shop.matches_search(query, category)
+    ]
+    results.sort(key=lambda s: -Shop.RatingMethod.methods[rating_method](s))
+
+    # Build category name list for dropdown
+    category_names = [ANY_CATEGORY] + [c.name for c in Category.objects.all()]
+
+    # Return rendered template
+    context = {
+        'category_names' : category_names,
+        'rating_methods' : Shop.RatingMethod.methods.keys(),
+        'rating_method' : rating_method,
+        'results' : results,
+        'selected_category' : category,
+    }
+    return render(request, 'gsr/search.html', context)
