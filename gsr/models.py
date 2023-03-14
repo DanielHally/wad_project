@@ -127,33 +127,35 @@ class Shop(DatedModel):
 
         return list(Review.objects.filter(shop=self))
 
+    def _stars(self, rating_sum: float, count: int) -> int:
+        if count == 0:
+            return 0
+        else:
+            return round(rating_sum / count)
+
     def overall_rating(self) -> int:
         """Calculates the star rating for a shop"""
 
         reviews = self.get_reviews()
-        average = sum(review.overall_rating() for review in reviews) / len(reviews)
-        return round(average)
+        return self._stars(sum(review.overall_rating() for review in reviews), len(reviews))
     
     def customer_interaction_rating(self) -> int:
         """Calculates the customer interaction star rating for a shop"""
 
         reviews = self.get_reviews()
-        average = sum(review.customer_interaction_rating for review in reviews) / len(reviews)
-        return round(average)
+        return self._stars(sum(review.customer_interaction_rating for review in reviews), len(reviews))
 
     def price_rating(self) -> int:
         """Calculates the price star rating for a shop"""
 
         reviews = self.get_reviews()
-        average = sum(review.price_rating for review in reviews) / len(reviews)
-        return round(average)
+        return self._stars(sum(review.price_rating for review in reviews), len(reviews))
 
     def quality_rating(self) -> int:
         """Calculates the quality star rating for a shop"""
 
         reviews = self.get_reviews()
-        average = sum(review.quality_rating for review in reviews) / len(reviews)
-        return round(average)
+        return self._stars(sum(review.quality_rating for review in reviews), len(reviews))
 
 
 class Review(DatedModel):
