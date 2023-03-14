@@ -13,6 +13,8 @@ const RATING_PARAM = 'rating';
 /*
     Element ids (sync with gsr/search.html)
 */
+const QUERY_INPUT = "#query"
+const QUERY_BUTTON = "#query-button"
 const CATEGORY_SELECT = '#category';
 const RATING_SELECT = '#rating-method';
 
@@ -31,7 +33,9 @@ const DEFAULT_RATING = 'Overall Rating';
     Setup select elements on page load
 */
 $(document).ready(function() {
-    // TODO: query parameter
+    // Fill in query text based on GET parameters
+    var query = getUrlParamOrDefault(QUERY_PARAM, "");
+    $(QUERY_INPUT).val(query);
 
     // Fill in category dropdown based on GET parameters
     var category = getUrlParamOrDefault(CATEGORY_PARAM, ANY_CATEGORY);
@@ -40,6 +44,11 @@ $(document).ready(function() {
     // Fill in sort method dropdown based on GET parameters
     var method = getUrlParamOrDefault(RATING_PARAM, DEFAULT_RATING);
     $(RATING_SELECT).val(method);
+
+    // Update GET parameters on query submission
+    $(QUERY_BUTTON).click(function() {
+        setUrlParam(QUERY_PARAM, $(QUERY_INPUT).val());
+    })
 
     // Update GET parameters on category change
     $(CATEGORY_SELECT).change(function() {

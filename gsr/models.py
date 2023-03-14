@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -157,6 +157,24 @@ class Shop(DatedModel):
         reviews = self.get_reviews()
         return self._stars(sum(review.quality_rating for review in reviews), len(reviews))
 
+    def matches_search(self, query: Optional[str], category_name: Optional[str]) -> bool:
+        """Checks if a Shop should be included in a search result"""
+
+        accept = True
+
+        # Check category
+        if category_name is not None:
+            if not self.categories.filter(name=category_name).exists():
+                accept = False
+        
+        # Check query in name and description
+        # TODO: proper search
+        if query is not None:
+            if query not in self.name and query not in self.description:
+                accept = False
+        
+        return accept
+    
     class RatingMethod:
         OVERALL_RATING = "Overall Rating"
         CUSTOMER_INTERACTION_RATING = "Customer Interaction Rating"
