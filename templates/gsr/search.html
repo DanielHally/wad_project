@@ -36,7 +36,21 @@ Search
 <div id="results-section">
     {% for shop in results %}
         <div>
-            {{ shop }} {% star_rating shop rating_method %}
+            <h1>{{ shop }}</h1>
+            <div>
+                {% if shop.picture %}
+                    <img src="{{ shop.picture.url }}">
+                {% endif %}
+                {% star_rating shop rating_method %}
+            </div>
+            <div>
+                {{ shop.description }}
+            </div>
+            <div>
+                {% for category in shop.categories.all %}
+                    <p>{{ category.name }}</p>
+                {% endfor %}
+            </div>
         </div>
     {% endfor %}
 </div>
