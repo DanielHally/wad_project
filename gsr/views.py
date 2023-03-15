@@ -128,18 +128,22 @@ def user(request):
     return render(request, 'user.html')
 
 def search(request: HttpRequest):
-    # GET parameter names (sync with javascript)
+    # GET parameter names
     QUERY_PARAM = 'query'
     CATEGORY_PARAM = 'category'
     RATING_PARAM = 'rating'
 
-    # Special category name for no filtering (sync with javascript)
+    # Special category name for no filtering
     ANY_CATEGORY = 'Any'
+
+    # GET parameter defaults
+    default_category = ANY_CATEGORY
+    default_rating_method = Shop.RatingMethod.OVERALL_RATING
 
     # Get GET parameters from request url
     query = request.GET.get(QUERY_PARAM)
-    rating_method = request.GET.get(RATING_PARAM, Shop.RatingMethod.OVERALL_RATING)
-    category = request.GET.get(CATEGORY_PARAM, ANY_CATEGORY)
+    rating_method = request.GET.get(RATING_PARAM, default_rating_method)
+    category = request.GET.get(CATEGORY_PARAM, default_category)
     if category == ANY_CATEGORY:
         category = None
 
@@ -155,11 +159,18 @@ def search(request: HttpRequest):
     category_names = [ANY_CATEGORY] + [c.name for c in Category.objects.all()]
 
     # Return rendered template
-    context = {
-        'category_names' : category_names,
-        'rating_methods' : Shop.RatingMethod.methods.keys(),
-        'rating_method' : rating_method,
-        'results' : results,
-        'selected_category' : category,
-    }
-    return render(request, 'gsr/search.html', context)
+    return render(
+        request,
+        'gsr/search.html',
+        {
+            # Form filling
+            'category_names' : category_names,
+            'default_category' : default_category,
+            'rating_methods' : Shop.RatingMethod.methods.keys(),
+            'default_rating_method' : default_rating_method,
+
+            # Results generation
+            'rating_method' : rating_method,
+            'results' : results,
+        }
+    )

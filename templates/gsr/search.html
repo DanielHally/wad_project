@@ -12,30 +12,25 @@ Search
 
 {% block body_block %}
 
-<div id="input-section">
-    <!-- TODO: allow pressing enter somehow? -->
-    <div id="query-section">
-        <button id="query-button">Search</button>
-        <input id="query" placeholder="Enter your query"/>
-    </div>
+<div id="options-section">
+    <form id="search-options" action="{% url 'gsr:search' %}" method="GET">
+        <input type="text" id="query" name="query" placeholder="Enter your query"/>
+        <input type="submit" value="Submit">
 
-    <div id="category-section">
-        <label for="category">Category:</label>
-        <select name="category" id="category" autocomplete="off">
+        <label for="category-filter">Category:</label>
+        <select name="category" id="category-filter" autocomplete="off">
             {% for name in category_names %}
-                <option value="{{ name }}">{{ name }}</option>
+                <option value="{{ name }}" {% selected name default_category %}>{{ name }}</option>
             {% endfor %}
         </select>
-    </div>
-
-    <div id="sort-section">
+        
         <label for="rating-method">Sort By:</label>
-        <select name="rating-method" id="rating-method" autocomplete="off">
-            {% for method in rating_methods %}
-                <option value="{{ method }}">{{ method }}</option>
+        <select name="rating" id="rating-method" autocomplete="off">
+            {% for name in rating_methods %}
+                <option value="{{ name }}" {% selected name default_rating_method %}>{{ name }}</option>
             {% endfor %}
-        </select>
-    </div>
+        </select>    
+    </form>
 </div>
 
 <div id="results-section">
