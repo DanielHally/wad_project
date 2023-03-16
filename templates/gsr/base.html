@@ -24,21 +24,31 @@
 	</head>
 
     <body>
-		<!-- Page specific content -->
-		<div>
-		{% block heading_block %}
-			<a href="{% url 'gsr:index' %}">Home</a>
-			<h1>Glasgow Shop Ratings</h1>
+		<!-- Header bar -->
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="{% url 'gsr:index' %}">Glasgow Shop Ratings</a>
+				
+				{% block search_block %}
+				<form class="d-flex" action="{% url 'gsr:search' %}" method="GET">
+						<input class="form-control me-2" type="text" placeholder="Search" name="query">
+						<button class="btn btn-primary" type="button">Search</button>
+					</form>
+				{% endblock %}
+				
+				<ul class="navbar-nav">
+					{% if user.is_authenticated %}
+						<!--<a href="% url 'gsr:profile' %">Profile</a> -->
+						<li class="nav-item"><a class="nav-link" href="{% url 'gsr:logout' %}">Logout</a></li>
+					{% else %}
+						<li class="nav-item"><a class="nav-link" href="{% url 'gsr:login' %}">Login</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'gsr:signup' %}">Signup</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
 
-			{% if user.is_authenticated %}
-			<!--<a href="% url 'gsr:profile' %">Profile</a> -->
-			<a href="{% url 'gsr:logout' %}">Logout</a>
-			{% else %}
-			<a href="{% url 'gsr:login' %}">Login</a>
-			<a href="{% url 'gsr:signup' %}">Signup</a>
-			{% endif %}
-		{% endblock %}
-		</div>
+		<!-- Page specific content -->
 		<div>
 		{% block body_block %}
 			<!-- This is body_block's default content. -->

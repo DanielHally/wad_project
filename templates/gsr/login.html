@@ -5,12 +5,6 @@
     Login
 {% endblock %}
 
-{% block heading_block %}
-    <a href="{% url 'gsr:index' %}">Home</a>
-    <h1>Glasgow Shop Ratings</h1>
-    <a href="{% url 'gsr:signup' %}">Sign Up</a>
-{% endblock %}
-
 {% block body_block %}
     <h1>Welcome Back</h1>
     <form id="login_form" method="post" action="{% url 'gsr:login' %}">
