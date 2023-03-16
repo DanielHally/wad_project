@@ -15,12 +15,13 @@ const RATING_PARAM = 'rating';
 const QUERY_INPUT = "#query"
 const CATEGORY_SELECT = '#category-filter';
 const RATING_SELECT = '#rating-method';
+const SEARCH_FORM = "#search-form"
 
 /*
     Submit the search options form
 */
 function submitForm() {
-    $("#search-options").submit();
+    $(SEARCH_FORM).submit();
 }
 
 /*

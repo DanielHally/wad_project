@@ -30,8 +30,8 @@
 				<a class="navbar-brand" href="{% url 'gsr:index' %}">Glasgow Shop Ratings</a>
 				
 				{% block search_block %}
-				<form class="d-flex" action="{% url 'gsr:search' %}" method="GET">
-					<input class="form-control me-2" type="text" placeholder="Search" name="query">
+				<form id="search-form" class="d-flex" action="{% url 'gsr:search' %}" method="GET">
+					<input class="form-control me-2" type="text" placeholder="Search" id="query" name="query">
 					<button class="btn btn-primary" type="button">Search</button>
 				</form>
 				{% endblock %}
