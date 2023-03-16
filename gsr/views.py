@@ -31,23 +31,6 @@ def test_category_form(request: HttpRequest) -> HttpResponse:
     return render(request, 'gsr/test/categoryform.html', context={'form': form, 'success': success})
 
 
-def test_shop_form(request: HttpRequest) -> HttpResponse:
-    """A page to test ShopForm, not for use in final site"""
-
-    success = False
-    if request.method == 'POST':
-        form = ShopForm(request.POST)
-        if form.is_valid():
-            form.save()
-            success = True
-        else:
-            print(form.errors)
-    else:
-        form = ShopForm()
-
-    return render(request, 'gsr/test/shopform.html', context={'form': form, 'success': success})
-
-
 def user_signup(request):
     """TODO: Need to change the groups input probably to a boolean of is shop owner
     or not shop owner"""
