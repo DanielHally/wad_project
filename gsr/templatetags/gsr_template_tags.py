@@ -8,13 +8,10 @@ register = template.Library()
 def star_rating(shop: Shop, method: str = Shop.RatingMethod.OVERALL_RATING):
     """Outputs the star rating for a shop"""
 
-    return { 'stars' : range(Shop.RatingMethod.methods[method](shop)) }
-
-@register.inclusion_tag('gsr/greystar.html')
-def greystar_rating(shop: Shop, method: str = Shop.RatingMethod.OVERALL_RATING):
-    """Outputs the greystar rating for a shop"""
-
-    return { 'stars' : range(5-Shop.RatingMethod.methods[method](shop)) }
+    return {
+        'stars' : range(Shop.RatingMethod.methods[method](shop)),
+        'greystars' : range(5 - Shop.RatingMethod.methods[method](shop)),
+    }
 
 @register.inclusion_tag('gsr/selected.html')
 def selected(item_name: str, default_name: str):
