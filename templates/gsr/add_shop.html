@@ -11,9 +11,25 @@
 	<h1>Add Your Shop</h1>
 	<div>
 		<form id="add_shop_form" method="post" action="{% url 'gsr:add_shop' %}">
-			{% csrf_token %}   
-			{{ form.as_p }}
-			<input type="submit" name="submit" value="Create Shop" />
+			{% csrf_token %}
+			<div class="container-fluid">
+				<div class = "row mx-4 ">
+					<div class="col-sm-6 border">
+						<div class="gsr-cream">{{form.name.label_tag}} {{form.name}}</div>
+						<div class="gsr-cream">{{form.categories.label_tag}}{{form.categories}}</div>
+						<div class="gsr-cream">{{form.location.label_tag}}{{form.location}}</div>
+						<div class="gsr-cream">{{form.description.label_tag}}{{form.description}}</div>
+					</div>
+					<div class="col-sm-6 border">
+						{% if form.picture %}
+							<img src="{{ shop.picture.url }}" class="img-fluid">
+						{% endif %}
+						<div class="gsr-cream">{{form.picture.label_tag}}{{form.picture}}</div>
+						<div class="gsr-cream">{{form.opening_hours.label_tag}}{{form.opening_hours}}</div>
+					</div>
+					<input class="mx-4" type="submit" name="submit" value="Create Shop" />
+				</div>
+			</div>
 		</form>
 	</div>
 {% endblock %}
