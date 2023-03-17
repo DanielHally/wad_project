@@ -159,7 +159,7 @@ def home(request):
     return render(request, 'gsr/home.html', context)
 
 def user(request):
-    return render(request, 'user.html')
+    return render(request, 'gsr/user.html')
 
 def search(request: HttpRequest):
     # GET parameter names

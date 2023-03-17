@@ -12,39 +12,51 @@ Search
 
 {% block body_block %}
 
-<div id="options-section">
-    <label for="category-filter">Category:</label>
-    <select name="category" id="category-filter" autocomplete="off" form="search-form">
-        {% for name in category_names %}
-            <option value="{{ name }}" {% selected name default_category %}>{{ name }}</option>
-        {% endfor %}
-    </select>
+<div id="options-section" class="d-flex justify-content-center mt-3">
+    <div class="mx-2">
+        <label for="category-filter">Category:</label>
+        <select name="category" id="category-filter" autocomplete="off" form="search-form">
+            {% for name in category_names %}
+                <option value="{{ name }}" {% selected name default_category %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+    </div>
     
-    <label for="rating-method">Sort By:</label>
-    <select name="rating" id="rating-method" autocomplete="off" form="search-form">
-        {% for name in rating_methods %}
-            <option value="{{ name }}" {% selected name default_rating_method %}>{{ name }}</option>
-        {% endfor %}
-    </select>    
+    <div class="mx-2">
+        <label for="rating-method">Sort By:</label>
+        <select name="rating" id="rating-method" autocomplete="off" form="search-form">
+            {% for name in rating_methods %}
+                <option value="{{ name }}" {% selected name default_rating_method %}>{{ name }}</option>
+            {% endfor %}
+        </select>    
+    </div>
 </div>
 
 <div id="results-section">
     {% for shop in results %}
-        <div>
-            <h1>{{ shop }}</h1>
-            <div>
-                {% if shop.picture %}
-                    <img src="{{ shop.picture.url }}">
-                {% endif %}
-                {% star_rating shop rating_method %}
-            </div>
-            <div>
-                {{ shop.description }}
-            </div>
-            <div>
-                {% for category in shop.categories.all %}
-                    <p>{{ category.name }}</p>
-                {% endfor %}
+        <div class="container-fluid my-3">
+            <div class="row">
+                <div class="col-sm-2 my-3">
+                    <div class="mx-3">
+                        <div class="border gsr-border">
+                            {% if shop.picture %}
+                                <img src="{{ shop.picture.url }}" class="img-fluid">
+                            {% endif %}
+                            {% star_rating shop rating_method %}
+                        </div>
+                        <h3 class="gsr-cream border gsr-border">{{ shop.name }}</h3>
+                    </div>
+                </div>
+                <div class="col-sm-8 my-3 border gsr-border gsr-cream">
+                    {{ shop.description }}
+                </div>
+                <div class="col-sm-2 my-3">
+                    <div class="container border gsr-border gsr-blue text-center">
+                        {% for category in shop.categories.all %}
+                            {{ category.name }}<br/>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     {% endfor %}
