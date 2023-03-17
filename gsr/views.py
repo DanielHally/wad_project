@@ -142,7 +142,7 @@ def home(request):
     ]
    
     context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
-               'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_stars':shoplistbystars_stars}
+               'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_names':shoplistbystars_names}
 
     return render(request, 'gsr/home.html', context)
 
