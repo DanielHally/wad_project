@@ -140,9 +140,21 @@ def home(request):
         shop.overall_rating()
         for shop in shoplistbyadddate
     ]
-   
+    shoplistbystars_name1= shoplistbystars_names[0]
+    shoplistbystars_stars1 = [i for i in range(shoplistbystars_stars[0])]
+    shoplistbystars_stars2 = [i for i in range(shoplistbystars_stars[1])]
+    ##shoplistbystars_stars3 = [i for i in range(shoplistbystars_stars[2])]
+   ## shoplistbystars_stars4 = [i for i in range(shoplistbystars_stars[3])]
+   ## shoplistbystars_stars5 = [i for i in range(shoplistbystars_stars[4])]
+    shoplistbystars_grey1 = [i for i in range(5-shoplistbystars_stars[0])]
+    shoplistbystars_grey2 = [i for i in range(5 - shoplistbystars_stars[1])]
+
     context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
-               'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_names':shoplistbystars_names}
+               'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_names':shoplistbystars_names,
+               'shoplistbystars_stars1':shoplistbystars_stars1,'shoplistbystars_stars2':shoplistbystars_stars2,
+               'shoplistbystars_grey1':shoplistbystars_grey1,'shoplistbystars_grey2':shoplistbystars_grey2,
+               'shoplistbystars_name1':shoplistbystars_name1,'shoplistbystars':shoplistbystars,'shoplistbyadddate':shoplistbyadddate
+               }
 
     return render(request, 'gsr/home.html', context)
 

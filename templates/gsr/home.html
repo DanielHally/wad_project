@@ -4,6 +4,7 @@
 <html lang="en">
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
+{% load gsr_template_tags %}
 
 <head>
     {% block title_block %}
@@ -21,83 +22,70 @@
          <p style="background-color:white;margin-top:100px;margin-left:0px;width:5%;height:100%">Search</p>
     </div>
     <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Top Rated Shops</p>
-     <div class="container2" >
-            <div class="triangle-left"></div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="triangle-right"></div>
+    <div class="container2" >
+        <div class="triangle-left"></div>
+        {% for shop in shoplistbystars %}
+        <div class="shops">
 
+                <div class="text">
+
+                    <p>{{ shop.name }}</p>
+
+                    <div class="stars">
+                        {% star_rating shop "Overall Rating" %}
+                        {% greystar_rating shop "Overall Rating" %}
+                    </div>
+                </div>
+
+
+
+        </div>
+        {% endfor %}
+        <div class="triangle-right"></div>
     </div>
-
-    <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Recently Added Shops</p>
+    <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Top Rated Shops</p>
      <div class="container2" >
-            <div class="triangle-left"></div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="shops">
-                <div class="text">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div class="triangle-right"></div>
+        <div class="triangle-left"></div>
+        {% for shop in shoplistbystars %}
+        <div class="shops">
 
+                <div class="text">
+
+                    <p>{{ shop.name }}</p>
+
+                    <div class="stars">
+                        {% star_rating shop "Overall Rating" %}
+                        {% greystar_rating shop "Overall Rating" %}
+                    </div>
+                </div>
+
+
+
+        </div>
+        {% endfor %}
+         <div class="triangle-right"></div>
     </div>
     <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Recently Added Shops</p>
     <div class="container2" >
         <div class="triangle-left"></div>
-
+        {% for shop in shoplistbyadddate %}
         <div class="shops">
-            {% for names in shoplistbyadddate_names %}
+
                 <div class="text">
-                    <p>{{ names }}</p>
+
+                    <p>{{ shop.name }}</p>
+
                     <div class="stars">
-                    {% for stars in shoplistbyadddate_stars %}
-                    {% for i in range(stars) %}
-                        <span class="fa fa-star checked"></span>
-                    {% endfor %}
-                    {% endfor %}
-                    {% for stars in shoplistbyadddate_stars %}
-                    {% for i in range(stars-i) %}
-                        <span class="fa fa-star "></span>
-                    {% endfor %}
-                    {% endfor %}
+                        {% star_rating shop "Overall Rating" %}
+                        {% greystar_rating shop "Overall Rating" %}
                     </div>
                 </div>
-            {% endfor %}
+
 
 
         </div>
+        {% endfor %}
+        <div class="triangle-right"></div>
     </div>
 {% endblock %}
 </html>
