@@ -24,6 +24,16 @@ body {
 .gsr-yellow-star {
     color: orange;
 }
+.gsr-nav-button {
+    color: black;
+    background-color: #FFFF99;
+    border-style: solid;
+    border-color: black;
+}
+.gsr-nav-button:hover {
+    color: black;
+    background-color: white;
+}
 
 .gsr-border {
     border-color: black !important;

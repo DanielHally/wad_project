@@ -43,10 +43,16 @@
 				<ul class="navbar-nav">
 					{% if user.is_authenticated %}
 						<!--<a href="% url 'gsr:profile' %">Profile</a> -->
-						<li class="nav-item"><a class="nav-link" href="{% url 'gsr:logout' %}">Logout</a></li>
+						<li class="nav-item">
+							<button class="nav-link gsr-nav-button ms-3" onclick="window.location.href='{% url 'gsr:logout' %}'">Logout</button>
+						</li>
 					{% else %}
-						<li class="nav-item"><a class="nav-link" href="{% url 'gsr:login' %}">Login</a></li>
-						<li class="nav-item"><a class="nav-link" href="{% url 'gsr:signup' %}">Signup</a></li>
+						<li class="nav-item">
+							<button class="nav-link gsr-nav-button ms-3" onclick="window.location.href='{% url 'gsr:login' %}'">Login</button>
+						</li>
+						<li class="nav-item">
+							<button class="nav-link gsr-nav-button ms-3" onclick="window.location.href='{% url 'gsr:signup' %}'">Signup</button>
+						</li>
 					{% endif %}
 				</ul>
 			</div>
