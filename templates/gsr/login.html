@@ -1,6 +1,10 @@
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
 
+{% block head_block %}
+<script src="{% static 'js/gsr/login.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block title_block %}
     Login
 {% endblock %}
@@ -13,6 +17,7 @@
     <br />
     Password: <input type="password" name="password" value="" size="50" />
     <br />
+    <input type="hidden" id="next" name="next" value="">
     <input type="submit" value="Login" />
     </form>
     <strong>{{ error }}</strong><br />

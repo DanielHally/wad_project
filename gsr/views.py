@@ -63,7 +63,10 @@ def user_login(request):
             if user.is_active:
 
                 login(request, user)
-                return redirect(reverse('gsr:index'))
+                dest = request.POST.get('next')
+                if dest is None or dest == "":
+                    dest = reverse('gsr:index')
+                return redirect(dest)
             else:
                 return render(request, 'gsr/login.html', context={"error": "Your account is disabled"})
         else:
