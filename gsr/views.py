@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Avg
 from gsr.models import Category, Shop
 from gsr.forms import CategoryForm, ShopForm, UserForm
 
@@ -96,16 +96,55 @@ def add_shop(request):
 
 
 def home(request):
-    data = Shop.overall_rating()
-    starsyellow = []
-    for i in range(data):
-        starsyellow.append(1)
-    starsgery = []
-    for i in range(5-data):
-        starsgery.append(1)
+    QUERY_PARAM = 'query'
+    CATEGORY_PARAM = 'category'
+    RATING_PARAM = 'rating'
+
+    # Special category name for no filtering
+    ANY_CATEGORY = 'Any'
+
+    # GET parameter defaults
+    default_category = ANY_CATEGORY
+    default_rating_method = Shop.RatingMethod.OVERALL_RATING
+
+    # Get GET parameters from request url
+    query = request.GET.get(QUERY_PARAM)
+    rating_method = request.GET.get(RATING_PARAM, default_rating_method)
+    category = request.GET.get(CATEGORY_PARAM, default_category)
+    if category == ANY_CATEGORY:
+        category = None
+
+    shoplistbyadddate = Shop.objects.order_by('-date_added')[:5]
+    shoplistbystars = [
+        shop
+        for shop in Shop.objects.all()
+        if shop.matches_search(query, category)
+    ]
+    shoplistbystars.sort(key=lambda s: -Shop.RatingMethod.methods[rating_method](s))
+
+    shoplistbystars_names = [
+        shop.name
+        for shop in shoplistbystars
+    ]
+    
+    shoplistbyadddate_names=[
+        shop.name
+        for shop in shoplistbyadddate
+    ]
+    shoplistbystars_stars = [
+        shop.overall_rating()
+        for shop in shoplistbystars
+    ]
+
+    shoplistbyadddate_stars = [
+        shop.overall_rating()
+        for shop in shoplistbyadddate
+    ]
    
-    context = {'starsyellow': starsyellow, 'starsgery': starsgery,'shopname': shop.name}
-    return render(request, 'home.html', context)
+    context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
+               'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_stars':shoplistbystars_stars}
+
+    return render(request, 'gsr/home.html', context)
 
 def user(request):
     return render(request, 'user.html')
