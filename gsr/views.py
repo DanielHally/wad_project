@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-from gsr.models import Category, RatedModel, Shop
+from gsr.models import Category, RatedModel, Shop, Review
 from gsr.forms import CategoryForm, ShopForm, UserForm
 
 
@@ -99,12 +99,16 @@ def view_shop(request,shop_name_slug):
     context_dict = {}
     try:
         shop = Shop.objects.get(slug=shop_name_slug)
+        reviews = Review.objects.filter(shop=shop)
         context_dict['shop'] = shop
+        context_dict['reviews'] = reviews
     except Shop.DoesNotExist:
         context_dict['shop'] = None
+        context_dict['reviews'] = None
 
 
     return render(request,'gsr/view_shop.html',context = context_dict)
+
 
 
 def index(request):

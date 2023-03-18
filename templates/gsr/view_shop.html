@@ -1,11 +1,54 @@
+
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
+{% load gsr_template_tags %}
 
 {% block title_block %}
    View Shop
 {% endblock %}
 
 {% block body_block %}
-    <h1>{{ shop.name }}</h1>
-
+    Category
+    <div>
+    {% if categories %}
+        {{ shop.categories }}
+    {% else %}
+        None
+    {% endif %}
+    </div>
+    <div>
+    <h2>Description</h2>
+    <div>
+        {{ shop.description }}
+    </div>
+    </div>
+    <div>
+    <h2>Reviews</h2>
+    <div>
+        {% for review in reviews %}
+            {{ review.author }}
+            {{ review.comment }}
+            {% star_rating review %}
+        {% endfor %}
+    </div>
+    </div>
+    <div>
+        {{ shop.picture }}
+    </div>
+    <h1>
+        {{ shop.name }}
+    </h1>
+    <div>
+        <h2>Open Hours</h2>
+        <div>
+            {% if review.opening_hours %}
+            {{ review.opening_hours }}
+            {% else %}
+            Not available
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        {% map_embed shop.location %}
+    </div>
 {% endblock %}
