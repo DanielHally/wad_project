@@ -1,14 +1,14 @@
 from django import template
 
-from gsr.models import Review, Shop
+from gsr.models import RatedModel, Review
 
 register = template.Library()
 
 @register.inclusion_tag('gsr/tags/stars.html')
-def star_rating(shop: Shop, method: str = Shop.RatingMethod.OVERALL_RATING):
+def star_rating(obj: RatedModel, method: str = RatedModel.OVERALL_RATING):
     """Outputs the star rating for a shop"""
 
-    stars = Shop.RatingMethod.methods[method](shop)
+    stars = obj.get_stars(method)
     return {
         'stars' : range(stars),
         'greystars' : range(Review.STARS_MAX - stars),

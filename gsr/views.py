@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-from gsr.models import Category, Shop
+from gsr.models import Category, RatedModel, Shop
 from gsr.forms import CategoryForm, ShopForm, UserForm
 
 
@@ -117,7 +117,7 @@ def index(request):
 
     # GET parameter defaults
     default_category = ANY_CATEGORY
-    default_rating_method = Shop.RatingMethod.OVERALL_RATING
+    default_rating_method = RatedModel.OVERALL_RATING
 
     # Get GET parameters from request url
     query = request.GET.get(QUERY_PARAM)
@@ -132,7 +132,7 @@ def index(request):
         for shop in Shop.objects.all()
         if shop.matches_search(query, category)
     ]
-    shoplistbystars.sort(key=lambda s: -Shop.RatingMethod.methods[rating_method](s))
+    shoplistbystars.sort(key=lambda s: -s.get_rating(rating_method))
 
     shoplistbystars_names = [
         shop.name
@@ -144,12 +144,12 @@ def index(request):
         for shop in shoplistbyadddate
     ]
     shoplistbystars_stars = [
-        shop.overall_rating()
+        shop.get_stars(RatedModel.OVERALL_RATING)
         for shop in shoplistbystars
     ]
 
     shoplistbyadddate_stars = [
-        shop.overall_rating()
+        shop.get_stars(RatedModel.OVERALL_RATING)
         for shop in shoplistbyadddate
     ]
     shoplistbystars_name1= shoplistbystars_names[0]
@@ -184,7 +184,7 @@ def search(request: HttpRequest):
 
     # GET parameter defaults
     default_category = ANY_CATEGORY
-    default_rating_method = Shop.RatingMethod.OVERALL_RATING
+    default_rating_method = RatedModel.OVERALL_RATING
 
     # Get GET parameters from request url
     query = request.GET.get(QUERY_PARAM)
@@ -199,7 +199,7 @@ def search(request: HttpRequest):
         for shop in Shop.objects.all()
         if shop.matches_search(query, category)
     ]
-    results.sort(key=lambda s: -Shop.RatingMethod.methods[rating_method](s))
+    results.sort(key=lambda s: -s.get_rating(rating_method))
 
     # Build category name list for dropdown
     category_names = [ANY_CATEGORY] + [c.name for c in Category.objects.all()]
@@ -212,7 +212,7 @@ def search(request: HttpRequest):
             # Form filling
             'category_names' : category_names,
             'default_category' : default_category,
-            'rating_methods' : Shop.RatingMethod.methods.keys(),
+            'rating_methods' : RatedModel.METHODS,
             'default_rating_method' : default_rating_method,
 
             # Results generation

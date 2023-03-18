@@ -1,3 +1,4 @@
+from abc import abstractmethod, ABC
 from datetime import datetime
 from typing import List, Optional
 
@@ -8,6 +9,31 @@ from django.template.defaultfilters import slugify
 # TODO: does anything need a UserProfile model? All attribtues in design's ERD are in django's User
 
 # TODO: create shop owner user group
+
+
+class RatedModel:
+    OVERALL_RATING = "Overall Rating"
+    CUSTOMER_INTERACTION_RATING = "Customer Interaction Rating"
+    QUALITY_RATING = "Quality Rating"
+    PRICE_RATING = "Price Rating"
+
+    METHODS = [
+        OVERALL_RATING,
+        CUSTOMER_INTERACTION_RATING,
+        QUALITY_RATING,
+        PRICE_RATING,
+    ]
+    
+    def get_stars(self, method: str = OVERALL_RATING) -> int:
+        """Gets the star rating for a specific method"""
+
+        return round(self.get_rating(method))
+    
+    @abstractmethod
+    def get_rating(self, method: str = OVERALL_RATING) -> float:
+        """Gets the rating for a specific method"""
+
+        raise NotImplementedError
 
 
 class DatedModel(models.Model):
@@ -78,7 +104,7 @@ class Category(models.Model):
         return self.name
 
 
-class Shop(DatedModel):
+class Shop(DatedModel, RatedModel):
     """A shop to be displayed on the website
     
     These can be created by users in the shop owner group"""
@@ -131,36 +157,6 @@ class Shop(DatedModel):
 
         return list(Review.objects.filter(shop=self))
 
-    def _stars(self, rating_sum: float, count: int) -> int:
-        if count == 0:
-            return 0
-        else:
-            return round(rating_sum / count)
-
-    def overall_rating(self) -> int:
-        """Calculates the star rating for a shop"""
-
-        reviews = self.get_reviews()
-        return self._stars(sum(review.overall_rating() for review in reviews), len(reviews))
-    
-    def customer_interaction_rating(self) -> int:
-        """Calculates the customer interaction star rating for a shop"""
-
-        reviews = self.get_reviews()
-        return self._stars(sum(review.customer_interaction_rating for review in reviews), len(reviews))
-
-    def price_rating(self) -> int:
-        """Calculates the price star rating for a shop"""
-
-        reviews = self.get_reviews()
-        return self._stars(sum(review.price_rating for review in reviews), len(reviews))
-
-    def quality_rating(self) -> int:
-        """Calculates the quality star rating for a shop"""
-
-        reviews = self.get_reviews()
-        return self._stars(sum(review.quality_rating for review in reviews), len(reviews))
-
     def matches_search(self, query: Optional[str], category_name: Optional[str]) -> bool:
         """Checks if a Shop should be included in a search result"""
 
@@ -179,24 +175,24 @@ class Shop(DatedModel):
         
         return accept
     
-    class RatingMethod:
-        OVERALL_RATING = "Overall Rating"
-        CUSTOMER_INTERACTION_RATING = "Customer Interaction Rating"
-        QUALITY_RATING = "Quality Rating"
-        PRICE_RATING = "Price Rating"
+    def get_rating(self, method: str = RatedModel.OVERALL_RATING) -> float:
+        """Gets the average rating of reviews for a specific method"""
 
-        methods = {
-            OVERALL_RATING : lambda s: s.overall_rating(),
-            CUSTOMER_INTERACTION_RATING : lambda s: s.customer_interaction_rating(),
-            QUALITY_RATING : lambda s: s.quality_rating(),
-            PRICE_RATING : lambda  s: s.price_rating(),
-        }
+        reviews = self.get_reviews()
+        if len(reviews) == 0:
+            return 0
+        else:
+            total = 0
+            for review in self.get_reviews():
+                total += review.get_rating(method)
+
+            return total / len(reviews)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Shop, self).save(*args, **kwargs)
 
-class Review(DatedModel):
+class Review(DatedModel, RatedModel):
     """A review of a shop
     
     These can be created by any user on any shop"""
@@ -237,6 +233,18 @@ class Review(DatedModel):
         """Calculates the overall star rating for a review"""
 
         return (self.customer_interaction_rating + self.price_rating + self.quality_rating) / 3
+
+    def get_rating(self, method: str = RatedModel.OVERALL_RATING) -> float:
+        """Gets therating of this review for a specific method"""
+
+        if method == RatedModel.CUSTOMER_INTERACTION_RATING:
+            return float(self.customer_interaction_rating)
+        elif method == RatedModel.PRICE_RATING:
+            return float(self.price_rating)
+        elif method == RatedModel.QUALITY_RATING:
+            return float(self.quality_rating)
+        else:
+            return self.overall_rating()
 
 
 class ReviewReply(DatedModel):
