@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.template.defaultfilters import slugify
 
 # TODO: does anything need a UserProfile model? All attribtues in design's ERD are in django's User
 
@@ -90,6 +91,9 @@ class Shop(DatedModel):
 
     """The display name of the shop"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
+
+    """The name of the shop in links"""
+    slug = models.SlugField(unique=True)
 
     """The owner's description of the shop"""
     description = models.CharField(max_length=MAX_DESCRIPTION_LENGTH, blank=True)
@@ -188,6 +192,9 @@ class Shop(DatedModel):
             PRICE_RATING : lambda  s: s.price_rating(),
         }
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Shop, self).save(*args, **kwargs)
 
 class Review(DatedModel):
     """A review of a shop
