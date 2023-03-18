@@ -22,12 +22,6 @@ class CategoryForm(forms.ModelForm):
 
 class ShopForm(forms.ModelForm):
     """A form to create a new shop"""
-
-    # Override to enforce max lengths
-    name = forms.CharField(max_length=Shop.MAX_NAME_LENGTH)
-    description = forms.CharField(max_length=Shop.MAX_DESCRIPTION_LENGTH)
-    opening_hours = forms.CharField(max_length=Shop.MAX_OPENING_HOURS_LENGTH)
-    location = forms.CharField(label="Google Maps Location Code", max_length=Shop.MAX_LOCATION_LENGTH)
     
     # Override to only select users in owner group
     owners = forms.ModelMultipleChoiceField(User.objects.filter(groups__name='Shop Owner'))
@@ -44,9 +38,41 @@ class ShopForm(forms.ModelForm):
 
         return self.cleaned_data
 
+    
     class Meta:
         model = Shop
         fields = ('name', 'description', 'picture', 'opening_hours', 'location', 'categories', 'owners')
+        
+        widgets = {
+            "picture" : forms.FileInput(attrs={
+                "id" : "image_field",
+                "class" : "gsr-cream",
+                }),
+            "categories" : forms.CheckboxSelectMultiple(attrs={
+                "id" : "categories",
+                "class" : "gsr-cream list-unstyled",
+                
+                }),
+            "description" : forms.Textarea(attrs={
+                'rows': '5',
+                'cols': '100', 
+                'class':'gsr-cream', 
+                'style':'resize:none;width:100%;', 
+                }),
+            "name" : forms.TextInput(attrs={
+                "class" : "gsr-cream"
+                }),
+            "location" : forms.Textarea(attrs={
+                'rows': '4',
+                'cols': '100', 
+                'class':'gsr-cream', 
+                'style':'resize:none;width:80%;', 
+                }),
+            "opening_hours" : forms.TextInput(attrs={
+                "class" : "gsr-cream"
+                }),
+                
+        }
 
 
 
@@ -56,3 +82,12 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username','email','password','groups')
+        
+        widgets = {
+            "groups" : forms.CheckboxSelectMultiple(attrs={
+                    "id" : "categories",
+                    "class" : " list-unstyled",
+                    
+                    }),
+                    
+                }
