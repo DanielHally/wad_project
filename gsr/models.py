@@ -67,7 +67,7 @@ class Category(models.Model):
     name = models.CharField(max_length=MAX_NAME_LENGTH)
 
     """The description of the category"""
-    description = models.CharField(max_length=MAX_DESCRIPTION_LENGTH)
+    description = models.TextField(max_length=MAX_DESCRIPTION_LENGTH)
 
     """The icon for the category"""
     picture = models.ImageField(blank=True)
@@ -96,16 +96,16 @@ class Shop(DatedModel):
     slug = models.SlugField(unique=True)
 
     """The owner's description of the shop"""
-    description = models.CharField(max_length=MAX_DESCRIPTION_LENGTH, blank=True)
+    description = models.TextField(max_length=MAX_DESCRIPTION_LENGTH, blank=True)
 
     """The icon picture for the shop"""
     picture = models.ImageField(upload_to='shop_images', blank=True)
 
     """The opening hours description of the shop"""
-    opening_hours = models.CharField(max_length=MAX_OPENING_HOURS_LENGTH)
+    opening_hours = models.TextField(max_length=MAX_OPENING_HOURS_LENGTH)
 
     """The location of the shop as a Google Maps Place Id string (q= parameter of embed url)"""
-    location = models.CharField(max_length=MAX_LOCATION_LENGTH)
+    location = models.TextField(max_length=MAX_LOCATION_LENGTH)
 
     """The categories this shop belongs to"""
     categories = models.ManyToManyField(Category)
@@ -222,7 +222,7 @@ class Review(DatedModel):
     quality_rating = models.IntegerField(choices=STAR_CHOICES)
 
     """The comment left by the reviewer"""
-    comment = models.CharField(max_length=MAX_COMMENT_LENGTH, blank=True)
+    comment = models.TextField(max_length=MAX_COMMENT_LENGTH, blank=True)
 
     """Set the fields to trigger date_updated to change"""
     DATED_FIELDS = ('customer_interaction_rating', 'price_rating', 'quality_rating', 'comment')
@@ -254,7 +254,7 @@ class ReviewReply(DatedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     """The text of the reply"""
-    comment = models.CharField(max_length=Review.MAX_COMMENT_LENGTH)
+    comment = models.TextField(max_length=Review.MAX_COMMENT_LENGTH)
 
     def __str__(self) -> str:
         """Display a reply by its comment and the string for its target review"""
