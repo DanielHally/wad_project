@@ -19,3 +19,10 @@ def selected(item_name: str, default_name: str):
     """Outputs `selected="selected"` if the names match"""
 
     return { 'selected' : item_name == default_name }
+
+@register.inclusion_tag('gsr/tags/map_embed.html')
+def map_embed(location: str):
+    return {
+        'key' : "AIzaSyAqjZP6ohoMi2IP7xJJ39cM0MnfWt3U_B8",
+        'location' : location
+    }
