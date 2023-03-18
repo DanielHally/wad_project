@@ -1,0 +1,40 @@
+/*
+    Bootstrap overrides
+*/
+.navbar-custom {
+    background-color: black !important;
+}
+
+/*
+    Site general theming
+*/
+body {
+    background-color: lightgray;
+}
+
+/*
+    Site colours
+*/
+.gsr-cream {
+    background-color: #FFFF99;
+}
+.gsr-blue {
+    background-color: #D4E1F5;
+}
+.gsr-yellow-star {
+    color: orange;
+}
+.gsr-nav-button {
+    color: black;
+    background-color: #FFFF99;
+    border-style: solid;
+    border-color: black;
+}
+.gsr-nav-button:hover {
+    color: black;
+    background-color: white;
+}
+
+.gsr-border {
+    border-color: black !important;
+}

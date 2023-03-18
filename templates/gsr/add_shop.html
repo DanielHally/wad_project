@@ -1,11 +1,14 @@
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
 
-<title>
-    {% block title_block %}
-	    Add Shop
-    {% endblock %}
-</title>   
+{% block title_block %}
+	Add Shop
+{% endblock %}
+
+{% block head_block %}
+<script src="{% static 'js/gsr/add_shop.js' %}" crossorigin="anonymous"></script>
+<link href="{% static 'css/gsr/add_shop.css' %}" rel="stylesheet" crossorigin="anonymous">
+{% endblock %}
 
 {% block body_block %}
 	<h1 class="text-center" >Add Your Shop</h1>
@@ -23,7 +26,7 @@
 						
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.categories.label_tag}}</span>
-							<div class="" style="height:50px;overflow-y:scroll;">{{form.categories}}</div>
+							<div class="gsr-cream" style="height:50px;overflow-y:scroll;">{{form.categories}}</div>
 						</div>
 						
 						<div class="my-1">
@@ -41,11 +44,11 @@
 						{% if form.picture %}
 							<img src="{{ shop.picture.url }}" class="img-fluid">
 						{% endif %}
-						<img class="img-fluid" id ="imgPreview" alt="Shop Image" width="100px" height="100px" border="1px"/>
 						
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.picture.label_tag}}</span>
-							<div class="" style="height:100px">{{form.picture}}</div>
+							<div class="" style="">{{form.picture}}</div>
+							<div class="border gsr-border" id ="imgPreview" style="width:200px;height:200px;background-size:100% 100%;">Shop Image</div>
 						</div>
 						
 						<div class="my-1">
@@ -56,6 +59,8 @@
 					</div>
 					
 					<input class="btn btn-primary" style="width:40%;margin-left:auto;margin-right:auto;" type="submit" name="submit" value="Create Shop" />
+					
+					<strong>{{ form.errors }}</strong><br />
 					
 				</div>
 			</div>
