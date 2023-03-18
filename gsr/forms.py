@@ -11,10 +11,6 @@ class CategoryForm(forms.ModelForm):
     
     TODO: this needs admin approval in some way"""
 
-    # Override to enforce max lengths
-    name = forms.CharField(max_length=Category.MAX_NAME_LENGTH)
-    description = forms.CharField(max_length=Category.MAX_DESCRIPTION_LENGTH)
-
     class Meta:
         model = Category
         fields = ('name', 'description')
