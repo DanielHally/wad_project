@@ -94,6 +94,17 @@ def add_shop(request):
 
     return render(request, 'gsr/add_shop.html', {'form': form})
 
+def view_shop(request,shop_name_slug):
+    context_dict = {}
+    try:
+        shop = Shop.objects.get(slug=shop_name_slug)
+        context_dict['shop'] = shop
+    except Shop.DoesNotExist:
+        context_dict['shop'] = None
+
+
+    return render(request,'gsr/view_shop.html',context = context_dict)
+
 
 def index(request):
     QUERY_PARAM = 'query'
