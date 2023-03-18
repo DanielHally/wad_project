@@ -10,10 +10,6 @@ from gsr.forms import CategoryForm, ShopForm, UserForm
 
 
 # Create your views here.
-def index(request: HttpRequest) -> HttpResponse:
-    return render(request, 'gsr/index.html')
-
-
 def test_category_form(request: HttpRequest) -> HttpResponse:
     """A page to test CategoryForm, not for use in final site"""
 
@@ -98,7 +94,7 @@ def add_shop(request):
     return render(request, 'gsr/add_shop.html', {'form': form})
 
 
-def home(request):
+def index(request):
     QUERY_PARAM = 'query'
     CATEGORY_PARAM = 'category'
     RATING_PARAM = 'rating'
