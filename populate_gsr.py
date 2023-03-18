@@ -26,7 +26,6 @@ from django.contrib.auth.models import User, Group
 from gsr.models import Category, DatedModel, Shop, Review, ReviewReply
 
 # TODO: pictures
-# TODO: reviews, review replies
 
 groups = [
     {
