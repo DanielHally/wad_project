@@ -194,7 +194,9 @@ class Review(DatedModel):
     
     These can be created by any user on any shop"""
 
-    STAR_CHOICES = [(x, f"{x} stars") for x in range(1, 6)]
+    STARS_MIN = 1
+    STARS_MAX = 5
+    STAR_CHOICES = [(x, f"{x} stars") for x in range(STARS_MIN, STARS_MAX+1)]
     MAX_COMMENT_LENGTH = 512
 
     """The shop being reviewed"""
