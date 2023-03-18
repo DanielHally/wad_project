@@ -83,11 +83,12 @@ def add_shop(request):
 
     if request.method == 'POST':
         form = ShopForm(request.POST, request.FILES)
-
+        
+        
         if form.is_valid():
-            form.owner = [request.user]
-            form.save(commit=True)
-
+            shop = form.save(commit=True)
+            shop.owners.set([request.user])
+            shop.save()
             return redirect('/gsr/')
         else:
             print(form.errors)

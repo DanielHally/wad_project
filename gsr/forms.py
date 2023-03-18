@@ -24,7 +24,7 @@ class ShopForm(forms.ModelForm):
     """A form to create a new shop"""
     
     # Override to only select users in owner group
-    owners = forms.ModelMultipleChoiceField(User.objects.filter(groups__name='Shop Owner'))
+    # owners = forms.ModelMultipleChoiceField(User.objects.filter(groups__name='Shop Owner'))
 
     def clean(self):
         # Resize picture to square
@@ -41,7 +41,7 @@ class ShopForm(forms.ModelForm):
     
     class Meta:
         model = Shop
-        fields = ('name', 'description', 'picture', 'opening_hours', 'location', 'categories', 'owners')
+        fields = ('name', 'description', 'picture', 'opening_hours', 'location', 'categories')
         
         widgets = {
             "picture" : forms.FileInput(attrs={
@@ -50,14 +50,14 @@ class ShopForm(forms.ModelForm):
                 }),
             "categories" : forms.CheckboxSelectMultiple(attrs={
                 "id" : "categories",
-                "class" : "gsr-cream list-unstyled",
+                "class" : "list-unstyled",
                 
                 }),
             "description" : forms.Textarea(attrs={
                 'rows': '5',
                 'cols': '100', 
                 'class':'gsr-cream', 
-                'style':'resize:none;width:100%;', 
+                'style':'resize:none;width:90%;', 
                 }),
             "name" : forms.TextInput(attrs={
                 "class" : "gsr-cream"
@@ -66,10 +66,13 @@ class ShopForm(forms.ModelForm):
                 'rows': '4',
                 'cols': '100', 
                 'class':'gsr-cream', 
-                'style':'resize:none;width:80%;', 
+                'style':'resize:none;width:90%;', 
                 }),
-            "opening_hours" : forms.TextInput(attrs={
-                "class" : "gsr-cream"
+            "opening_hours" : forms.Textarea(attrs={
+                'rows': '4',
+                'cols': '100', 
+                'class':'gsr-cream', 
+                'style':'resize:none;width:90%;', 
                 }),
                 
         }

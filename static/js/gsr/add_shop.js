@@ -16,14 +16,13 @@ const NEXT_INPUT = "#next"
     Setup hidden next input on page load
 */
 $(document).ready(()=>{
-		  $('{{ form.picture }}').change(function(){
+		  $('#image_field').change(function(){
 			const file = this.files[0];
-			console.log(file);
 			if (file){
 			  let reader = new FileReader();
 			  reader.onload = function(event){
-				console.log(event.target.result);
-				$('#imgPreview').attr('src', event.target.result);
+				$('#imgPreview').css('backgroundImage', 'url(' + event.target.result + ')');
+				$('#imgPreview').html('');
 			  }
 			  reader.readAsDataURL(file);
 			}
