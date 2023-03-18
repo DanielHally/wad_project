@@ -1,5 +1,7 @@
+from io import BytesIO
 from django import forms
 from django.contrib.auth.models import User
+from PIL import Image
 
 from gsr.models import Category, Shop, Review, ReviewReply
 
@@ -29,6 +31,18 @@ class ShopForm(forms.ModelForm):
     
     # Override to only select users in owner group
     owners = forms.ModelMultipleChoiceField(User.objects.filter(groups__name='Shop Owner'))
+
+    def clean(self):
+        # Resize picture to square
+        picture = self.cleaned_data.get('picture')
+        if picture is not None:
+            image = Image.open(BytesIO(picture.read()))
+            image = image.resize((256, 256), Image.ANTIALIAS)
+            new_image = BytesIO()
+            image.save(new_image, 'PNG')
+            picture.file = new_image
+
+        return self.cleaned_data
 
     class Meta:
         model = Shop
