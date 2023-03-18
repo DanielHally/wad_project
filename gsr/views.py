@@ -100,11 +100,18 @@ def view_shop(request,shop_name_slug):
     try:
         shop = Shop.objects.get(slug=shop_name_slug)
         reviews = Review.objects.filter(shop=shop)
+        categories = [category.name for category in shop.categories.all()]
+
+        """changes splits by new line to make the template take a new line"""
+        shop.opening_hours = shop.opening_hours.split("\n")
         context_dict['shop'] = shop
         context_dict['reviews'] = reviews
+        context_dict['categories'] = categories
+
     except Shop.DoesNotExist:
         context_dict['shop'] = None
         context_dict['reviews'] = None
+        context_dict['categories'] = None
 
 
     return render(request,'gsr/view_shop.html',context = context_dict)

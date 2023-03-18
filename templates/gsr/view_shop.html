@@ -7,49 +7,78 @@
    View Shop
 {% endblock %}
 
+{% block head_block %}
+    <link href="{% static 'css/gsr/view_shop.css' %}" rel="stylesheet" crossorigin="anonymous">
+{% endblock %}
+
 {% block body_block %}
-    Category
-    <div>
-    {% if categories %}
-        {{ shop.categories }}
-    {% else %}
-        None
-    {% endif %}
-    </div>
-    <div>
-    <h2>Description</h2>
-    <div>
-        {{ shop.description }}
-    </div>
-    </div>
-    <div>
-    <h2>Reviews</h2>
-    <div>
-        {% for review in reviews %}
-            {{ review.author }}
-            {{ review.comment }}
-            {% star_rating review %}
-        {% endfor %}
-    </div>
-    </div>
-    <div>
-        <img src= "{{shop.picture.url}}" alt="Shop picture">
-        
-    </div>
-    <h1>
-        {{ shop.name }}
-    </h1>
-    <div>
-        <h2>Open Hours</h2>
-        <div>
-            {% if review.opening_hours %}
-            {{ review.opening_hours }}
-            {% else %}
-            Not available
-            {% endif %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class = "col-md-2 offset-4 gsr-blue d-inline-block">
+                <h3>Categories</h3>
+            </div>
+            <div class="col-md-2 gsr-cream d-inline-block">
+                {% for category in categories %}
+                    {{ category }}
+                    <br>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    <div>
-        {% map_embed shop.location %}
+        <br>
+        <h1 class="text-center">{{ shop.name }}</h1>
+        <section class = "gsr-cream p-5">
+            <div>
+                <div class="d-sm-flex">
+                    <div class="lead">
+                        <h2 class="gsr-blue text-center">Description</h2>
+                        <div class="gsr-cream text-center">
+                            {{ shop.description }}
+                        </div>
+                    </div>
+                    <img class="img-fluid w-50 mx-auto d-block" src= "{{shop.picture.url}}" alt="Shop picture">
+                </div>
+            </div>
+       </section>
+
+
+        <section class = "container">
+
+            <div class="d-sm-flex">
+                <div>
+                {% map_embed shop.location %}
+                </div>
+                <div>
+                    <h2 class="gsr-blue text-center">Open Hours</h2>
+                    <div class="text-center gsr-cream">
+                        {% if shop.opening_hours %}
+                        {% for hours in shop.opening_hours %}
+                            {{ hours }}
+                            <br>
+                        {% endfor %}
+                        {% else %}
+                            Not available
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+        <section>
+            <h2 class="gsr-blue">Reviews</h2>
+                <div class="gsr-cream">
+                    {% for review in reviews %}
+                        {{ review.author }}
+                        <br>
+                        {% if review.comment and review.comment.strip %}
+                            {{ review.comment }}
+                            <br>
+                        {% endif %}
+                        {% star_rating review %}
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
     </div>
 {% endblock %}
