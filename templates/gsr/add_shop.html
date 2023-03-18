@@ -10,7 +10,7 @@
 {% block body_block %}
 	<h1>Add Your Shop</h1>
 	<div>
-		<form id="add_shop_form" method="post" action="{% url 'gsr:add_shop' %}">
+		<form id="add_shop_form" method="POST" action="{% url 'gsr:add_shop' %}" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="container-fluid">
 				<div class = "row mx-4 ">

@@ -86,10 +86,10 @@ def add_shop(request):
     form = ShopForm()
 
     if request.method == 'POST':
-        form = ShopForm(request.POST)
+        form = ShopForm(request.POST, request.FILES)
 
         if form.is_valid():
-            # form.save(commit=True)
+            form.save(commit=True)
 
             return redirect('/gsr/')
         else:
