@@ -34,10 +34,6 @@ groups = [
         'name': "Shop Owner",
         'permissions': ["manage_shops"],
     },
-    {
-        'name': "Admin",
-        'permissions': ["manage_shops"],
-    },
 ]
 
 users = [
