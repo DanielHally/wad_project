@@ -37,7 +37,7 @@ Search
         <div class="container-fluid my-3">
             <div class="row">
                 <div class="col-sm-2 my-3">
-                    <div class="mx-3">
+                    <div class="mx-3" onclick="window.location.href='{% url 'gsr:view_shop' shop.slug %}'">
                         <div class="border gsr-border">
                             {% if shop.picture %}
                                 <img src="{{ shop.picture.url }}" class="img-fluid">
