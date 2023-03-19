@@ -6,3 +6,7 @@
 .gsr-cream {
     background-color: #FFFF99;
 }
+
+.gsr-border {
+    border-color: black !important;
+}
