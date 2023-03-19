@@ -58,11 +58,12 @@ class ShopForm(forms.ModelForm):
             "name" : forms.TextInput(attrs={
                 "class" : "gsr-cream"
                 }),
-            "location" : forms.Textarea(attrs={
+            "location" : forms.HiddenInput(attrs={
                 'rows': '4',
                 'cols': '100', 
                 'class':'gsr-cream', 
                 'style':'resize:none;width:90%;', 
+                'id' : 'location',
                 }),
             "opening_hours" : forms.Textarea(attrs={
                 'rows': '5',

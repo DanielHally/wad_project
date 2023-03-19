@@ -1,5 +1,6 @@
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
+{% load gsr_template_tags %}
 
 {% block title_block %}
 	Add Shop
@@ -8,6 +9,7 @@
 {% block head_block %}
 <script src="{% static 'js/gsr/add_shop.js' %}" crossorigin="anonymous"></script>
 <link href="{% static 'css/gsr/add_shop.css' %}" rel="stylesheet" crossorigin="anonymous">
+{% places_lib %}
 {% endblock %}
 
 {% block body_block %}
@@ -29,9 +31,10 @@
 							<div class="gsr-cream input" style="height:50px;overflow-y:scroll;width:90%;">{{form.categories}}</div>
 						</div>
 						
+						{{ form.location }}
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.location.label_tag}}</span>
-							<div class="input">{{form.location}}</div>
+							<div class="input"><input id="location-autocomplete"></div>
 						</div>
 						
 						
