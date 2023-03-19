@@ -17,10 +17,7 @@
 </head>
 
 <body>
-    <div class="container" >
-         <p class="yellowbox" style="margin-top:100px;margin-left:100px;width:80%;height:100%">Search ..</p>
-         <p style="background-color:white;margin-top:100px;margin-left:0px;width:5%;height:100%">Search</p>
-    </div>
+
     <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Top Rated Shops</p>
     <div class="container2" >
         {% for shop in shoplistbystars %}
@@ -40,41 +37,9 @@
         </div>
         {% endfor %}
     </div>
-    <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%;">Top Rated Shops</p>
+    <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%;">Recently Added Shops</p>
      <div class="container2" >
-        {% for shop in shoplistbystars %}
-        <div class="shops">
-
-                <div class="text">
-
-                    <p>{{ shop.name }}</p>
-
-                    <div class="stars">
-                        {% star_rating shop "Overall Rating" %}
-                    </div>
-                </div>
-
-
-
-        </div>
-        {% endfor %}
-         {% for shop in shoplistbystars %}
-        <div class="shops">
-
-                <div class="text">
-
-                    <p>{{ shop.name }}</p>
-
-                    <div class="stars">
-                        {% star_rating shop "Overall Rating" %}
-                    </div>
-                </div>
-
-
-
-        </div>
-        {% endfor %}
-         {% for shop in shoplistbystars %}
+         {% for shop in shoplistbyadddate %}
         <div class="shops">
 
                 <div class="text">
@@ -91,7 +56,7 @@
         </div>
         {% endfor %}
     </div>
-    <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Recently Added Shops</p>
+    <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Recently Viewed Shops</p>
     <div class="container2" >
         {% for shop in shoplistbyadddate %}
         <div class="shops">
@@ -110,14 +75,6 @@
         </div>
         {% endfor %}
     </div>
-    <script>
-        function scrollLeft(containerId) {
-            document.getElementById(containerId).scrollBy({ right: -200, behavior: 'smooth' });
-        }
 
-        function scrollRight(containerId) {
-            document.getElementById(containerId).scrollBy({ left: 200, behavior: 'smooth' });
-        }
-        </script>
 {% endblock %}
 </html>
