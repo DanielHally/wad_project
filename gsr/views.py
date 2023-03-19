@@ -1,13 +1,13 @@
 from itertools import chain
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from gsr.models import Category, RatedModel, Shop, Review
 from gsr.forms import CategoryForm, ShopForm, UserForm
-
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 # Create your views here.
 def test_category_form(request: HttpRequest) -> HttpResponse:
@@ -80,7 +80,8 @@ def user_logout(request):
 @login_required
 def add_shop(request):
     form = ShopForm()
-
+    context_dict = {}
+    
     if request.method == 'POST':
         form = ShopForm(request.POST, request.FILES)
         
@@ -92,8 +93,13 @@ def add_shop(request):
             return redirect('/gsr/')
         else:
             print(form.errors)
-
-    return render(request, 'gsr/add_shop.html', {'form': form})
+    
+    context_dict['form'] = form
+    context_dict['action'] = reverse("gsr:add_shop")
+    context_dict['title'] = "Add Your Shop"
+    context_dict['submit_text'] = "Create Shop"
+    
+    return render(request, 'gsr/add_shop.html', context = context_dict)
 
 def view_shop(request,shop_name_slug):
     context_dict = {}
@@ -116,6 +122,42 @@ def view_shop(request,shop_name_slug):
 
     return render(request,'gsr/view_shop.html',context = context_dict)
 
+@login_required
+def edit_shop(request,shop_name_slug):
+    context_dict = {}
+    context_dict['picture'] = static('shop_default_picture.png')
+    shop = get_object_or_404(Shop, slug=shop_name_slug)
+    
+    categories = [category.name for category in shop.categories.all()]
+    
+    context_dict['shop'] = shop
+    context_dict['categories'] = categories
+    if shop.picture:
+        context_dict['picture'] = shop.picture.url
+        
+    
+    form = ShopForm(instance=shop)
+
+    if request.method == 'POST':
+        print(form["picture"].value())
+        print(shop.picture)
+        if form["picture"].value() == None and shop.picture != None:
+            request.FILES['picture'] = shop.picture
+            
+        form = ShopForm(request.POST, request.FILES, instance=shop)
+        
+        if form.is_valid():
+            shop = form.save(commit=True)
+            return redirect(reverse("gsr:view_shop", args=[shop.slug] ))
+        else:
+            print(form.errors)
+    
+    context_dict['form'] = form
+    context_dict['action'] = reverse("gsr:edit_shop", args=[shop.slug])
+    context_dict['title'] = "Edit \"" + shop.name + "\""
+    context_dict['submit_text'] = "Save Changes"
+    
+    return render(request,'gsr/add_shop.html', context = context_dict)
 
 
 def index(request):

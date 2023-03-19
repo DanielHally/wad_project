@@ -35,7 +35,9 @@
                             {{ shop.description }}
                         </div>
                     </div>
+					{% if shop.picture %}
                     <img class="img-fluid w-50 mx-auto d-block" src= "{{shop.picture.url}}" alt="Shop picture">
+					{% endif %}
                 </div>
             </div>
        </section>

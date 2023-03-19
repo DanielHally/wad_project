@@ -25,7 +25,7 @@ class ShopForm(forms.ModelForm):
     def clean(self):
         # Resize picture to square
         picture = self.cleaned_data.get('picture')
-        if picture is not None:
+        if picture:
             image = Image.open(BytesIO(picture.read()))
             image = image.resize((256, 256), Image.ANTIALIAS)
             new_image = BytesIO()
@@ -40,7 +40,7 @@ class ShopForm(forms.ModelForm):
         fields = ('name', 'description', 'picture', 'opening_hours', 'location', 'categories')
         
         widgets = {
-            "picture" : forms.FileInput(attrs={
+            "picture" : forms.ClearableFileInput(attrs={
                 "id" : "image_field",
                 "class" : "gsr-cream",
                 'style':'width:90%;',
