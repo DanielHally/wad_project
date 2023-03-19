@@ -22,7 +22,7 @@ Main program
 
 from typing import Any, Dict
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group, Permission, User 
 from django.utils import timezone
 
 from gsr.models import Category, DatedModel, Shop, Review, ReviewReply
@@ -32,9 +32,11 @@ from gsr.models import Category, DatedModel, Shop, Review, ReviewReply
 groups = [
     {
         'name': "Shop Owner",
+        'permissions': ["manage_shops"],
     },
     {
         'name': "Admin",
+        'permissions': ["manage_shops"],
     },
 ]
 
@@ -163,8 +165,9 @@ def add_group(data: Dict[str, Any]) -> Group:
     """Create a django user group"""
 
     group = Group.objects.get_or_create(name=data['name'])[0]
-
-    # TODO: permissions?
+    for perm_name in data['permissions']:
+        perm = Permission.objects.get(codename=perm_name)
+        group.permissions.add(perm)
 
     group.save()
 

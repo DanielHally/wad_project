@@ -147,6 +147,11 @@ class Shop(DatedModel, RatedModel):
     # TODO: categories views and owners?
     DATED_FIELDS = ('name', 'description', 'picture', 'opening_hours', 'location')
 
+    class Meta:
+        permissions = [
+            ("manage_shops", "Can create and edit shops"),
+        ]
+
     def __str__(self) -> str:
         """Display a shop as its name"""
 
