@@ -9,6 +9,8 @@ Setup django
 """
 
 import os
+
+from pytz import utc
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wad_project.settings')
 
 import django
@@ -18,10 +20,10 @@ django.setup()
 Main program
 """
 
-from datetime import datetime
 from typing import Any, Dict
 
 from django.contrib.auth.models import User, Group
+from django.utils import timezone
 
 from gsr.models import Category, DatedModel, Shop, Review, ReviewReply
 
@@ -153,7 +155,7 @@ def handle_date_added(obj: DatedModel, data: Dict[str, Any]):
     """Set date_added if given for a DatedModel"""
 
     if 'date_added' in data:
-        date = datetime.strptime(data['date_added'], "%Y-%m-%d")
+        date = timezone.datetime.strptime(data['date_added'], "%Y-%m-%d").replace(tzinfo=utc)
         obj.date_added = date
 
 
