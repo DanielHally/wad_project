@@ -10,17 +10,7 @@ body {
     text-align: center;
     background-color: yellow;
 }
-.shops {
-    position: relative;
-    background-image: url(../static/rango.jpg);
-    background-position: center;
-    background-size: cover;
-    margin-top: 0;
-    margin-left: 00px;
-    width: 200px;
-    height: 300px;
-    display: inline-block;
-}
+
 .text {
     position: absolute;
     bottom: 0;
@@ -35,7 +25,9 @@ body {
 }
 
 .container2{
+    overflow-x: scroll;
     position: relative;
+    white-space: nowrap;
     display: flex;
     margin: 10px;
     background-color:white ;
@@ -43,7 +35,9 @@ body {
     width: 1200px;
     height:auto;
     margin-left: 100px;
+    white-space: nowrap;
 }
+
 .triangle-left {
     position: absolute;
     left: 0;
@@ -52,7 +46,9 @@ body {
     border-top: 50px solid transparent;
     border-right: 50px solid grey;
     border-bottom: 50px solid transparent;
-    z-index: 1;
+    z-index: 2;
+    cursor: pointer;
+
 }
 
 .triangle-right {
@@ -76,4 +72,19 @@ body {
     color: gold;
     font-size: 18px;
 }
+.shops {
+    position: relative;
+    background-image: url(../static/rango.jpg);
+    background-size: cover;
+    margin-top: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 200px;
+    height: 200px;
+    flex-grow:2;
+    white-space: nowrap;
+    min-width: 200px;
+}
+
+
 
