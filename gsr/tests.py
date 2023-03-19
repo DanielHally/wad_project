@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.test import TestCase
 
-from gsr.models import DatedModel, Review, Shop
+from gsr.models import DatedModel, RatedModel, Review, Shop
 
 class DatedModelUtils:
     """Helpers for DatedModelTests"""
@@ -141,14 +141,47 @@ class ReviewTest(TestCase):
     """Tests for Review"""
 
     def test_overall_rating(self):
-        """Checks the overall_rating of a Review works"""
+        """Checks the overall rating of a Review works"""
 
         reviews = ReviewUtils.make_examples()
 
         for i, review in enumerate(reviews):
             self.assertEqual(
-                review.overall_rating(),
+                review.get_rating(RatedModel.OVERALL_RATING),
                 ReviewUtils.expected_overall[i]
+            )
+
+    def test_customer_interaction_rating(self):
+        """Checks the customer interaction rating of a review works"""
+
+        reviews = ReviewUtils.make_examples()
+
+        for i, review in enumerate(reviews):
+            self.assertEqual(
+                review.get_rating(RatedModel.CUSTOMER_INTERACTION_RATING),
+                ReviewUtils.rating_data[i]["customer_interaction_rating"]
+            )
+
+    def test_quality_rating(self):
+        """Checks the customer interaction rating of a review works"""
+
+        reviews = ReviewUtils.make_examples()
+
+        for i, review in enumerate(reviews):
+            self.assertEqual(
+                review.get_rating(RatedModel.QUALITY_RATING),
+                ReviewUtils.rating_data[i]["quality_rating"]
+            )
+
+    def test_price_rating(self):
+        """Checks the customer interaction rating of a review works"""
+
+        reviews = ReviewUtils.make_examples()
+
+        for i, review in enumerate(reviews):
+            self.assertEqual(
+                review.get_rating(RatedModel.PRICE_RATING),
+                ReviewUtils.rating_data[i]["price_rating"]
             )
 
 class ShopUtils:
@@ -176,8 +209,20 @@ class ShopUtils:
 class ShopTest(TestCase):
     """Tests for Shop"""
 
-    def test_stars(self):
-        """Tests the star calculation of the example shop"""
+    def test_overall_stars(self):
+        """Tests the overall star calculation of the example shop"""
 
         shop = ShopUtils.make_example()
-        self.assertEqual(4, shop.overall_rating())
+        self.assertEqual(4, shop.get_stars(RatedModel.OVERALL_RATING))
+
+    def test_customer_interaction_stars(self):
+        """Tests the customer interaction star calculation of the example shop"""
+
+        shop = ShopUtils.make_example()
+        self.assertEqual(4, shop.get_stars(RatedModel.CUSTOMER_INTERACTION_RATING))
+
+    def test_price_stars(self):
+        """Tests the price star calculation of the example shop"""
+
+        shop = ShopUtils.make_example()
+        self.assertEqual(4, shop.get_stars(RatedModel.PRICE_RATING))
