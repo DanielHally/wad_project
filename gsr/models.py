@@ -1,10 +1,10 @@
-from abc import abstractmethod, ABC
-from datetime import datetime
+from abc import abstractmethod
 from typing import List, Optional
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 
 # TODO: does anything need a UserProfile model? All attribtues in design's ERD are in django's User
 
@@ -45,10 +45,10 @@ class DatedModel(models.Model):
         abstract = True
 
     """The date the entity was created"""
-    date_added = models.DateField(null=True)
+    date_added = models.DateTimeField(null=True)
 
     """The date the details of the entity were last changed"""
-    date_updated = models.DateField(null=True)
+    date_updated = models.DateTimeField(null=True)
 
     """The field names of the class to check for the dates of"""
     DATED_FIELDS = tuple()
@@ -69,11 +69,11 @@ class DatedModel(models.Model):
 
         if prev is None:
             # Set date added & updated to now if just created
-            self.date_added = datetime.now()
+            self.date_added = timezone.now()
             self.date_updated = self.date_added
         elif self.has_updated(prev):
             # Set date updated to now if description fields changed
-            self.date_updated = datetime.now()
+            self.date_updated = timezone.now()
 
         super().save(*args, **kwargs)
 
