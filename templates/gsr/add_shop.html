@@ -21,42 +21,45 @@
 					<div class="col-sm-6 border">
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.name.label_tag}}</span> 
-							<div class="">{{form.name}}</div>
+							<div class="input">{{form.name}}</div>
 						</div>
 						
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.categories.label_tag}}</span>
-							<div class="gsr-cream" style="height:50px;overflow-y:scroll;">{{form.categories}}</div>
+							<div class="gsr-cream input" style="height:50px;overflow-y:scroll;width:90%;">{{form.categories}}</div>
 						</div>
 						
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.location.label_tag}}</span>
-							<div class="">{{form.location}}</div>
+							<div class="input">{{form.location}}</div>
 						</div>
 						
-						<div class="my-1">
-							<span class="h3 gsr-blue border gsr-border">{{form.description.label_tag}}</span>
-							<div class="" style="width:100%">{{form.description}}</div>
-						</div>
+						
 					</div>
 					
 					<div class="col-sm-6 border">
-						{% if form.picture %}
-							<img src="{{ shop.picture.url }}" class="img-fluid">
-						{% endif %}
-						
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.picture.label_tag}}</span>
-							<div class="" style="">{{form.picture}}</div>
-							<div class="border gsr-border" id ="imgPreview" style="width:200px;height:200px;background-size:100% 100%;">Shop Image</div>
+							<div class="input" style="">{{form.picture}}</div>
+							<div class="border gsr-border" id ="imgPreview" style="width:250px;height:250px;background-size:100% 100%;">Shop Image</div>
 						</div>
 						
-						<div class="my-1">
-							<span class="h3 gsr-blue border gsr-border">{{form.opening_hours.label_tag}}</span>
-							<div class="">{{form.opening_hours}}</div>
-						</div>
+						
 						
 					</div>
+					
+				</div>
+				<div class = "row mx-4 ">				
+					<div class="col-sm-6 border my-1">
+						<span class="h3 gsr-blue border gsr-border">{{form.description.label_tag}}</span>
+						<div class="input" style="width:100%">{{form.description}}</div>
+					</div>
+					
+					<div class=" col-sm-6 border my-1">
+						<span class="h3 gsr-blue border gsr-border">{{form.opening_hours.label_tag}}</span>
+						<div class="input">{{form.opening_hours}}</div>
+					</div>
+					
 					
 					<input class="btn btn-primary" style="width:40%;margin-left:auto;margin-right:auto;" type="submit" name="submit" value="Create Shop" />
 					

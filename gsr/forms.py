@@ -43,11 +43,11 @@ class ShopForm(forms.ModelForm):
             "picture" : forms.FileInput(attrs={
                 "id" : "image_field",
                 "class" : "gsr-cream",
+                'style':'width:90%;',
                 }),
             "categories" : forms.CheckboxSelectMultiple(attrs={
                 "id" : "categories",
                 "class" : "list-unstyled",
-                
                 }),
             "description" : forms.Textarea(attrs={
                 'rows': '5',
@@ -65,7 +65,7 @@ class ShopForm(forms.ModelForm):
                 'style':'resize:none;width:90%;', 
                 }),
             "opening_hours" : forms.Textarea(attrs={
-                'rows': '4',
+                'rows': '5',
                 'cols': '100', 
                 'class':'gsr-cream', 
                 'style':'resize:none;width:90%;', 
