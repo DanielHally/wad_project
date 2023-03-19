@@ -41,6 +41,8 @@ Search
                         <div class="border gsr-border">
                             {% if shop.picture %}
                                 <img src="{{ shop.picture.url }}" class="img-fluid">
+							{% else %}
+								<img src="{% static 'shop_default_picture.png' %}" class="img-fluid">
                             {% endif %}
                             {% star_rating shop rating_method %}
                         </div>

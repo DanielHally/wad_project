@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.db.models import Avg
 from gsr.models import Category, RatedModel, Shop, Review
 from gsr.forms import CategoryForm, ShopForm, UserForm
@@ -49,7 +49,14 @@ def user_signup(request):
 
 
 def user_login(request):
-    if request.method == 'POST':
+    
+    if request.method == 'GET':
+        reason = request.GET.get("reason")
+        messages = {"No_Role_On_Add" : "You can't add a shop without an owner account",
+                    "No_Role_On_Edit": "You can't edit a shop without an owner account",
+                    "Unowned_Shop"   : "You can't edit a shop you don't own"}
+        error = messages.get(reason, "")        
+    elif request.method == 'POST':
 
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -67,8 +74,8 @@ def user_login(request):
                 return render(request, 'gsr/login.html', context={"error": "Your account is disabled"})
         else:
             return render(request, 'gsr/login.html', context={"error": "Invalid login details"})
-    else:
-        return render(request, 'gsr/login.html')
+    
+    return render(request, 'gsr/login.html', context={"error" : error})
 
 
 @login_required
@@ -79,6 +86,9 @@ def user_logout(request):
 
 @login_required
 def add_shop(request):
+    if not request.user.has_perm('gsr.manage_shops'):
+        return redirect(reverse("gsr:login")+"?reason=No_Role_On_Add")
+    
     form = ShopForm()
     context_dict = {}
     
@@ -94,6 +104,7 @@ def add_shop(request):
         else:
             print(form.errors)
     
+    context_dict['picture'] = static('shop_default_picture.png')
     context_dict['form'] = form
     context_dict['action'] = reverse("gsr:add_shop")
     context_dict['title'] = "Add Your Shop"
@@ -124,9 +135,15 @@ def view_shop(request,shop_name_slug):
 
 @login_required
 def edit_shop(request,shop_name_slug):
+    if not request.user.has_perm('gsr.manage_shops'):
+        return redirect(reverse("gsr:login")+"?reason=No_Role_On_Edit")
+    
     context_dict = {}
     context_dict['picture'] = static('shop_default_picture.png')
     shop = get_object_or_404(Shop, slug=shop_name_slug)
+    
+    if request.user not in shop.owners.all() and not request.user.is_superuser: 
+        return redirect(reverse("gsr:login")+"?reason=Unowned_Shop")
     
     categories = [category.name for category in shop.categories.all()]
     
@@ -139,11 +156,6 @@ def edit_shop(request,shop_name_slug):
     form = ShopForm(instance=shop)
 
     if request.method == 'POST':
-        print(form["picture"].value())
-        print(shop.picture)
-        if form["picture"].value() == None and shop.picture != None:
-            request.FILES['picture'] = shop.picture
-            
         form = ShopForm(request.POST, request.FILES, instance=shop)
         
         if form.is_valid():

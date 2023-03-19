@@ -42,7 +42,7 @@ class ShopForm(forms.ModelForm):
         widgets = {
             "picture" : forms.ClearableFileInput(attrs={
                 "id" : "image_field",
-                "class" : "gsr-cream",
+                "class" : "gsr-cream  border gsr-border",
                 'style':'width:90%;',
                 }),
             "categories" : forms.CheckboxSelectMultiple(attrs={
@@ -59,10 +59,6 @@ class ShopForm(forms.ModelForm):
                 "class" : "gsr-cream"
                 }),
             "location" : forms.HiddenInput(attrs={
-                'rows': '4',
-                'cols': '100', 
-                'class':'gsr-cream', 
-                'style':'resize:none;width:90%;', 
                 'id' : 'location',
                 }),
             "opening_hours" : forms.Textarea(attrs={

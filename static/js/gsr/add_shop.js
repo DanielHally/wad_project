@@ -15,7 +15,9 @@ const LOCATION_AUTOCOMPLETE_INPUT = "#location-autocomplete";
 const LOCATION_TRUE_INPUT = "#location";
 
 /*
-    Setup hidden next input on page load
+   Loads image onto page when selected
+    - image supllied in an object w/ id of 'image_field'
+	- image displayed as background of object w/ id of imgPreview
 */
 $(document).ready(() => {
     $('#image_field').change(function () {
@@ -24,7 +26,6 @@ $(document).ready(() => {
             let reader = new FileReader();
             reader.onload = function (event) {
                 $('#imgPreview').css('backgroundImage', 'url(' + event.target.result + ')');
-                $('#imgPreview').html('');
             }
             reader.readAsDataURL(file);
         }
@@ -69,3 +70,4 @@ function initMap() {
         }
     });
 }
+
