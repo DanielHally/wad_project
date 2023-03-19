@@ -46,6 +46,18 @@ function initMap() {
         }
     );
 
+    // Pre-fill widget if address known
+    place = $(LOCATION_TRUE_INPUT).val();
+    if (place) {
+        var service = new google.maps.places.PlacesService($(LOCATION_AUTOCOMPLETE_INPUT)[0]);
+        service.getDetails(
+            {placeId: place},
+            function(result, status) {
+                $(LOCATION_AUTOCOMPLETE_INPUT).val(result.formatted_address)
+            }
+        )
+    }
+
     // Fill in hidden input with place id if valid
     autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
