@@ -37,14 +37,16 @@ Search
         <div class="container-fluid my-3">
             <div class="row">
                 <div class="col-sm-2 my-3">
-                    <div class="mx-3" onclick="window.location.href='{% url 'gsr:view_shop' shop.slug %}'">
+                    <div class="mx-3">
                         <div class="border gsr-border">
                             {% if shop.picture %}
                                 <img src="{{ shop.picture.url }}" class="img-fluid">
                             {% endif %}
                             {% star_rating shop rating_method %}
                         </div>
-                        <h3 class="gsr-cream border gsr-border">{{ shop.name }}</h3>
+                        <a class="link-unstyled" href="{% url 'gsr:view_shop' shop.slug %}">
+                            <h3 class="gsr-cream border gsr-border">{{ shop.name }}</h3>
+                        </a>
                     </div>
                 </div>
                 <div class="col-sm-8 my-3 border gsr-border gsr-cream">
