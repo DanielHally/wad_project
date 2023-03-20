@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from gsr.models import Category, RatedModel, Shop, Review
-from gsr.forms import CategoryForm, ShopForm, UserForm
+from gsr.forms import CategoryForm, ShopForm, UserForm, ReviewForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
 # Create your views here.
@@ -129,8 +129,9 @@ def view_shop(request,shop_name_slug):
         reviews = Review.objects.filter(shop=shop)
         categories = [category.name for category in shop.categories.all()]
 
-        """changes splits by new line to make the template take a new line"""
+        """splits by new line to make the template take a new line"""
         shop.opening_hours = shop.opening_hours.split("\n")
+
         context_dict['shop'] = shop
         context_dict['reviews'] = reviews
         context_dict['categories'] = categories
@@ -321,3 +322,27 @@ def search(request: HttpRequest):
             'results' : results,
         }
     )
+
+@login_required
+def add_review(request,shop_name_slug):
+    try:
+        shop = Shop.objects.get(slug=shop_name_slug)
+    except Shop.DoesNotExist:
+        shop = None
+
+    if shop is None:
+        return redirect('/gsr/')
+
+    form = ReviewForm()
+
+    if request.method =='POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.shop = shop
+            review.author = request.user
+            review.save()
+            return redirect(reverse('gsr:view_shop',kwargs={'shop_name_slug':shop_name_slug}))
+
+    context_dict = {'form':form,'shop':shop}
+    return render(request, 'gsr/add_review.html', context= context_dict)

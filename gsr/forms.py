@@ -87,3 +87,10 @@ class UserForm(forms.ModelForm):
                     }),
                     
                 }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('customer_interaction_rating','price_rating','quality_rating','comment')
+

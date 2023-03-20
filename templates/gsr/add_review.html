@@ -1,0 +1,18 @@
+{% extends 'gsr/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Add Review
+{% endblock %}
+
+{% block body_block %}
+
+
+<h1>Write a review</h1>
+<form id="review_form" method="post" action="{% url 'gsr:add_review' shop.slug %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="Add a Review" value="Add Review" />
+</form>
+
+{% endblock %}
