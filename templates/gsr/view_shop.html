@@ -75,6 +75,8 @@
             {% for review in reviews %}
                 <strong>{{ review.author }}</strong>
                 <br />
+                <strong>{{ review.date_added }}</strong>
+                <br />
                 {% if review.comment and review.comment.strip %}
                     {{ review.comment }}
                 <br />
