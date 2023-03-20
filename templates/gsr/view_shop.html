@@ -65,7 +65,7 @@
                     <h4>Reviews</h4>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-warning">Leave a Review</button>
+                    <a href="{% url 'gsr:login' %}" class="btn btn-warning">Leave a Review</a>
                 </div>
             </div>
         </div>
@@ -73,14 +73,15 @@
 
         <div class="gsr-cream">
             {% for review in reviews %}
-                {{ review.author }}
-                <br>
+                <strong>{{ review.author }}</strong>
+                <br />
                 {% if review.comment and review.comment.strip %}
                     {{ review.comment }}
-                    <br>
+                <br />
                 {% endif %}
                 {% star_rating review %}
-                <br>
+                <br />
+                <hr>
             {% endfor %}
         </div>
 
