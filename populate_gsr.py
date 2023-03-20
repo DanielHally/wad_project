@@ -9,8 +9,11 @@ Setup django
 """
 
 import os
+from shutil import copy
 
 from pytz import utc
+
+from wad_project.settings import MEDIA_ROOT, STATIC_DIR
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wad_project.settings')
 
 import django
@@ -71,6 +74,7 @@ categories = [
 shops = [
     {
         'name': "The Shop",
+        'picture': "the_shop.png",
         'description': "It's The Shop.",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
         'location': 'ChIJozqrTldFiEgRcnQtvvM7kUA',
@@ -106,6 +110,7 @@ shops = [
     },
     {
         'name': "The Other Shop",
+        'picture': "the_other_shop.png",
         'description': "It's not The Shop.",
         'opening_hours': "Wednesday 1-4",
         'location': 'ChIJ-4qF7s5FiEgR6bRXbXOZeek',
@@ -145,6 +150,26 @@ review_replies = [
         'comment': "I agree",
     }
 ]
+
+
+def add_picture(path: str, upload_to: str) -> str:
+    """Copies a file from /static/population_images/ to /media/"""
+
+    # Build paths
+    relative = upload_to + '/' + path
+    dest = os.path.join(MEDIA_ROOT, upload_to)
+
+    # Make folders if needed
+    os.makedirs(dest, exist_ok=True)
+
+    # Copy file to media
+    copy(
+        os.path.join(STATIC_DIR, 'population_images', path),
+        dest
+    )
+
+    # Return relative path
+    return relative
 
 
 def handle_date_added(obj: DatedModel, data: Dict[str, Any]):
@@ -201,6 +226,7 @@ def add_shop(data: Dict[str, Any]) -> Shop:
     shop.description = data.get('description', "")
     shop.opening_hours = data['opening_hours']
     shop.location = data['location']
+    shop.picture.name = add_picture(data['picture'], 'shop_images')
 
     for category_name in data.get('categories', []):
         category = Category.objects.get(name=category_name)
