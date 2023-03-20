@@ -110,7 +110,7 @@ def add_shop(request):
         else:
             print(form.errors)
     
-    context_dict['picture'] = static('shop_default_picture.png')
+    context_dict['picture'] = Shop.DEFAULT_PICTURE
     context_dict['form'] = form
     context_dict['action'] = reverse("gsr:add_shop")
     context_dict['title'] = "Add Your Shop"
@@ -145,7 +145,7 @@ def edit_shop(request,shop_name_slug):
         return redirect(reverse("gsr:login")+"?reason=No_Role_On_Edit")
     
     context_dict = {}
-    context_dict['picture'] = static('shop_default_picture.png')
+    context_dict['picture'] = Shop.DEFAULT_PICTURE
     shop = get_object_or_404(Shop, slug=shop_name_slug)
     
     if request.user not in shop.owners.all() and not request.user.is_superuser: 

@@ -1,6 +1,6 @@
 from django import template
 
-from gsr.models import RatedModel, Review
+from gsr.models import RatedModel, Review, Shop
 
 register = template.Library()
 
@@ -33,4 +33,13 @@ def map_embed(location: str):
 def places_lib():
     return {
         'key' : MAPS_API_KEY
+    }
+
+@register.inclusion_tag('gsr/tags/shop_picture.html')
+def shop_picture(shop: Shop):
+    """Gives the url of a shop's picture, or the default"""
+
+    return {
+        'shop' : shop,
+        'default' : Shop.DEFAULT_PICTURE,
     }

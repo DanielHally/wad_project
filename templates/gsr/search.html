@@ -39,11 +39,7 @@ Search
                 <div class="col-sm-2 my-3">
                     <div class="mx-3">
                         <div class="border gsr-border">
-                            {% if shop.picture %}
-                                <img src="{{ shop.picture.url }}" class="img-fluid">
-							{% else %}
-								<img src="{% static 'shop_default_picture.png' %}" class="img-fluid">
-                            {% endif %}
+                            <img src={% shop_picture shop %} class="img-fluid">
                             {% star_rating shop rating_method %}
                         </div>
                         <a class="link-unstyled" href="{% url 'gsr:view_shop' shop.slug %}">

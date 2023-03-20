@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils import timezone
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 # TODO: does anything need a UserProfile model? All attribtues in design's ERD are in django's User
 
@@ -114,6 +115,8 @@ class Shop(DatedModel, RatedModel):
     MAX_DESCRIPTION_LENGTH = 8192
     MAX_OPENING_HOURS_LENGTH = 512
     MAX_LOCATION_LENGTH = 128
+
+    DEFAULT_PICTURE = static('shop_default_picture.png')
 
     """The display name of the shop"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
