@@ -14,5 +14,9 @@ urlpatterns = [
     path('user/',views.user, name = 'user'),
     path('search/', views.search, name='search'),
     path('shop/<slug:shop_name_slug>/',views.view_shop,name ='view_shop'),
+<<<<<<< HEAD
     path('delete-account/', views.delete_account , name='delete_account'),
+=======
+    path('shop/<slug:shop_name_slug>/edit_shop',views.edit_shop,name ='edit_shop')
+>>>>>>> 40815354524d9ae6850cb1e9699de9aa426a2c3a
 ]

@@ -38,3 +38,12 @@ body {
 .gsr-border {
     border-color: black !important;
 }
+/*
+span {
+	margin : 10px 0px 10px 0px;
+}
+*/
+
+.input{
+	margin : 5px 0px 15px 0px;
+}

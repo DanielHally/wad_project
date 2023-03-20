@@ -41,10 +41,14 @@ Search
                         <div class="border gsr-border">
                             {% if shop.picture %}
                                 <img src="{{ shop.picture.url }}" class="img-fluid">
+							{% else %}
+								<img src="{% static 'shop_default_picture.png' %}" class="img-fluid">
                             {% endif %}
                             {% star_rating shop rating_method %}
                         </div>
-                        <h3 class="gsr-cream border gsr-border">{{ shop.name }}</h3>
+                        <a class="link-unstyled" href="{% url 'gsr:view_shop' shop.slug %}">
+                            <h3 class="gsr-cream border gsr-border">{{ shop.name }}</h3>
+                        </a>
                     </div>
                 </div>
                 <div class="col-sm-8 my-3 border gsr-border gsr-cream">

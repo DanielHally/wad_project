@@ -20,9 +20,17 @@ def selected(item_name: str, default_name: str):
 
     return { 'selected' : item_name == default_name }
 
+MAPS_API_KEY = "AIzaSyAqjZP6ohoMi2IP7xJJ39cM0MnfWt3U_B8"
+
 @register.inclusion_tag('gsr/tags/map_embed.html')
 def map_embed(location: str):
     return {
-        'key' : "AIzaSyAqjZP6ohoMi2IP7xJJ39cM0MnfWt3U_B8",
+        'key' : MAPS_API_KEY,
         'location' : location
+    }
+
+@register.inclusion_tag('gsr/tags/places_lib.html')
+def places_lib():
+    return {
+        'key' : MAPS_API_KEY
     }

@@ -1,13 +1,13 @@
 from itertools import chain
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.db.models import Avg
 from gsr.models import Category, RatedModel, Shop, Review
 from gsr.forms import CategoryForm, ShopForm, UserForm
-
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 # Create your views here.
 def test_category_form(request: HttpRequest) -> HttpResponse:
@@ -49,7 +49,14 @@ def user_signup(request):
 
 
 def user_login(request):
-    if request.method == 'POST':
+    
+    if request.method == 'GET':
+        reason = request.GET.get("reason")
+        messages = {"No_Role_On_Add" : "You can't add a shop without an owner account",
+                    "No_Role_On_Edit": "You can't edit a shop without an owner account",
+                    "Unowned_Shop"   : "You can't edit a shop you don't own"}
+        error = messages.get(reason, "")        
+    elif request.method == 'POST':
 
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -67,8 +74,8 @@ def user_login(request):
                 return render(request, 'gsr/login.html', context={"error": "Your account is disabled"})
         else:
             return render(request, 'gsr/login.html', context={"error": "Invalid login details"})
-    else:
-        return render(request, 'gsr/login.html')
+    
+    return render(request, 'gsr/login.html', context={"error" : error})
 
 
 @login_required
@@ -85,8 +92,12 @@ def delete_account(request):
 
 @login_required
 def add_shop(request):
+    if not request.user.has_perm('gsr.manage_shops'):
+        return redirect(reverse("gsr:login")+"?reason=No_Role_On_Add")
+    
     form = ShopForm()
-
+    context_dict = {}
+    
     if request.method == 'POST':
         form = ShopForm(request.POST, request.FILES)
         
@@ -98,8 +109,14 @@ def add_shop(request):
             return redirect('/gsr/')
         else:
             print(form.errors)
-
-    return render(request, 'gsr/add_shop.html', {'form': form})
+    
+    context_dict['picture'] = static('shop_default_picture.png')
+    context_dict['form'] = form
+    context_dict['action'] = reverse("gsr:add_shop")
+    context_dict['title'] = "Add Your Shop"
+    context_dict['submit_text'] = "Create Shop"
+    
+    return render(request, 'gsr/add_shop.html', context = context_dict)
 
 def view_shop(request,shop_name_slug):
     context_dict = {}
@@ -122,6 +139,43 @@ def view_shop(request,shop_name_slug):
 
     return render(request,'gsr/view_shop.html',context = context_dict)
 
+@login_required
+def edit_shop(request,shop_name_slug):
+    if not request.user.has_perm('gsr.manage_shops'):
+        return redirect(reverse("gsr:login")+"?reason=No_Role_On_Edit")
+    
+    context_dict = {}
+    context_dict['picture'] = static('shop_default_picture.png')
+    shop = get_object_or_404(Shop, slug=shop_name_slug)
+    
+    if request.user not in shop.owners.all() and not request.user.is_superuser: 
+        return redirect(reverse("gsr:login")+"?reason=Unowned_Shop")
+    
+    categories = [category.name for category in shop.categories.all()]
+    
+    context_dict['shop'] = shop
+    context_dict['categories'] = categories
+    if shop.picture:
+        context_dict['picture'] = shop.picture.url
+        
+    
+    form = ShopForm(instance=shop)
+
+    if request.method == 'POST':
+        form = ShopForm(request.POST, request.FILES, instance=shop)
+        
+        if form.is_valid():
+            shop = form.save(commit=True)
+            return redirect(reverse("gsr:view_shop", args=[shop.slug] ))
+        else:
+            print(form.errors)
+    
+    context_dict['form'] = form
+    context_dict['action'] = reverse("gsr:edit_shop", args=[shop.slug])
+    context_dict['title'] = "Edit \"" + shop.name + "\""
+    context_dict['submit_text'] = "Save Changes"
+    
+    return render(request,'gsr/add_shop.html', context = context_dict)
 
 
 def index(request):
@@ -169,20 +223,9 @@ def index(request):
         shop.get_stars(RatedModel.OVERALL_RATING)
         for shop in shoplistbyadddate
     ]
-    shoplistbystars_name1= shoplistbystars_names[0]
-    shoplistbystars_stars1 = [i for i in range(shoplistbystars_stars[0])]
-    shoplistbystars_stars2 = [i for i in range(shoplistbystars_stars[1])]
-    ##shoplistbystars_stars3 = [i for i in range(shoplistbystars_stars[2])]
-   ## shoplistbystars_stars4 = [i for i in range(shoplistbystars_stars[3])]
-   ## shoplistbystars_stars5 = [i for i in range(shoplistbystars_stars[4])]
-    shoplistbystars_grey1 = [i for i in range(5-shoplistbystars_stars[0])]
-    shoplistbystars_grey2 = [i for i in range(5 - shoplistbystars_stars[1])]
-
     context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
                'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_names':shoplistbystars_names,
-               'shoplistbystars_stars1':shoplistbystars_stars1,'shoplistbystars_stars2':shoplistbystars_stars2,
-               'shoplistbystars_grey1':shoplistbystars_grey1,'shoplistbystars_grey2':shoplistbystars_grey2,
-               'shoplistbystars_name1':shoplistbystars_name1,'shoplistbystars':shoplistbystars,'shoplistbyadddate':shoplistbyadddate
+               'shoplistbystars':shoplistbystars,'shoplistbyadddate':shoplistbyadddate
                }
 
     return render(request, 'gsr/home.html', context)

@@ -25,7 +25,7 @@ class ShopForm(forms.ModelForm):
     def clean(self):
         # Resize picture to square
         picture = self.cleaned_data.get('picture')
-        if picture is not None:
+        if picture:
             image = Image.open(BytesIO(picture.read()))
             image = image.resize((256, 256), Image.ANTIALIAS)
             new_image = BytesIO()
@@ -40,14 +40,14 @@ class ShopForm(forms.ModelForm):
         fields = ('name', 'description', 'picture', 'opening_hours', 'location', 'categories')
         
         widgets = {
-            "picture" : forms.FileInput(attrs={
+            "picture" : forms.ClearableFileInput(attrs={
                 "id" : "image_field",
-                "class" : "gsr-cream",
+                "class" : "gsr-cream  border gsr-border",
+                'style':'width:90%;',
                 }),
             "categories" : forms.CheckboxSelectMultiple(attrs={
                 "id" : "categories",
                 "class" : "list-unstyled",
-                
                 }),
             "description" : forms.Textarea(attrs={
                 'rows': '5',
@@ -58,14 +58,11 @@ class ShopForm(forms.ModelForm):
             "name" : forms.TextInput(attrs={
                 "class" : "gsr-cream"
                 }),
-            "location" : forms.Textarea(attrs={
-                'rows': '4',
-                'cols': '100', 
-                'class':'gsr-cream', 
-                'style':'resize:none;width:90%;', 
+            "location" : forms.HiddenInput(attrs={
+                'id' : 'location',
                 }),
             "opening_hours" : forms.Textarea(attrs={
-                'rows': '4',
+                'rows': '5',
                 'cols': '100', 
                 'class':'gsr-cream', 
                 'style':'resize:none;width:90%;', 
