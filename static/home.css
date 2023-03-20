@@ -73,9 +73,9 @@ body {
     color: gold;
     font-size: 18px;
 }
+.container2 > * {  flex-basis: 100%; }
 .shops {
-    width: 100%;
-    flex-shrink: 0;
+    width: max-content ;
     max-width: 200px;
     position: relative;
     background-image: url(../static/rango.jpg);
@@ -84,7 +84,6 @@ body {
     margin-left: 20px;
     margin-right: 20px;
     height: 200px;
-    flex-grow:2;
     white-space: nowrap;
     min-width: 200px;
 
