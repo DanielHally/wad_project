@@ -102,6 +102,26 @@ def add_shop(request):
     
     return render(request, 'gsr/add_shop.html', context = context_dict)
 
+def update_recently_visited(request: HttpRequest, response: HttpResponse, shop: Shop):
+    """Updates the user's recently visited shop list"""
+
+    # Read cookie
+    raw = request.COOKIES.get('recently_visited')
+    if raw is not None and len(raw) > 0:
+        names = raw.split(':')
+    else:
+        names = []
+
+    # Update recently visited
+    if shop.slug in names:
+        names.remove(shop.slug)
+    names.insert(0, shop.slug)
+    names = names[:10]
+
+    # Write cookie
+    response.set_cookie('recently_visited', ':'.join(names))
+
+
 def view_shop(request,shop_name_slug):
     context_dict = {}
     try:
@@ -116,12 +136,18 @@ def view_shop(request,shop_name_slug):
         context_dict['categories'] = categories
 
     except Shop.DoesNotExist:
+        shop = None
         context_dict['shop'] = None
         context_dict['reviews'] = None
         context_dict['categories'] = None
 
 
-    return render(request,'gsr/view_shop.html',context = context_dict)
+    response = render(request,'gsr/view_shop.html',context = context_dict)
+    
+    if shop is not None:
+        update_recently_visited(request, response, shop)
+    
+    return response
 
 @login_required
 def edit_shop(request,shop_name_slug):
