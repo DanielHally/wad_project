@@ -240,8 +240,13 @@ def index(request):
         names = raw.split(':')
     else:
         names = []
+    # Query the database to get the Shop objects based on the slugs in the 'names' list
     shops_queryset = Shop.objects.filter(slug__in=names)
+
+    # Create a dictionary with the slugs as keys and the Shop objects as values
     slug_to_shop = {shop.slug: shop for shop in shops_queryset}
+
+    # Iterate through the 'names' list and create a new list of Shop objects
     ordered_shops_recently_visited = [slug_to_shop[slug] for slug in names if slug in slug_to_shop]
 
     context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
