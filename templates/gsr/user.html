@@ -1,104 +1,90 @@
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
-
 {% block body_block %}
 
+<script src="{% static 'gsr/user.js' %}"></script>
 <div class="container">
     <p class="usernamebox"
-        style="display:inline-block ;background-color: grey;margin-top:100px;margin-left:30px;width:40%;height:100%;">
-        Username: </p>
-    <button
-        style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%">Edit</button>
+        style="display:inline-block ;background-color: white;margin-top:100px;margin-left:30px;width:40%;height:100%;">
+        Username: {{ user.username }} </p>
+        <button id="editusernamebtn" onclick = "edit_name()" style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%">Edit</button>
 </div>
 <div class="container">
     <p class="emailbox"
-        style="display:inline-block ;background-color: grey;margin-top:0px;margin-left:30px;width:40%;height:100%;">
-        Email: </p>
+        style="display:inline-block ;background-color: white;margin-top:0px;margin-left:30px;width:40%;height:100%;">
+        Email: {{ user.email }} </p>
     <button
         style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%">Edit</button>
 </div>
 <div class="delbutton">
-    <button style="background-color:red;margin-top:20px;margin-left:30px;width:20%">DELETE ACCOUNT</button>
+    
+        <button style="background-color:red;margin-top:20px;margin-left:100px;width:20%">DELETE ACCOUNT</button>
+
 </div>
+
 <div class="container">
-    <p class="reviewsorshops"
-        style="display:inline-block ;background-color: grey;margin-top:60px;margin-left:30px;width:20%;height:100%;">
-        Recent Reviews </p>
-    <button
-        style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:30%;height:100%">Show
-        Shops</button>
+    <p class="revieworshops"></p>
+        <button id="reviewsbtn" onclick = "document.getElementById('Shopsid').style.display= 'none';document.getElementById('Reviewsid').style.display= 'block' " 
+        style="display:inline-block ;background-color:rgb(240, 240, 64);margin-top:0px;margin-left:80px;width:20%;height:100%">Your Reviews</button>
+        <button id="shopsbtn" onclick = "document.getElementById('Reviewsid').style.display= 'none';document.getElementById('Shopsid').style.display= 'block'"
+        style="display:inline-block ;background-color:rgb(240, 240, 64);margin-top:0px;margin-left:0px;width:20%;height:100%">Your Shops</button>
+</div>
 
-    <style type="text/css">
-        .tg {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
+<div class="container" id = "Reviewsid" style="margin-top: 40px; width: 90%;border: 1px solid black;background: white;">
+    <h3>My Reviews</h3>
+    <div class="reviews-container" style="overflow-y: scroll; max-height: 300px;">
+        {% for review in reviews%}
+        <div class="container">
+            <p class="shopname"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:75%;height:100%;border: 1px solid black;">
+                {{ review.shop }}</p>
+                <p class="rating"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
+                Rating</p>
+                <p class="stars"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
+                your mum</p>
 
-        .tg td {
-            border-color: black;
-            border-style: solid;
-            border-width: 1px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            overflow: hidden;
-            padding: 20px 20px;
-            word-break: normal;
-        }
+        </div>
+        <div class="container">
+            <p class="commentbox"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:85%;;min-height: 100px;border: 1px solid black;">
+                {{ review.comment }} </p>
+                <button id="editreview" style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:10%;">
+                    Edit</button>
+        </div>
+        {% empty %}
+            <p>You haven't left any reviews yet.</p>
+        {% endfor %}
+    </div>
+</div>
 
-        .tg th {
-            border-color: black;
-            border-style: solid;
-            border-width: 1px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            font-weight: normal;
-            overflow: hidden;
-            padding: 20px 40px;
-            word-break: normal;
-        }
+<div class="container" id = "Shopsid"style="margin-top: 40px; width: 90%; display: none">
+    <h3>Your Shops</h3>
+    <div class="shops-container" style="overflow-y: scroll; max-height: 300px;">
+        {% for shop in shops %}
+        <div class="container">
+            <p class="shopname"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:75%;height:100%;border: 1px solid black;">
+                {{ shop.name }}</p>
+                <p class="rating"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
+                Rating</p>
+                <p class="stars"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
+                your mum</p>
 
-        .tg .tg-lboi {
-            border-color: inherit;
-            text-align: left;
-            vertical-align: middle
-        }
-
-        .tg .tg-0pky {
-            border-color: inherit;
-            text-align: left;
-            vertical-align: top
-        }
-
-        @media screen and (max-width: 767px) {
-            .tg {
-                width: auto !important;
-            }
-
-            .tg col {
-                width: auto !important;
-            }
-
-            .tg-wrap {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-        }
-    </style>
-    <div class="tg-wrap">
-        <table class="tg">
-            <thead>
-                <tr>
-                    <th class="tg-lboi">The Shop</th>
-                    <th class="tg-0pky">Rating</th>
-                    <th class="tg-0pky">⭐⭐⭐⭐⭐</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="tg-0pky" colspan="3">Thank you for this is really appricaite it x</td>
-                </tr>
-            </tbody>
-        </table>
+        </div>
+        <div class="container">
+            <p class="descriptionbox"
+                style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:85%;;min-height: 100px;border: 1px solid black;">
+                {{ shop.description}} </p>
+                <button id="editreview" style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:10%;">
+                    Edit</button>
+        </div>
+        {% empty %}
+            <p>You don't own any shops yet.</p>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

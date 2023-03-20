@@ -13,5 +13,6 @@ urlpatterns = [
     path('add_shop/', views.add_shop, name='add_shop'),
     path('user/',views.user, name = 'user'),
     path('search/', views.search, name='search'),
-    path('shop/<slug:shop_name_slug>/',views.view_shop,name ='view_shop')
+    path('shop/<slug:shop_name_slug>/',views.view_shop,name ='view_shop'),
+    path('delete-account/', views.delete_account , name='delete_account'),
 ]

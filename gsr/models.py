@@ -187,6 +187,9 @@ class Shop(DatedModel, RatedModel):
                 total += review.get_rating(method)
 
             return total / len(reviews)
+        
+    def get_owners(self):
+        return self.owners.all()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -245,6 +248,9 @@ class Review(DatedModel, RatedModel):
             return float(self.quality_rating)
         else:
             return self.overall_rating()
+        
+    def get_author(self):
+        return self.author
 
 
 class ReviewReply(DatedModel):
