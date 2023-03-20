@@ -6,6 +6,9 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.urls import reverse
+
+
 
 # TODO: does anything need a UserProfile model? All attribtues in design's ERD are in django's User
 
@@ -118,6 +121,7 @@ class Shop(DatedModel, RatedModel):
 
     DEFAULT_PICTURE = static('shop_default_picture.png')
 
+
     """The display name of the shop"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
 
@@ -202,6 +206,9 @@ class Shop(DatedModel, RatedModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Shop, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('gsr:view_shop', kwargs={'name': self.name})
 
 class Review(DatedModel, RatedModel):
     """A review of a shop

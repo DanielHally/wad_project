@@ -21,11 +21,12 @@
     <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%">Top Rated Shops</p>
     <div class="container2" style="cursor: pointer;">
         {% for shop in shoplistbystars %}
-        <div class="shops" onclick='user/'  style="cursor: pointer;">
+        <div class="shops" onclick=''  style="cursor: pointer;">
 
                 <div class="text">
 
                     <p>{{ shop.name }}</p>
+                    <a href="{{ shop.get_absolute_url }}">{{ shop.slug }}</a>
 
                     <div class="stars">
                         {% star_rating shop "Overall Rating" %}
@@ -40,7 +41,7 @@
     <p class="yellowbox" style="margin-bottom: 0;margin-top:100px;margin-left:100px;width:15%;">Recently Added Shops</p>
      <div class="container2" >
          {% for shop in shoplistbyadddate %}
-        <div class="shops"  style="background-image: url({{ shop.picture }}) cursor: pointer ;" >
+        <div class="shops"  style="background-image: url({{ shop.picture }}) ; cursor: pointer ;" >
 
                 <div class="text">
 
