@@ -233,6 +233,13 @@ def index(request):
         shop.get_stars(RatedModel.OVERALL_RATING)
         for shop in shoplistbyadddate
     ]
+
+    ##raw cookies
+    raw = request.COOKIES.get('recently_visited')
+    if raw is not None and len(raw) > 0:
+        names = raw.split(':')
+    else:
+        names = []
     context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
                'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_names':shoplistbystars_names,
                'shoplistbystars':shoplistbystars,'shoplistbyadddate':shoplistbyadddate
