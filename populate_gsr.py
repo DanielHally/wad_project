@@ -9,8 +9,11 @@ Setup django
 """
 
 import os
+from shutil import copy
 
 from pytz import utc
+
+from wad_project.settings import MEDIA_ROOT, STATIC_DIR
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wad_project.settings')
 
 import django
@@ -71,59 +74,59 @@ categories = [
 shops = [
     {
         'name': "The Shop",
+        'picture': "the_shop.png",
         'description': "It's The Shop.",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
         'location': 'ChIJozqrTldFiEgRcnQtvvM7kUA',
         'owners': ["Owner1"],
         'categories': ["Supermarket"],
         'date_added': "2020-10-2",
+        'reviews' : [
+            {
+                'id': 1,
+                'author': "Owner1",
+                'customer_interaction_rating': 5,
+                'price_rating': 1,
+                'quality_rating': 1,
+                'comment': "Owner is a very nice person.",
+                'date_added': "2021-9-12"
+            },
+            {
+                'id': 2,
+                'author': "Owner2",
+                'customer_interaction_rating': 1,
+                'price_rating': 4,
+                'quality_rating': 3,
+            },
+            {
+                'id': 3,
+                'author': "User1",
+                'customer_interaction_rating': 4,
+                'price_rating': 2,
+                'quality_rating': 5,
+                'comment': "Very good quality products, quite pricy."
+            },    
+        ]
     },
     {
         'name': "The Other Shop",
+        'picture': "the_other_shop.png",
         'description': "It's not The Shop.",
         'opening_hours': "Wednesday 1-4",
         'location': 'ChIJ-4qF7s5FiEgR6bRXbXOZeek',
         'owners': ["Owner1", "Owner2"],
         'categories': ["Corner Shop"],
         'views': 200,
-    }
-]
-
-reviews = [
-    {
-        'id': 1,
-        'shop': "The Shop",
-        'author': "Owner1",
-        'customer_interaction_rating': 5,
-        'price_rating': 1,
-        'quality_rating': 1,
-        'comment': "Owner is a very nice person.",
-        'date_added': "2021-9-12"
-    },
-    {
-        'id': 2,
-        'shop': "The Shop",
-        'author': "Owner2",
-        'customer_interaction_rating': 1,
-        'price_rating': 4,
-        'quality_rating': 3,
-    },
-    {
-        'id': 3,
-        'shop': "The Shop",
-        'author': "User1",
-        'customer_interaction_rating': 4,
-        'price_rating': 2,
-        'quality_rating': 5,
-        'comment': "Very good quality products, quite pricy."
-    },
-    {
-        'id' : 4,
-        'shop' : "The Other Shop",
-        'author' : "User1",
-        'customer_interaction_rating' : 5,
-        'price_rating' : 1,
-        'quality_rating' : 1,
+        'reviews' : [
+            {
+                'id' : 4,
+                'shop' : "The Other Shop",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
     }
 ]
 
@@ -147,6 +150,26 @@ review_replies = [
         'comment': "I agree",
     }
 ]
+
+
+def add_picture(path: str, upload_to: str) -> str:
+    """Copies a file from /static/population_images/ to /media/"""
+
+    # Build paths
+    relative = upload_to + '/' + path
+    dest = os.path.join(MEDIA_ROOT, upload_to)
+
+    # Make folders if needed
+    os.makedirs(dest, exist_ok=True)
+
+    # Copy file to media
+    copy(
+        os.path.join(STATIC_DIR, 'population_images', path),
+        dest
+    )
+
+    # Return relative path
+    return relative
 
 
 def handle_date_added(obj: DatedModel, data: Dict[str, Any]):
@@ -203,6 +226,7 @@ def add_shop(data: Dict[str, Any]) -> Shop:
     shop.description = data.get('description', "")
     shop.opening_hours = data['opening_hours']
     shop.location = data['location']
+    shop.picture.name = add_picture(data['picture'], 'shop_images')
 
     for category_name in data.get('categories', []):
         category = Category.objects.get(name=category_name)
@@ -211,6 +235,9 @@ def add_shop(data: Dict[str, Any]) -> Shop:
     for owner_name in data['owners']:
         owner = User.objects.get(username=owner_name)
         shop.owners.add(owner)
+
+    for review in data['reviews']:
+        add_review(shop, review)
 
     shop.views = data.get('views', 0)
 
@@ -221,7 +248,7 @@ def add_shop(data: Dict[str, Any]) -> Shop:
     return shop
 
 
-def add_review(data: Dict[str, Any]) -> Review:
+def add_review(shop: Shop, data: Dict[str, Any]) -> Review:
     """Create a gsr review"""
 
     review = Review.objects.get_or_create(
@@ -230,7 +257,7 @@ def add_review(data: Dict[str, Any]) -> Review:
             'customer_interaction_rating': data['customer_interaction_rating'],
             'price_rating': data['price_rating'],
             'quality_rating': data['quality_rating'],
-            'shop': Shop.objects.get(name=data['shop']),
+            'shop': shop,
             'author': User.objects.get(username=data['author']),
             'comment': data.get('comment', ""),
         }
@@ -273,8 +300,6 @@ def populate():
         add_category(data)
     for data in shops:
         add_shop(data)
-    for data in reviews:
-        add_review(data)
     for data in review_replies:
         add_review_reply(data)
 
