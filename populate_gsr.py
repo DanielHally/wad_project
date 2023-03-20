@@ -77,6 +77,32 @@ shops = [
         'owners': ["Owner1"],
         'categories': ["Supermarket"],
         'date_added': "2020-10-2",
+        'reviews' : [
+            {
+                'id': 1,
+                'author': "Owner1",
+                'customer_interaction_rating': 5,
+                'price_rating': 1,
+                'quality_rating': 1,
+                'comment': "Owner is a very nice person.",
+                'date_added': "2021-9-12"
+            },
+            {
+                'id': 2,
+                'author': "Owner2",
+                'customer_interaction_rating': 1,
+                'price_rating': 4,
+                'quality_rating': 3,
+            },
+            {
+                'id': 3,
+                'author': "User1",
+                'customer_interaction_rating': 4,
+                'price_rating': 2,
+                'quality_rating': 5,
+                'comment': "Very good quality products, quite pricy."
+            },    
+        ]
     },
     {
         'name': "The Other Shop",
@@ -86,44 +112,16 @@ shops = [
         'owners': ["Owner1", "Owner2"],
         'categories': ["Corner Shop"],
         'views': 200,
-    }
-]
-
-reviews = [
-    {
-        'id': 1,
-        'shop': "The Shop",
-        'author': "Owner1",
-        'customer_interaction_rating': 5,
-        'price_rating': 1,
-        'quality_rating': 1,
-        'comment': "Owner is a very nice person.",
-        'date_added': "2021-9-12"
-    },
-    {
-        'id': 2,
-        'shop': "The Shop",
-        'author': "Owner2",
-        'customer_interaction_rating': 1,
-        'price_rating': 4,
-        'quality_rating': 3,
-    },
-    {
-        'id': 3,
-        'shop': "The Shop",
-        'author': "User1",
-        'customer_interaction_rating': 4,
-        'price_rating': 2,
-        'quality_rating': 5,
-        'comment': "Very good quality products, quite pricy."
-    },
-    {
-        'id' : 4,
-        'shop' : "The Other Shop",
-        'author' : "User1",
-        'customer_interaction_rating' : 5,
-        'price_rating' : 1,
-        'quality_rating' : 1,
+        'reviews' : [
+            {
+                'id' : 4,
+                'shop' : "The Other Shop",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
     }
 ]
 
@@ -212,6 +210,9 @@ def add_shop(data: Dict[str, Any]) -> Shop:
         owner = User.objects.get(username=owner_name)
         shop.owners.add(owner)
 
+    for review in data['reviews']:
+        add_review(shop, review)
+
     shop.views = data.get('views', 0)
 
     handle_date_added(shop, data)
@@ -221,7 +222,7 @@ def add_shop(data: Dict[str, Any]) -> Shop:
     return shop
 
 
-def add_review(data: Dict[str, Any]) -> Review:
+def add_review(shop: Shop, data: Dict[str, Any]) -> Review:
     """Create a gsr review"""
 
     review = Review.objects.get_or_create(
@@ -230,7 +231,7 @@ def add_review(data: Dict[str, Any]) -> Review:
             'customer_interaction_rating': data['customer_interaction_rating'],
             'price_rating': data['price_rating'],
             'quality_rating': data['quality_rating'],
-            'shop': Shop.objects.get(name=data['shop']),
+            'shop': shop,
             'author': User.objects.get(username=data['author']),
             'comment': data.get('comment', ""),
         }
@@ -273,8 +274,6 @@ def populate():
         add_category(data)
     for data in shops:
         add_shop(data)
-    for data in reviews:
-        add_review(data)
     for data in review_replies:
         add_review_reply(data)
 
