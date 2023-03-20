@@ -55,3 +55,12 @@ function setUrlParam(key, value) {
     params.set(key, value);
     setUrlParams(params);
 }
+
+/*
+    Setup star tooltips
+*/
+$(document).ready(function() {
+    for (var element of $(".gsr-rating-stars")) {
+        var tooltip = new bootstrap.Tooltip(element);
+    }
+});

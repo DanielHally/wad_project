@@ -3,9 +3,13 @@
         - Hover option with breakdown of all ratings
         - Partial highlighting?
  -->
-{% for _ in stars %}
-    <span class="fa fa-star gsr-yellow-star"></span>
+
+{% load gsr_template_tags %}
+
+<span class="gsr-rating-stars" data-bs-toggle="tooltip" data-bs-html="true" title="
+{% for method in methods %}
+    {{method}}<br/>{% render_stars obj method %}<br/>
 {% endfor %}
-{% for _ in greystars %}
-    <span class="fa fa-star "></span>
-{% endfor %}
+">
+    {% render_stars obj main_stars %}
+</span>
