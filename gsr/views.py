@@ -240,9 +240,13 @@ def index(request):
         names = raw.split(':')
     else:
         names = []
+    shops_queryset = Shop.objects.filter(slug__in=names)
+    slug_to_shop = {shop.slug: shop for shop in shops_queryset}
+    ordered_shops_recently_visited = [slug_to_shop[slug] for slug in names if slug in slug_to_shop]
+
     context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
                'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_names':shoplistbystars_names,
-               'shoplistbystars':shoplistbystars,'shoplistbyadddate':shoplistbyadddate
+               'shoplistbystars':shoplistbystars,'shoplistbyadddate':shoplistbyadddate,'shops_recently_visited':ordered_shops_recently_visited
                }
 
     return render(request, 'gsr/home.html', context)
