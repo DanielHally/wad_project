@@ -74,6 +74,8 @@ body {
     font-size: 18px;
 }
 .shops {
+    width: 100%;
+    flex-shrink: 0;
     max-width: 200px;
     position: relative;
     background-image: url(../static/rango.jpg);
