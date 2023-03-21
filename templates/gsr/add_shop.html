@@ -31,6 +31,7 @@
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.categories.label_tag}}</span>
 							<div class="gsr-cream input border gsr-border" style="height:50px;overflow-y:scroll;width:90%;">{{form.categories}}</div>
+							<button class="input" onclick="window.location.href='{% url 'gsr:add_category' %}'" style="margin-top:-10px"> + Add a new category </button>
 						</div>
 						
 						{{ form.location }}
@@ -46,7 +47,7 @@
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.picture.label_tag}}</span>
 							<div class="input " style="">{{form.picture}}</div>
-							<div class="border gsr-border" id ="imgPreview" style="width:200px;height:200px;background-size:100% 100%;background-image: url('{{ picture }}');"></div>
+							<div class="border gsr-border" id ="imgPreview" style="width:256px;height:256px;background-size:100% 100%;background-image: url('{{ picture }}');"></div>
 						</div>
 						
 						

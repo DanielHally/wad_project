@@ -1,17 +1,19 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import List
 
 from django.contrib.auth.models import User
-from django.db import models
 from django.test import TestCase
+from django.utils import timezone
+from pytz import utc
 
-from gsr.models import DatedModel, RatedModel, Review, Shop
+from gsr.models import RatedModel, Review, Shop
 
 class DatedModelUtils:
     """Helpers for DatedModelTests"""
 
     """A time in the past"""
-    PAST = datetime(2000, 1, 1)
+    PAST = timezone.datetime(2000, 1, 1, tzinfo=utc)
+        
 
     @staticmethod
     def make_new() -> Shop:
@@ -55,7 +57,7 @@ class DatedModelTests(TestCase):
 
         model = DatedModelUtils.make_new()
         self.assertLessEqual(
-            datetime.now() - model.date_added,
+            timezone.now() - model.date_added,
             timedelta(minutes=5)
         )
 
@@ -63,7 +65,7 @@ class DatedModelTests(TestCase):
         """Test that date updated is set for a new object"""
 
         model = DatedModelUtils.make_new()
-        self.assertLessEqual(datetime.now().day - model.date_updated.day, 1)
+        self.assertLessEqual(timezone.now().day - model.date_updated.day, 1)
 
     def test_old_date_writeable(self):
         """Test that date updated is writeable for an object"""
@@ -77,7 +79,7 @@ class DatedModelTests(TestCase):
         model = DatedModelUtils.make_old()
         DatedModelUtils.trigger_update(model)
         self.assertLessEqual(
-            datetime.now() - model.date_added,
+            timezone.now() - model.date_added,
             timedelta(minutes=5)
         )
     

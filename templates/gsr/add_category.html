@@ -1,0 +1,43 @@
+{% extends 'gsr/base.html' %}
+{% load staticfiles %}
+{% load gsr_template_tags %}
+
+{% block title_block %}
+	Add Shop
+{% endblock %}
+
+{% block head_block %}
+<script src="{% static 'js/gsr/add_shop.js' %}" crossorigin="anonymous"></script>
+<link href="{% static 'css/gsr/add_shop.css' %}" rel="stylesheet" crossorigin="anonymous">
+{% places_lib %}
+{% endblock %}
+
+{% block body_block %}
+	<div class="container">
+		<h1 class="text-center gsr-cream  border gsr-border" >{{ title }}</h1>
+	</div>
+	<div>
+		<form id="category_form" method="POST" action="{{ action }}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="container-fluid p-4" style="width:70%">
+				<div class = "row mx-4 ">
+						<div class="my-1">
+							<span class="h3 gsr-blue border gsr-border">{{form.name.label_tag}}</span> 
+							<div class="input">{{form.name}}</div>
+						</div>
+						
+						<div class="my-1">
+						    <span class="h3 gsr-blue border gsr-border">{{form.description.label_tag}}</span>
+						    <div class="input" style="width:100%;">{{form.description}}</div>
+					    </div>
+				<div class="row mx-4">
+					<input class="btn btn-primary" style="width:30%;margin-left:auto;margin-right:auto;" type="submit" name="submit" value="{{ submit_text }}" />
+				</div>
+				
+				<strong>{{ form.errors }}</strong><br />
+			</div>
+		</form>
+	</div>
+{% endblock %}
+
+

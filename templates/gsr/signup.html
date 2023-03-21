@@ -1,5 +1,6 @@
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
+{% load gsr_template_tags %}
 
 {% block title_block %}
     Sign Up
@@ -10,11 +11,64 @@
 {% if registered %}
     <strong>Your ready to go</strong>
 {% else %}
-    <h1>Create an account</h1>
+    <div class = "container-fluid mt-5"></div>
+        <div class="row">
+            <div class="col-md-4"></div>
+                <div class="gsr-cream text-center card p-2 col-md-3">
+                    <h1>Create an account</h1>
+                </div>
+        </div>
+    <br />
     <form id="user_form" method="post" action="{% url 'gsr:signup' %}">
         {% csrf_token %}
-        {{ user_form.as_p }}
-        <input type="submit" name="signup" value="Sign Up" />
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-1">
+                <h5>{{ user_form.username.label_tag }}</h5>
+            </div>
+            <div class="col-md-5">
+                {{ user_form.username|add_class:"form-control" }}
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-1">
+                <h5>{{ user_form.email.label_tag }}</h5>
+            </div>
+            <div class="col-md-5">
+                {{ user_form.email|add_class:"form-control" }}
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-1">
+                <h5>{{ user_form.password.label_tag }}</h5>
+            </div>
+            <div class="col-md-5">
+                {{ user_form.password|add_class:"form-control" }}
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-1">
+                <h5>{{ user_form.groups.label_tag }}</h5>
+            </div>
+            <div class="col-md-5">
+                {{ user_form.groups }}
+            </div>
+        </div>
+        <br /><br /><br />
+        <div class="row">
+            <div class="col-md-7"></div>
+            <div class="col-md-1">
+                <input type="submit" name="signup" value="Sign Up" class="form-control gsr-cream"/>
+            </div>
+        </div>
+
     </form>
+    </div>
 {% endif %}
 {% endblock %}

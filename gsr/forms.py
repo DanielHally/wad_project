@@ -14,6 +14,17 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ('name', 'description')
+        widgets = {
+            "name" : forms.TextInput(attrs={
+                "class" : "gsr-cream"
+                }),
+            "description" : forms.Textarea(attrs={
+                'rows': '5',
+                'cols': '100', 
+                'class':'gsr-cream', 
+                'style':'resize:none;width:90%;', 
+                }),
+        }
 
 
 class ShopForm(forms.ModelForm):
@@ -21,7 +32,7 @@ class ShopForm(forms.ModelForm):
     
     # Override to only select users in owner group
     # owners = forms.ModelMultipleChoiceField(User.objects.filter(groups__name='Shop Owner'))
-
+    
     def clean(self):
         # Resize picture to square
         picture = self.cleaned_data.get('picture')
@@ -69,6 +80,10 @@ class ShopForm(forms.ModelForm):
                 }),
                 
         }
+        
+    def __init__(self,*args,**kwargs):
+        super (ShopForm,self ).__init__(*args,**kwargs)
+        self.fields['categories'].queryset = Category.objects.filter(is_approved=True)
 
 
 
@@ -87,3 +102,15 @@ class UserForm(forms.ModelForm):
                     }),
                     
                 }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('customer_interaction_rating','price_rating','quality_rating','comment')
+
+        widgets = {
+            "comment": forms.Textarea(attrs={
+                "style":'height:300px;',
+            })
+        }

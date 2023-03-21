@@ -1,0 +1,5 @@
+{% if obj.picture %}
+    '{{ obj.picture.url }}'
+{% else %}
+    '{{ default }}'
+{% endif %}

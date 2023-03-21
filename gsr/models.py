@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils import timezone
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.urls import reverse
+
+
 
 # TODO: does anything need a UserProfile model? All attribtues in design's ERD are in django's User
 
@@ -89,6 +93,8 @@ class Category(models.Model):
     MAX_NAME_LENGTH = 32
     MAX_DESCRIPTION_LENGTH = 512
 
+    MEDIA_SUBDIR = 'category_images'
+
     """The display name of the category"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
 
@@ -97,6 +103,10 @@ class Category(models.Model):
 
     """The icon for the category"""
     picture = models.ImageField(blank=True)
+    picture = models.ImageField(upload_to=MEDIA_SUBDIR, blank=True)
+    
+    """True/False, states whether category is approved or not"""
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         """Display a category by its name"""
@@ -115,6 +125,11 @@ class Shop(DatedModel, RatedModel):
     MAX_OPENING_HOURS_LENGTH = 512
     MAX_LOCATION_LENGTH = 128
 
+    DEFAULT_PICTURE = static('shop_default_picture.png')
+
+    MEDIA_SUBDIR = 'shop_images'
+
+
     """The display name of the shop"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
 
@@ -125,7 +140,7 @@ class Shop(DatedModel, RatedModel):
     description = models.TextField(max_length=MAX_DESCRIPTION_LENGTH, blank=True)
 
     """The icon picture for the shop"""
-    picture = models.ImageField(upload_to='shop_images', blank=True)
+    picture = models.ImageField(upload_to=MEDIA_SUBDIR, blank=True)
 
     """The opening hours description of the shop"""
     opening_hours = models.TextField(max_length=MAX_OPENING_HOURS_LENGTH)
@@ -199,6 +214,9 @@ class Shop(DatedModel, RatedModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Shop, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('gsr:view_shop', kwargs={'shop_name_slug': self.slug})
 
 class Review(DatedModel, RatedModel):
     """A review of a shop

@@ -32,6 +32,21 @@ Search
     </div>
 </div>
 
+{% if category %}
+<div id="category-info" class="container my-3 border gsr-border gsr-blue">
+    <div class="row">
+        <div class="col-sm-2">
+            <img src={% category_picture category %} class="img-fluid">
+            <h3>{{ category.name }}</h3>
+        </div>
+        <div class="col-sm-8">
+            {{ category.description }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
 <div id="results-section">
     {% for shop in results %}
         <div class="container-fluid my-3">
@@ -39,11 +54,7 @@ Search
                 <div class="col-sm-2 my-3">
                     <div class="mx-3">
                         <div class="border gsr-border">
-                            {% if shop.picture %}
-                                <img src="{{ shop.picture.url }}" class="img-fluid">
-							{% else %}
-								<img src="{% static 'shop_default_picture.png' %}" class="img-fluid">
-                            {% endif %}
+                            <img src={% shop_picture shop %} class="img-fluid">
                             {% star_rating shop rating_method %}
                         </div>
                         <a class="link-unstyled" href="{% url 'gsr:view_shop' shop.slug %}">
@@ -57,7 +68,7 @@ Search
                 <div class="col-sm-2 my-3">
                     <div class="container border gsr-border gsr-blue text-center">
                         {% for category in shop.categories.all %}
-                            {{ category.name }}<br/>
+                            <a class="category-link" category="{{ category.name }}">{{ category.name }}</a><br/>
                         {% endfor %}
                     </div>
                 </div>
