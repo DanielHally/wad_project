@@ -41,10 +41,17 @@ function getUrlParamOrDefault(key, defaultValue) {
 }
 
 /*
+    Builds a URL with the current location and a set of parameters
+*/
+function buildParamUrl(params) {
+    return window.location.href.split('?')[0] + '?' + params;
+}
+
+/*
     Set the GET parameters of the url
 */
 function setUrlParams(params) {
-    window.location.href = window.location.href.split('?')[0] + '?' + params;
+    window.location.href = buildParamUrl(params);
 }
 
 /*

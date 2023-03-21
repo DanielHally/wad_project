@@ -43,4 +43,11 @@ $(document).ready(function() {
     // Submit form on category or rating change
     $(CATEGORY_SELECT).change(submitForm);
     $(RATING_SELECT).change(submitForm);
+
+    // Setup category links
+    for (link of $(".category-link")) {
+        var params = getUrlParams();
+        params.set(CATEGORY_PARAM, $(link).attr('category'));
+        $(link).attr('href', buildParamUrl(params));
+    }
 });

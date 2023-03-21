@@ -68,7 +68,7 @@ Search
                 <div class="col-sm-2 my-3">
                     <div class="container border gsr-border gsr-blue text-center">
                         {% for category in shop.categories.all %}
-                            {{ category.name }}<br/>
+                            <a class="category-link" category="{{ category.name }}">{{ category.name }}</a><br/>
                         {% endfor %}
                     </div>
                 </div>
