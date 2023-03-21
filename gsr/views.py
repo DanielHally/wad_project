@@ -291,15 +291,21 @@ def search(request: HttpRequest):
     # Get GET parameters from request url
     query = request.GET.get(QUERY_PARAM)
     rating_method = request.GET.get(RATING_PARAM, default_rating_method)
-    category = request.GET.get(CATEGORY_PARAM, default_category)
-    if category == ANY_CATEGORY:
-        category = None
+    category_name = request.GET.get(CATEGORY_PARAM, default_category)
+    if category_name == ANY_CATEGORY:
+        category_name = None
+    
+    category = None
+    if category_name is not None:
+        filtered = Category.objects.filter(name=category_name)
+        if filtered:
+            category = filtered[0]
 
     # Filter shops by category and query, sort in descending order of rating
     results = [
         shop
         for shop in Shop.objects.all()
-        if shop.matches_search(query, category)
+        if shop.matches_search(query, category_name)
     ]
     results.sort(key=lambda s: -s.get_rating(rating_method))
 
@@ -316,6 +322,9 @@ def search(request: HttpRequest):
             'default_category' : default_category,
             'rating_methods' : RatedModel.METHODS,
             'default_rating_method' : default_rating_method,
+
+            # Category info header
+            'category' : category,
 
             # Results generation
             'rating_method' : rating_method,

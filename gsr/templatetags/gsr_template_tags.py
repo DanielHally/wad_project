@@ -1,6 +1,6 @@
 from django import template
 
-from gsr.models import RatedModel, Review, Shop
+from gsr.models import Category, RatedModel, Review, Shop
 
 register = template.Library()
 
@@ -45,12 +45,21 @@ def places_lib():
         'key' : MAPS_API_KEY
     }
 
-@register.inclusion_tag('gsr/tags/shop_picture.html')
+@register.inclusion_tag('gsr/tags/picture.html')
 def shop_picture(shop: Shop):
     """Gives the url of a shop's picture, or the default"""
 
     return {
-        'shop' : shop,
+        'obj' : shop,
+        'default' : Shop.DEFAULT_PICTURE,
+    }
+
+@register.inclusion_tag('gsr/tags/picture.html')
+def category_picture(category: Category):
+    """Gives the url of a category's picture, or the default"""
+
+    return {
+        'obj' : category,
         'default' : Shop.DEFAULT_PICTURE,
     }
 
