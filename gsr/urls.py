@@ -15,6 +15,11 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('shop/<slug:shop_name_slug>/',views.view_shop,name ='view_shop'),
     path('delete_account/', views.delete_account , name='delete_account'),
+<<<<<<< HEAD
     path('shop/<slug:shop_name_slug>/edit_shop',views.edit_shop,name ='edit_shop'),
     path('shop/<slug:shop_name_slug>/add_review',views.add_review,name='add_review')
+=======
+    path('shop/<slug:shop_name_slug>/edit_shop',views.edit_shop,name ='edit_shop')
+    path('shop/<slug:shop_name_slug>/add_review',views.add_review,name='add_review'),
+>>>>>>> 11279a77f7822e4e374f70a23e476aeb23f819fd
 ]
