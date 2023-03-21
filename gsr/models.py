@@ -188,9 +188,10 @@ class Shop(DatedModel, RatedModel):
                 accept = False
         
         # Check query in name and description
-        # TODO: proper search
+        # TODO: proper search?
         if query is not None:
-            if query not in self.name and query not in self.description:
+            query = query.lower()
+            if query not in self.name.lower() and query not in self.description.lower():
                 accept = False
         
         return accept
