@@ -102,6 +102,32 @@ def add_shop(request):
     
     return render(request, 'gsr/add_shop.html', context = context_dict)
 
+
+@login_required
+def add_category(request):
+    if not request.user.has_perm('gsr.manage_shops'):
+        return redirect(reverse("gsr:login")+"?reason=No_Role_On_Add")
+    
+    form = CategoryForm()
+    context_dict = {}
+    
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES)
+        
+        
+        if form.is_valid():
+            category = form.save(commit=True)
+            return redirect('/gsr/')
+        else:
+            print(form.errors)
+    
+    context_dict['form'] = form
+    context_dict['action'] = reverse("gsr:add_category")
+    context_dict['title'] = "Request a new Category"
+    context_dict['submit_text'] = "Send for approval"
+    
+    return render(request, 'gsr/add_category.html', context = context_dict)
+
 def update_recently_visited(request: HttpRequest, response: HttpResponse, shop: Shop):
     """Updates the user's recently visited shop list"""
 
@@ -346,3 +372,5 @@ def add_review(request,shop_name_slug):
 
     context_dict = {'form':form,'shop':shop}
     return render(request, 'gsr/add_review.html', context= context_dict)
+   
+   

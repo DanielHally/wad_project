@@ -64,10 +64,12 @@ categories = [
     {
         'name': "Supermarket",
         'description': "A general supermarket.",
+        'is_approved' : True,
     },
     {
         'name': "Corner Shop",
         'description': "A corner shop.",
+        'is_approved' : True,
     },
 ]
 
@@ -213,6 +215,7 @@ def add_category(data: Dict[str, Any]) -> Category:
 
     category = Category.objects.get_or_create(name=data['name'])[0]
     category.description = data['description']
+    category.is_approved = data['is_approved']
 
     category.save()
 

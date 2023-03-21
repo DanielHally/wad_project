@@ -101,6 +101,9 @@ class Category(models.Model):
 
     """The icon for the category"""
     picture = models.ImageField(blank=True)
+    
+    """True/False, states whether category is approved or not"""
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         """Display a category by its name"""
