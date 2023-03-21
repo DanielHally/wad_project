@@ -93,6 +93,8 @@ class Category(models.Model):
     MAX_NAME_LENGTH = 32
     MAX_DESCRIPTION_LENGTH = 512
 
+    MEDIA_SUBDIR = 'category_images'
+
     """The display name of the category"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
 
@@ -101,6 +103,7 @@ class Category(models.Model):
 
     """The icon for the category"""
     picture = models.ImageField(blank=True)
+    picture = models.ImageField(upload_to=MEDIA_SUBDIR, blank=True)
     
     """True/False, states whether category is approved or not"""
     is_approved = models.BooleanField(default=False)
@@ -124,6 +127,8 @@ class Shop(DatedModel, RatedModel):
 
     DEFAULT_PICTURE = static('shop_default_picture.png')
 
+    MEDIA_SUBDIR = 'shop_images'
+
 
     """The display name of the shop"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
@@ -135,7 +140,7 @@ class Shop(DatedModel, RatedModel):
     description = models.TextField(max_length=MAX_DESCRIPTION_LENGTH, blank=True)
 
     """The icon picture for the shop"""
-    picture = models.ImageField(upload_to='shop_images', blank=True)
+    picture = models.ImageField(upload_to=MEDIA_SUBDIR, blank=True)
 
     """The opening hours description of the shop"""
     opening_hours = models.TextField(max_length=MAX_OPENING_HOURS_LENGTH)
