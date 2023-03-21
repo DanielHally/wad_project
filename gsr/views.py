@@ -303,9 +303,9 @@ def user(request):
 
 def search(request: HttpRequest):
     # GET parameter names
-    QUERY_PARAM = 'query'
-    CATEGORY_PARAM = 'category'
-    RATING_PARAM = 'rating'
+    SEARCH_QUERY_PARAM = 'query'
+    SEARCH_CATEGORY_PARAM = 'category'
+    SEARCH_RATING_PARAM = 'rating'
 
     # Special category name for no filtering
     ANY_CATEGORY = 'Any'
@@ -315,9 +315,9 @@ def search(request: HttpRequest):
     default_rating_method = RatedModel.OVERALL_RATING
 
     # Get GET parameters from request url
-    query = request.GET.get(QUERY_PARAM)
-    rating_method = request.GET.get(RATING_PARAM, default_rating_method)
-    category_name = request.GET.get(CATEGORY_PARAM, default_category)
+    query = request.GET.get(SEARCH_QUERY_PARAM)
+    rating_method = request.GET.get(SEARCH_RATING_PARAM, default_rating_method)
+    category_name = request.GET.get(SEARCH_CATEGORY_PARAM, default_category)
     if category_name == ANY_CATEGORY:
         category_name = None
     

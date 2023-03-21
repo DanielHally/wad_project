@@ -2,9 +2,12 @@
     Common Glasgow Shop Ratings JavaScript utilities
 */
 
-////////////////////
-// GET parameters //
-////////////////////
+/*
+    Search page constants
+*/
+const SEARCH_QUERY_PARAM = 'query';
+const SEARCH_CATEGORY_PARAM = 'category';
+const SEARCH_RATING_PARAM = 'rating';
 
 /*
     Gets a value from parameters, or a default if the key isn't found

@@ -9,6 +9,7 @@
 
 {% block head_block %}
     <link href="{% static 'css/gsr/common.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <script src="{% static 'js/gsr/view_shop.js' %}" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block body_block %}
@@ -21,7 +22,7 @@
             </div>
             <div class="col-md-2 gsr-cream d-inline-block">
                 {% for category in categories %}
-                    {{ category }}
+                    <a class="category-link" category="{{ category }}">{{ category }}</a>
                     <br>
                 {% endfor %}
             </div>
