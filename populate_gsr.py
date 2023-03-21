@@ -30,8 +30,6 @@ from django.utils import timezone
 
 from gsr.models import Category, DatedModel, Shop, Review, ReviewReply
 
-# TODO: pictures
-
 groups = [
     {
         'name': "Shop Owner",
@@ -63,10 +61,12 @@ users = [
 categories = [
     {
         'name': "Supermarket",
+        'picture' : "supermarket.png",
         'description': "A general supermarket.",
     },
     {
         'name': "Corner Shop",
+        'picture' : "corner_shop.png",
         'description': "A corner shop.",
     },
 ]
@@ -213,6 +213,8 @@ def add_category(data: Dict[str, Any]) -> Category:
 
     category = Category.objects.get_or_create(name=data['name'])[0]
     category.description = data['description']
+    if 'picture' in data:
+        category.picture.name = add_picture(data['picture'], Category.MEDIA_SUBDIR)
 
     category.save()
 
@@ -226,7 +228,8 @@ def add_shop(data: Dict[str, Any]) -> Shop:
     shop.description = data.get('description', "")
     shop.opening_hours = data['opening_hours']
     shop.location = data['location']
-    shop.picture.name = add_picture(data['picture'], 'shop_images')
+    if 'picture' in data:
+        shop.picture.name = add_picture(data['picture'], Shop.MEDIA_SUBDIR)
 
     for category_name in data.get('categories', []):
         category = Category.objects.get(name=category_name)
