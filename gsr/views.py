@@ -223,25 +223,6 @@ def index(request):
     ]
     shoplistbystars.sort(key=lambda s: -s.get_rating(RatedModel.OVERALL_RATING))
 
-    shoplistbystars_names = [
-        shop.name
-        for shop in shoplistbystars
-    ]
-    
-    shoplistbyadddate_names=[
-        shop.name
-        for shop in shoplistbyadddate
-    ]
-    shoplistbystars_stars = [
-        shop.get_stars(RatedModel.OVERALL_RATING)
-        for shop in shoplistbystars
-    ]
-
-    shoplistbyadddate_stars = [
-        shop.get_stars(RatedModel.OVERALL_RATING)
-        for shop in shoplistbyadddate
-    ]
-
     ##raw cookies
     raw = request.COOKIES.get('recently_visited')
     if raw is not None and len(raw) > 0:
@@ -257,10 +238,11 @@ def index(request):
     # Iterate through the 'names' list and create a new list of Shop objects
     ordered_shops_recently_visited = [slug_to_shop[slug] for slug in names if slug in slug_to_shop]
 
-    context = {'shoplistbyadddate_stars': shoplistbyadddate_stars,'shoplistbyadddate_names':shoplistbyadddate_names,
-               'shoplistbystars_stars':shoplistbystars_stars,'shoplistbystars_names':shoplistbystars_names,
-               'shoplistbystars':shoplistbystars,'shoplistbyadddate':shoplistbyadddate,'shops_recently_visited':ordered_shops_recently_visited
-               }
+    context = {
+        'shoplistbystars':shoplistbystars,
+        'shoplistbyadddate':shoplistbyadddate,
+        'shops_recently_visited':ordered_shops_recently_visited,
+    }
 
     return render(request, 'gsr/home.html', context)
 
