@@ -217,6 +217,9 @@ class Shop(DatedModel, RatedModel):
 
     def get_absolute_url(self):
         return reverse('gsr:view_shop', kwargs={'shop_name_slug': self.slug})
+    
+    def get_edit_url(self):
+        return reverse('gsr:edit_shop', kwargs={'shop_name_slug': self.slug})
 
 class Review(DatedModel, RatedModel):
     """A review of a shop
