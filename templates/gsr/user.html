@@ -3,34 +3,44 @@
 {% block body_block %}
 
 <script src="{% static 'gsr/user.js' %}"></script>
+<div class="delbutton">
+
+    <button id="createshopbtn" onclick="window.location.href='{% url 'gsr:add_shop' %}'"
+        style="background-color:yellow;margin-top:0px;padding: 10px;margin-right:40px;width:8%;height:100%;float:right">Create
+        Shop</button> </p>
+</div>
 <div class="container">
     <p class="usernamebox"
-        style="display:inline-block ;background-color: white;margin-top:100px;margin-left:30px;width:40%;height:100%;">
+        style="display:inline-block ;background-color: white;margin-top:50px;margin-left:30px;width:40%;height:100%;">
         Username: {{ user.username }} </p>
-        <button id="editusernamebtn" onclick = "edit_name()" style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%">Edit</button>
+    <button id="editusernamebtn" onclick="edit_username()"
+        style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%;">Edit</button>
 </div>
 <div class="container">
     <p class="emailbox"
         style="display:inline-block ;background-color: white;margin-top:0px;margin-left:30px;width:40%;height:100%;">
         Email: {{ user.email }} </p>
-    <button
+    <button id="editemailbtn" onclick="edit_email()"
         style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%">Edit</button>
 </div>
 <div class="delbutton">
-    
-        <button style="background-color:red;margin-top:20px;margin-left:100px;width:20%">DELETE ACCOUNT</button>
-
+    <button onclick="window.location.href='{% url 'gsr:delete_account' %}'"
+        style="background-color:red;margin-top:20px;margin-left:100px;width:20%">DELETE ACCOUNT</button>
 </div>
 
 <div class="container">
     <p class="revieworshops"></p>
-        <button id="reviewsbtn" onclick = "document.getElementById('Shopsid').style.display= 'none';document.getElementById('Reviewsid').style.display= 'block' " 
-        style="display:inline-block ;background-color:rgb(240, 240, 64);margin-top:0px;margin-left:80px;width:20%;height:100%">Your Reviews</button>
-        <button id="shopsbtn" onclick = "document.getElementById('Reviewsid').style.display= 'none';document.getElementById('Shopsid').style.display= 'block'"
-        style="display:inline-block ;background-color:rgb(240, 240, 64);margin-top:0px;margin-left:0px;width:20%;height:100%">Your Shops</button>
+    <button id="reviewsbtn"
+        onclick="document.getElementById('Shopsid').style.display= 'none';document.getElementById('Reviewsid').style.display= 'block' "
+        style="display:inline-block ;background-color:rgb(240, 240, 64);margin-top:0px;margin-left:80px;width:20%;height:100%">Your
+        Reviews</button>
+    <button id="shopsbtn"
+        onclick="document.getElementById('Reviewsid').style.display= 'none';document.getElementById('Shopsid').style.display= 'block'"
+        style="display:inline-block ;background-color:rgb(240, 240, 64);margin-top:0px;margin-left:0px;width:20%;height:100%">Your
+        Shops</button>
 </div>
 
-<div class="container" id = "Reviewsid" style="margin-top: 40px; width: 90%;border: 1px solid black;background: white;">
+<div class="container" id="Reviewsid" style="margin-top: 40px; width: 90%;border: 1px solid black;background: white;">
     <h3>My Reviews</h3>
     <div class="reviews-container" style="overflow-y: scroll; max-height: 300px;">
         {% for review in reviews%}
@@ -38,10 +48,10 @@
             <p class="shopname"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:75%;height:100%;border: 1px solid black;">
                 {{ review.shop }}</p>
-                <p class="rating"
+            <p class="rating"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
                 Rating</p>
-                <p class="stars"
+            <p class="stars"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
                 your mum</p>
 
@@ -50,16 +60,17 @@
             <p class="commentbox"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:85%;;min-height: 100px;border: 1px solid black;">
                 {{ review.comment }} </p>
-                <button id="editreview" style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:10%;">
-                    Edit</button>
+            <button id="editreview"
+                style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:10%;">
+                Edit</button>
         </div>
         {% empty %}
-            <p>You haven't left any reviews yet.</p>
+        <p>You haven't left any reviews yet.</p>
         {% endfor %}
     </div>
 </div>
 
-<div class="container" id = "Shopsid"style="margin-top: 40px; width: 90%; display: none">
+<div class="container" id="Shopsid" style="margin-top: 40px; width: 90%; display: none">
     <h3>Your Shops</h3>
     <div class="shops-container" style="overflow-y: scroll; max-height: 300px;">
         {% for shop in shops %}
@@ -67,10 +78,10 @@
             <p class="shopname"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:75%;height:100%;border: 1px solid black;">
                 {{ shop.name }}</p>
-                <p class="rating"
+            <p class="rating"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
                 Rating</p>
-                <p class="stars"
+            <p class="stars"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
                 your mum</p>
 
@@ -79,11 +90,12 @@
             <p class="descriptionbox"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:85%;;min-height: 100px;border: 1px solid black;">
                 {{ shop.description}} </p>
-                <button id="editreview" style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:10%;">
-                    Edit</button>
+            <button id="editshop" onclick="window.location.href='{% url 'gsr:view_shop' shopslug=shop.slug.shopslug %}'"
+                style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:10%;">
+                Edit</button>
         </div>
         {% empty %}
-            <p>You don't own any shops yet.</p>
+        <p>You don't own any shops yet.</p>
         {% endfor %}
     </div>
 </div>

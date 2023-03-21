@@ -88,7 +88,7 @@ def delete_account(request):
     user = request.user
     user.delete()
     logout(request)
-    return redirect('home')
+    return redirect(reverse('gsr:index'))
 
 @login_required
 def add_shop(request):
@@ -236,17 +236,18 @@ def user(request):
     shops = []
     for shop in Shop.objects.all():
         for owner in shop.get_owners():
-            print(thisUser.username, owner)
+            
             if str(thisUser.username) == str(owner):
                 shops.append(shop)
-    print(shops)
+    
+    
     reviews = []
     for review in Review.objects.all():
         if str(thisUser.username) == str(review.get_author()):
             reviews.append(review)
 
     
-    return render(request, 'gsr/user.html', {'user': thisUser,'reviews':reviews})
+    return render(request, 'gsr/user.html', {'user': thisUser,'reviews':reviews, 'shops': shops})
 
 def search(request: HttpRequest):
     # GET parameter names
