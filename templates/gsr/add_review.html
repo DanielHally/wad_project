@@ -1,18 +1,80 @@
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
+{% load gsr_template_tags %}
 
 {% block title_block %}
     Add Review
 {% endblock %}
 
+{% block head_block %}
+    <link href="{% static 'css/gsr/common.css' %}" rel="stylesheet" crossorigin="anonymous">
+{% endblock %}
+
 {% block body_block %}
 
+ <div class = "container-fluid mt-5"></div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="gsr-cream text-center card p-2 col-md-3">
+            <h1>Write a review</h1>
+        </div>
+    </div>
+    <br />
+    <form id="review_form" method="post" action="{% url 'gsr:add_review' shop.slug %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+                <h5>{{ form.customer_interaction_rating.label_tag }}</h5>
+            </div>
+            <div class="col-md-1">
+                {{ form.customer_interaction_rating }}
+            </div>
+        </div>
 
-<h1>Write a review</h1>
-<form id="review_form" method="post" action="{% url 'gsr:add_review' shop.slug %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" name="Add a Review" value="Add Review" />
-</form>
+        <br/>
+
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+                <h5>{{ form.price_rating.label_tag }}</h5>
+            </div>
+            <div class="col-md-1">
+                {{ form.price_rating }}
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+                <h5>{{ form.quality_rating.label_tag }}</h5>
+            </div>
+            <div class="col-md-1">
+                {{ form.quality_rating }}
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <h5>{{ form.comment.label_tag }}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-3">
+                <h5>{{ form.comment|add_class:"form-control" }}</h5>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-1">
+                <input type="submit" name="Add a Review" value="Add Review" class="form-control gsr-cream" />
+            </div>
+        </div>
+
+    </form>
 
 {% endblock %}

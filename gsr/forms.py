@@ -94,3 +94,8 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ('customer_interaction_rating','price_rating','quality_rating','comment')
 
+        widgets = {
+            "comment": forms.Textarea(attrs={
+                "style":'height:300px;',
+            })
+        }
