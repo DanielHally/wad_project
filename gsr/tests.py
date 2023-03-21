@@ -2,11 +2,18 @@ from datetime import timedelta
 from typing import List
 
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import Client, TestCase
+from django.urls import reverse
 from django.utils import timezone
 from pytz import utc
 
 from gsr.models import RatedModel, Review, Shop
+
+def to_query_set_strs(list):
+    return [
+        f"<{type(elem).__name__}: {elem}>"
+        for elem in list
+    ]
 
 class DatedModelUtils:
     """Helpers for DatedModelTests"""
@@ -118,6 +125,11 @@ class ReviewUtils:
     expected_stars = 4
 
     @staticmethod
+    def get_user() -> User:
+        author = User.objects.get_or_create(username="Author")[0]
+        return author
+
+    @staticmethod
     def make_examples(shop=None) -> List[Review]:
         """Makes a group of example reviews"""
 
@@ -127,7 +139,7 @@ class ReviewUtils:
             shop.save()
         
         # Make an author user
-        author = User.objects.get_or_create(username="Author")[0]
+        author = ReviewUtils.get_user()
 
         # Create reviews from data
         ret = []
@@ -137,6 +149,18 @@ class ReviewUtils:
             ret.append(review)
 
         return ret
+    
+    @staticmethod
+    def make_with_rating(shop, rating):
+        review = Review(
+            shop=shop,
+            author=ReviewUtils.get_user(),
+            customer_interaction_rating=rating,
+            price_rating=rating,
+            quality_rating=rating,
+        )
+        review.save()
+        return review
 
 class ReviewTest(TestCase):
     """Tests for Review"""
@@ -189,12 +213,12 @@ class ShopUtils:
     """Helpers for ShopTest"""
 
     @staticmethod
-    def make_example() -> Shop:
+    def make_example(n=1) -> Shop:
         """Makes an example Shop"""
 
         # Make base shop
         shop = Shop(
-            name="Test shop",
+            name=f"Test shop {n}",
             description="Test description",
             # TODO: picture, categories, owners
             opening_hours="Test opening hours",
@@ -227,3 +251,94 @@ class ShopTest(TestCase):
 
         shop = ShopUtils.make_example()
         self.assertEqual(4, shop.get_stars(RatedModel.PRICE_RATING))
+
+
+class ViewTestCase(TestCase):
+    """Tests a view"""
+
+    USERNAME = 'test'
+    PASSWORD = 'test'
+
+    client = Client()
+
+    def login(self):
+        user = User.objects.get_or_create(username='test')[0]
+        user.set_password('test')
+        user.save()
+        self.client.login(username=self.USERNAME, password=self.PASSWORD)
+
+
+class HomeViewTest(ViewTestCase):
+    """Tests the home page view"""
+
+    def test_navbar_logged_out(self):
+        """Tests that the navbar shows Login and Sign Up when not logged in"""
+
+        response = self.client.get(reverse('gsr:index'))
+        self.assertContains(response, "Login")
+        self.assertContains(response, "Signup")
+        self.assertNotContains(response, "Logout")
+        self.assertNotContains(response, "Profile")
+
+    def test_navbar_logged_in(self):
+        """Tests that the navbar shows Sign Out and Profile when not logged in"""
+
+        self.login()
+        response = self.client.get(reverse('gsr:index'))
+        self.assertNotContains(response, "Login")
+        self.assertNotContains(response, "Signup")
+        self.assertContains(response, "Logout")
+        self.assertContains(response, "Profile")
+
+    def test_recently_added(self):
+        """Tests that recently added is sorted by creation time"""
+
+        # Create shops
+        shops = []
+        for i in range(5):
+            shop = ShopUtils.make_example(i+1)
+            shop.save()
+            shops.append(shop)
+
+        # Check shops are on page in reverse order
+        response = self.client.get(reverse('gsr:index'))
+        expected = [
+            f"<Shop: {shop}>"
+            for shop in reversed(shops)
+        ]
+        self.assertQuerysetEqual(response.context['shoplistbyadddate'], expected)
+
+    def test_top_rated(self):
+        """Tests that top rated is sorted by rating"""
+
+        # Create shops with ascending ratings
+        shops = []
+        for i in range(5):
+            shop = ShopUtils.make_example(i+1)
+            shop.save()
+            ReviewUtils.make_with_rating(shop, i)
+            shops.append(shop)
+
+        # Check shops are on page in reverse order
+        response = self.client.get(reverse('gsr:index'))
+        expected = to_query_set_strs(reversed(shops))
+        self.assertQuerysetEqual(response.context['shoplistbystars'], expected)
+
+    def test_recently_visited(self):
+        """Tests that shops show up in recently visited when visited"""
+
+        # Create shop
+        shop = ShopUtils.make_example()
+        shop.save()
+
+        # Check shop not present before visiting
+        response = self.client.get(reverse('gsr:index'))
+        self.assertQuerysetEqual(response.context['shops_recently_visited'], [])
+
+        # Visit shop
+        self.client.get(reverse('gsr:view_shop', args=(shop.slug,)))
+
+        # Check shop added
+        response = self.client.get(reverse('gsr:index'))
+        expected = to_query_set_strs([shop])
+        self.assertQuerysetEqual(response.context['shops_recently_visited'], expected)
