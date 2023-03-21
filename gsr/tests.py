@@ -127,8 +127,7 @@ class ReviewUtils:
             shop.save()
         
         # Make an author user
-        author = User(username="Author")
-        author.save()
+        author = User.objects.get_or_create(username="Author")[0]
 
         # Create reviews from data
         ret = []
