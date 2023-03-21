@@ -216,31 +216,12 @@ def edit_shop(request,shop_name_slug):
 
 
 def index(request):
-    QUERY_PARAM = 'query'
-    CATEGORY_PARAM = 'category'
-    RATING_PARAM = 'rating'
-
-    # Special category name for no filtering
-    ANY_CATEGORY = 'Any'
-
-    # GET parameter defaults
-    default_category = ANY_CATEGORY
-    default_rating_method = RatedModel.OVERALL_RATING
-
-    # Get GET parameters from request url
-    query = request.GET.get(QUERY_PARAM)
-    rating_method = request.GET.get(RATING_PARAM, default_rating_method)
-    category = request.GET.get(CATEGORY_PARAM, default_category)
-    if category == ANY_CATEGORY:
-        category = None
-
     shoplistbyadddate = Shop.objects.order_by('-date_added')[:5]
     shoplistbystars = [
         shop
         for shop in Shop.objects.all()
-        if shop.matches_search(query, category)
     ]
-    shoplistbystars.sort(key=lambda s: -s.get_rating(rating_method))
+    shoplistbystars.sort(key=lambda s: -s.get_rating(RatedModel.OVERALL_RATING))
 
     shoplistbystars_names = [
         shop.name
