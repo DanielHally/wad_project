@@ -359,7 +359,7 @@ def create_reply(request,shop_name_slug):
         user = request.user
         reply = ReviewReply.objects.create(comment=comment, review=review,author=user)
         reply.save()
-        return JsonResponse({'success': True})
+        return JsonResponse({'success': True,'username':user.username,'comment':comment})
     else:
         return JsonResponse({'success': False})
    
@@ -388,5 +388,17 @@ def edit_user(request: HttpRequest):
             return HttpResponse(e)
 
     return HttpResponse("Updated.")
+
+def show_replies(request,shop_name_slug):
+    reviewReplies = None
+    if request.method == 'GET':
+        review_id = request.GET.get('review_id')
+        review = Review.objects.get(id=review_id)
+        reviewReplies = ReviewReply.objects.filter(review=review)
+        repliesList = []
+        for reply in reviewReplies:
+            repliesList.append([reply.author.username,reply.comment])
+
+    return JsonResponse({'replies': repliesList})
 
 
