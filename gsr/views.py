@@ -1,13 +1,11 @@
-from itertools import chain
 from django.db import IntegrityError
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
-from gsr.models import Category, RatedModel, Shop, Review, ReviewReply
-from gsr.forms import CategoryForm, ShopForm, UserForm, ReviewForm
+from gsr.models import Category, OwnerGroupRequest, RatedModel, Shop, Review, ReviewReply
+from gsr.forms import CategoryForm, OwnerGroupRequestForm, ShopForm, UserForm, ReviewForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import JsonResponse
 
@@ -255,8 +253,20 @@ def user(request):
     shops = Shop.objects.filter(owners=thisUser)
     reviews = Review.objects.filter(author=thisUser)
 
-    
-    return render(request, 'gsr/user.html', {'user': thisUser,'reviews':reviews, 'shops': shops})
+    has_owner_group = thisUser.groups.filter(name="Shop Owner").exists()
+    requested_owner_group = OwnerGroupRequest.objects.filter(user=thisUser).exists()
+
+    return render(
+        request,
+        'gsr/user.html',
+        {
+            'user': thisUser,
+            'reviews': reviews,
+            'shops': shops,
+            'has_owner_group': has_owner_group,
+            'requested_owner_group': requested_owner_group,
+        }
+    )
 
 def search(request: HttpRequest):
     # GET parameter names
@@ -380,3 +390,16 @@ def edit_user(request: HttpRequest):
     return HttpResponse("Updated.")
 
 
+def owner_request(request: HttpRequest):
+    form = OwnerGroupRequestForm()
+    if request.method == 'POST':
+        form = OwnerGroupRequestForm(request.POST, request.FILES)
+        if form.is_valid():
+            req = form.save(commit=False)
+            req.user = request.user
+            req.save()
+            return redirect(reverse('gsr:user'))
+        else:
+            print(form.errors)
+
+    return render(request, 'gsr/owner_request.html', { 'form' : form })

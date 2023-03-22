@@ -1,0 +1,41 @@
+{% extends 'gsr/base.html' %}
+{% load staticfiles %}
+{% load gsr_template_tags %}
+
+{% block title_block %}
+Owner Group Request
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container my-3 border gsr-border gsr-blue">
+    <div class="row">
+        <h3>Owner Group Request</h3>
+    </div>
+    <div class="row">
+        <p>The owner group allows you to add your shops to the website.</p>
+        <p>Please provide some evidence of identity and ownership if you would like to apply.</p>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div class="row border gsr-border gsr-cream">
+        <form class="my-3" action="{% url 'gsr:owner_request' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <h4>{{ field.label }}</h4>
+                <p>{{ field.help_text }}</p>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+        {{ form.errors }}
+    </div>
+</div>
+
+{% endblock %}
+

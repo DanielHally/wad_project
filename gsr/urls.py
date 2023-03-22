@@ -19,5 +19,5 @@ urlpatterns = [
     path('shop/<slug:shop_name_slug>/add_review',views.add_review,name='add_review'),
     path('shop/<slug:shop_name_slug>/create_reply/', views.create_reply, name='create_reply'),
     path('edit_user/', views.edit_user, name='edit_user'),
-
+    path('owner_request/', views.owner_request, name='owner_request'),
 ]
