@@ -56,6 +56,38 @@ users = [
         'username': "User2",
         'email': "user2@email.com",
     },
+    {
+        'username': "Tycoon",
+        'email': "money@underpaidworkers.com",
+        'groups': ["Shop Owner"],
+    },
+    {
+        'username': "smallbuisnessowner",
+        'email': "community@caredforworkers.com",
+        'groups': ["Shop Owner"],
+    },
+    {
+        'username': "anotherbloodyowner",
+        'email': "owner@again.com",
+        'groups': ["Shop Owner"],
+    },
+    {
+        'username': "themanwhoowns",
+        'email': "owner@inveitable.com",
+        'groups': ["Shop Owner"],
+    },
+    {
+        'username': "shoppermannn",
+        'email': "likesshopping@markets.com",
+    },
+    {
+        'username': "buyerofthings",
+        'email': "purchesersof@shops.com",
+    },
+    {
+        'username': "itembuyer",
+        'email': "shopperman@shops.com",
+    },
 ]
 
 categories = [
@@ -129,8 +161,291 @@ shops = [
                 'quality_rating' : 1,
             },
         ]
-    }
-]
+    },
+        {
+        'name': "Pantryplus",
+        'picture': "the_other_shop.png",
+        'description': "Sells plenty of pantry filling items. Fun for the whole family",
+        'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
+        'location': 'ChIJiSKpi8xFiEgRPgcHFo1WdRI',
+        'owners': ["Owner1", "Owner2"],
+        'categories': ["Corner Shop"],
+        'views': 200,
+        'reviews' : [
+            {
+                'id' : 5,
+                'shop' : "Pantryplus",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 3,
+                'price_rating' : 3,
+                'quality_rating' : 3,
+            },
+            {
+                'id' : 6,
+                'shop' : "Pantryplus",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 4,
+                'price_rating' : 4,
+                'quality_rating' : 4,
+            },
+            {
+                'id' : 7,
+                'shop' : "Pantryplus",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 5,
+                'quality_rating' : 5,
+            }]
+    },
+        {
+        'name': "Jimmies",
+        'picture': "the_other_shop.png",
+        'description': "This is Jimmies cornershop not to be mistaken with Jimmy's cornershop",
+        'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
+        'location': 'ChIJAzLzcsxFiEgRjTjT96NloVA',
+        'owners': ["Tycoon"],
+        'categories': ["Corner Shop"],
+        'views': 86,
+        'reviews' : [
+            {
+                'id' : 8,
+                'shop' : "Jimmies",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 3,
+                'price_rating' : 3,
+                'quality_rating' : 3,
+                
+            },{
+                'id' : 9,
+                'shop' : "Jimmies",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 4,
+                'price_rating' : 4,
+                'quality_rating' : 4,
+            },{
+                'id' : 10,
+                'shop' : "Jimmies",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 5,
+                'quality_rating' : 5,
+            }
+        ]
+    },
+    {
+        'name': "Jimmy's",
+        'picture': "the_other_shop.png",
+        'description': "This is Jimmy's cornershop not to be mistaken with Jimmies cornershop",
+        'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
+        'location': ' ChIJv3iNt8NFiEgRbbHwZjXzhW4',
+        'owners': ["themanwhoowns"],
+        'categories': ["Corner Shop"],
+        'views': 46,
+        'reviews' : [
+            {
+                'id' : 11,
+                'shop' : "Jimmy's",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 3,
+                'price_rating' : 3,
+                'quality_rating' : 3,
+                },{
+                'id' : 12,
+                'shop' : "Jimmy's",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 4,
+                'price_rating' : 4,
+                'quality_rating' : 4,}
+                ,{
+                'id' : 13,
+                'shop' : "Jimmy's",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 5,
+                'quality_rating' : 5,
+            },
+        ]
+    },
+    {
+        'name': "shoppy mc shop face",
+        'picture': "the_other_shop.png",
+        'description': "This shop was named by the British public.",
+        'opening_hours': "Wednesday 1-4\nTuesday 7-7\n Friday 5-6",
+        'location': 'ChIJ8cF-6MtFiEgRwMvh3DDvPDY',
+        'owners': ["Tycoon"],
+        'categories': ["Supermarket"],
+        'views': 15,
+        'reviews' : [
+            {
+                'id' : 22,
+                'shop' : "shoppy mc shop face",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "bingobango",
+        'picture': "the_other_shop.png",
+        'description': "The only place your heart desires",
+        'opening_hours': "24 Hour Shop",
+        'location': 'ChIJ8cF-6MtFiEgRwMvh3DDvPDY',
+        'owners': ["Tycoon"],
+        'categories': ["Supermarket"],
+        'views': 15,
+        'reviews' : [
+            {
+                'id' : 21,
+                'shop' : "bingobango",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "El Salvador's",
+        'picture': "the_other_shop.png",
+        'description': "Rises in the east.",
+        'opening_hours': "24 Hour Shop",
+        'location': 'ChIJBa5oLsxFiEgR-TLrAGrNBDo',
+        'owners': ["Tycoon"],
+        'categories': ["Supermarket"],
+        'views': 1500,
+        'reviews' : [
+            {
+                'id' : 20,
+                'shop' : "El Salvador's",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "Spicy Tortailini",
+        'picture': "the_other_shop.png",
+        'description': "Sponsored by Matteo Campinille",
+        'opening_hours': "Wednesday 8-8",
+        'location': 'ChIJk8sA985FiEgRiBNqStymKBs',
+        'owners': ["Tycoon"],
+        'categories': ["Supermarket"],
+        'views': 12,
+        'reviews' : [
+            {
+                'id' : 19,
+                'shop' : "Spicy Tortailini",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "Door Dash",
+        'picture': "the_other_shop.png",
+        'description': "Doors direct to your doors",
+        'opening_hours': "Sunday 1-3",
+        'location': 'ChIJk8sA985FiEgRiBNqStymKBs',
+        'owners': ["anotherbloodyowner"],
+        'categories': ["Supermarket"],
+        'views': 20000,
+        'reviews' : [
+            {
+                'id' : 18,
+                'shop' : "Door Dash",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "Deadeye",
+        'picture': "the_other_shop.png",
+        'description': "We defintely dont sell illegal firearms",
+        'opening_hours': "Wednesday 9-9",
+        'location': 'ChIJH81g3A1FiEgRUm8QVTFC5_M',
+        'owners': ["anotherbloodyowner"],
+        'categories': ["Supermarket"],
+        'views': 4,
+        'reviews' : [
+            {
+                'id' : 17,
+                'shop' : "Deadeye",
+                'author' : "User1",
+                'customer_interaction_rating' : 5,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "Funky Monkey",
+        'picture': "the_other_shop.png",
+        'description': "Not horsing arounds",
+        'opening_hours': "Wednesday 9-9\nFriday 12-6",
+        'location': 'ChIJH81g3A1FiEgRUm8QVTFC5_M',
+        'owners': ["anotherbloodyowner"],
+        'categories': ["Corner Shop"],
+        'views': 4,
+        'reviews' : [
+            {
+                'id' : 14,
+                'shop' : "Funky Monkey",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 1,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "No Porkin",
+        'picture': "the_other_shop.png",
+        'description': "No Porkin",
+        'opening_hours': "Wednesday 9-9\nFriday 12-6\nSaturday 4-3",
+        'location': 'ChIJz11hvC9FiEgRc8ifQ5FWBtM',
+        'owners': ["anotherbloodyowner"],
+        'categories': ["Corner Shop"],
+        'views': 1000000000,
+        'reviews' : [
+            {
+                'id' : 15,
+                'shop' : "No Porkin",
+                'author' : "itembuyer",
+                'customer_interaction_rating' : 1,
+                'price_rating' : 1,
+                'quality_rating' : 1,
+            },
+        ]
+    },
+    {
+        'name': "Dog Food",
+        'picture': "the_other_shop.png",
+        'description': "I wonder what you can buy here.... Only cat food",
+        'opening_hours': "Wednesday 9-9\nFriday 12-6\nSaturday 4-3",
+        'location': 'ChIJ-TPET55FiEgR2pWRz4zRxgs',
+        'owners': ["anotherbloodyowner"],
+        'categories': ["Corner Shop"],
+        'views': 10000,
+        'reviews' : [
+            {
+                'id' : 16,
+                'shop' : "Dog Food",
+                'author' : "User1",
+                'customer_interaction_rating' : 4,
+                'price_rating' : 1,
+                'quality_rating' : 5,
+            },
+        ]
+    }]
 
 review_replies = [
     {
