@@ -5,9 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-from gsr.models import Category, RatedModel, Shop, Review
+from gsr.models import Category, RatedModel, Shop, Review, ReviewReply
 from gsr.forms import CategoryForm, ShopForm, UserForm, ReviewForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -150,6 +151,8 @@ def update_recently_visited(request: HttpRequest, response: HttpResponse, shop: 
 
 def view_shop(request,shop_name_slug):
     context_dict = {}
+
+
     try:
         shop = Shop.objects.get(slug=shop_name_slug)
         reviews = Review.objects.filter(shop=shop)
@@ -167,7 +170,6 @@ def view_shop(request,shop_name_slug):
         context_dict['shop'] = None
         context_dict['reviews'] = None
         context_dict['categories'] = None
-
 
     response = render(request,'gsr/view_shop.html',context = context_dict)
     
@@ -345,5 +347,18 @@ def add_review(request,shop_name_slug):
 
     context_dict = {'form':form,'shop':shop}
     return render(request, 'gsr/add_review.html', context= context_dict)
+
+@login_required
+def create_reply(request,shop_name_slug):
+    if request.method == 'POST':
+        review_id = request.POST.get('review_id')
+        comment = request.POST.get('comment')
+        review = Review.objects.get(id=review_id)
+        user = request.user
+        reply = ReviewReply.objects.create(comment=comment, review=review,author=user)
+        reply.save()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
    
    
