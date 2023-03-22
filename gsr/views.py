@@ -361,5 +361,13 @@ def edit_user(request: HttpRequest):
         except IntegrityError:
             return HttpResponse("This username is taken.", status=406)
     
+    # Try change email if requested
+    if 'email' in request.POST:
+        request.user.email = request.POST['email']
+        try:
+            request.user.save()
+        except IntegrityError as e:
+            return HttpResponse(e)
+
     return HttpResponse("Updated.")
 

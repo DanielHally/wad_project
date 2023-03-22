@@ -8,6 +8,13 @@ const EDIT_USERNAME_BUTTON = "#editusernamebtn";
 const EDIT_USERNAME_BOX = "#usernamebox-edit"
 const SAVE_USERNAME_BUTTON = "#saveusernamebtn";
 
+const EMAIL_BOX = "#emailbox";
+const EMAIL_TEXT = "#emailtext";
+const EMAIL_TEXT_UPDATING = "#emailtext-updating"
+const EDIT_EMAIL_BUTTON = "#editemailbtn"
+const EDIT_EMAIL_BOX = "#emailbox-edit";
+const SAVE_EMAIL_BUTTON = "#saveemailbtn"
+
 /*
     Context format:
             == Display mode ==
@@ -34,6 +41,18 @@ username_edit_ctx = {
     'save_btn' : SAVE_USERNAME_BUTTON,
 
     'post_name' : 'name',
+};
+
+email_edit_ctx = {
+    'display_box' : EMAIL_BOX,
+    'display_text' : EMAIL_TEXT,
+    'updating_text' : EMAIL_TEXT_UPDATING,
+    'edit_btn' : EDIT_EMAIL_BUTTON,
+
+    'edit_box' : EDIT_EMAIL_BOX,
+    'save_btn' : SAVE_EMAIL_BUTTON,
+
+    'post_name' : 'email',
 };
 
 /*
@@ -162,4 +181,5 @@ function setupEditor(ctx) {
 
 $(document).ready(function() {
     setupEditor(username_edit_ctx);
+    setupEditor(email_edit_ctx);
 });
