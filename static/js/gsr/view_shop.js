@@ -75,7 +75,6 @@ $(document).on('submit', '.reply_form', function(e){
       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
     },
     success: function(data){
-        $(`#reply-form-${reviewId}`).toggle();
         const username = data.username;
         const comment = data.comment;
         const replyText = '<div class="row">' +
