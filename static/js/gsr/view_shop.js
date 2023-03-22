@@ -8,9 +8,18 @@ $(document).ready(function() {
         params.set(SEARCH_CATEGORY_PARAM, $(link).attr('category'));
         $(link).attr('href', '/gsr/search/?' + params);
     }
-    $('.reply-button').click(function(){
-    const reviewId = $(this).data('review-id');
-    $(`#reply-form-${reviewId}`).toggle();
+
+    $('.reply-button').click(function() {
+      const buttonText = $(this).text();
+      const reviewId = $(this).data('review-id');
+      if (buttonText === "Reply") {
+        $(this).text("Close");
+      }else {
+        $(this).text("Reply");
+      }
+      $(`#reply-form-${reviewId}`).toggle();
+
+
   });
 
 $('.show-replies').click(function(){
@@ -19,7 +28,6 @@ $('.show-replies').click(function(){
 
     if(buttonText === "Show replies") {
         $(this).text("Hide replies");
-        $(`#replies-section-${reviewId}`).toggle()
         $.ajax({
             type: 'GET',
             url: 'show_replies/',
@@ -32,18 +40,23 @@ $('.show-replies').click(function(){
                 $.each(replies, function(index, reply) {
                     const username = reply[0];
                     const comment = reply[1];
-                    const replyText = username + '<br>' + comment + '<br><br>';
+                    const replyText = '<div class="row">' +
+                                          '<div class="col-md-1"></div>' +
+                                              '<div class="col-md-10">' +
+                                                  '<strong>' + username + '</strong>' +
+                                                  '<p>' + comment + '</p>' + '<hr>'
+                                              '</div>' +
+                                          '</div>' +
+                                      '</div>';
                     $('#replies-section-' + reviewId).append(replyText);
                 });
             }
         });
     } else {
-        $(`#replies-section-${reviewId}`).toggle()
         $(this).text("Show replies");
     }
+    $(`#replies-section-${reviewId}`).toggle()
 });
-
-
 
 
 });
@@ -65,7 +78,14 @@ $(document).on('submit', '.reply_form', function(e){
         $(`#reply-form-${reviewId}`).toggle();
         const username = data.username;
         const comment = data.comment;
-        const replyText = username + '<br>' + comment + '<br><br>';
+        const replyText = '<div class="row">' +
+                                          '<div class="col-md-1"></div>' +
+                                              '<div class="col-md-10">' +
+                                                  '<strong>' + username + '</strong>' +
+                                                  '<p>' + comment + '</p>' + '<hr>'
+                                              '</div>' +
+                                          '</div>' +
+                                      '</div>';
         $('#replies-section-' + reviewId).append(replyText);
     },
   });

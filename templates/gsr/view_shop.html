@@ -84,16 +84,34 @@
                 <br />
                 {% endif %}
                 {% star_rating review %}
-                <button class="show-replies" data-review-id ="{{ review.id }}">Show replies</button>
+                <button class="show-replies gsr-blue" data-review-id ="{{ review.id }}">Show replies</button>
 
-                <button class="reply-button" data-review-id="{{ review.id }}">Reply</button>
+                <button class="reply-button gsr-blue" data-review-id="{{ review.id }}">Reply</button>
                 <div class="reply-form" id="reply-form-{{ review.id }}" style="display: none;">
                   <form class="reply_form" id="reply-form-{{ review.id }}">
                     {% csrf_token %}
-                    comment:
-                    <input id="comment-{{ review.id }}"></input>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-6">
+                            comment:
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-6">
+                            <textarea id="comment-{{ review.id }}" style="height:200px;" class="form-control"></textarea>
+                        </div>
+                    </div>
                     <input type="hidden" name="review_id" value="{{ review.id }}">
-                    <input class="btn btn-primary" type="submit" name="Reply" value="Reply" />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                            <input class="gsr-blue" type="submit" name="Reply" value="Reply" />
+                        </div>
+                    </div>
+                    <br />
                   </form>
                 </div>
                 <div id="replies-section-{{ review.id }}" style="display: none;">
