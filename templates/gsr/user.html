@@ -9,10 +9,20 @@
 {% block body_block %}
 
 <div class="delbutton">
-
+    {% if has_owner_group %}
     <button id="createshopbtn" onclick="window.location.href='{% url 'gsr:add_shop' %}'"
         style="background-color:yellow;margin-top:0px;padding: 10px;margin-right:40px;width:8%;height:100%;float:right">Create
         Shop</button> </p>
+    {% elif requested_owner_group %}
+    <button disabled
+        style="background-color:yellow;margin-top:0px;padding: 10px;margin-right:40px;width:8%;height:100%;float:right">
+        Shop Owner Group has been requested</button> </p>
+    {% else %}
+    <button onclick="window.location.href='{% url 'gsr:owner_request' %}'"
+        style="background-color:yellow;margin-top:0px;padding: 10px;margin-right:40px;width:8%;height:100%;float:right">
+        Request Shop Owner Group</button> </p>
+    {% endif %}
+
 </div>
 <div class="container">
     <p id="usernamebox"

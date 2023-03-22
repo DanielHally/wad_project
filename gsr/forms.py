@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from PIL import Image
 
-from gsr.models import Category, Shop, Review, ReviewReply
+from gsr.models import Category, OwnerGroupRequest, Shop, Review, ReviewReply
 
 
 class CategoryForm(forms.ModelForm):
@@ -113,4 +113,14 @@ class ReviewForm(forms.ModelForm):
             "comment": forms.Textarea(attrs={
                 "style":'height:300px;',
             })
+        }
+
+
+class OwnerGroupRequestForm(forms.ModelForm):
+    class Meta:
+        model = OwnerGroupRequest
+        fields = ('request_comment', 'evidence_file')
+        help_texts = {
+            'request_comment' : "Please describe why you would like the shop owner permissions.",
+            'evidence_file' : "Please upload some evidence, such as a photo or pdf with more information.",
         }

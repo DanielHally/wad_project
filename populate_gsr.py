@@ -515,6 +515,7 @@ def add_user(data: Dict[str, Any]) -> User:
 
     user = User.objects.get_or_create(username=data['username'])[0]
     user.email = data['email']
+    user.set_password(user.username)
 
     for group_name in data.get('groups', []):
         group = Group.objects.get(name=group_name)

@@ -20,6 +20,6 @@ urlpatterns = [
     path('shop/<slug:shop_name_slug>/create_reply/', views.create_reply, name='create_reply'),
     path('shop/<slug:shop_name_slug>/show_replies/',views.show_replies,name='show_replies'),
     path('edit_user/', views.edit_user, name='edit_user'),
-
+    path('owner_request/', views.owner_request, name='owner_request'),
 
 ]

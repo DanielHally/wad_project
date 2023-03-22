@@ -300,3 +300,18 @@ class ReviewReply(DatedModel):
         """Display a reply by its comment and the string for its target review"""
 
         return f"ReviewReply(\"{self.comment[:10]}...\", {self.review})"
+
+class OwnerGroupRequest(DatedModel):
+    """A request for a user to be in hte shop owner group"""
+
+    MAX_COMMENT_LENGTH = 2048
+    MEDIA_SUBDIR = 'owner_evidence'
+
+    """The user requesting the owner role"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    """The user's description of why they should be admin"""
+    request_comment = models.TextField(blank=False, max_length=MAX_COMMENT_LENGTH)
+
+    """A file included by the user"""
+    evidence_file = models.FileField(upload_to=MEDIA_SUBDIR)
