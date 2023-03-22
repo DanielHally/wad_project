@@ -294,11 +294,10 @@ class HomeViewTest(ViewTestCase):
         """Tests that recently added is sorted by creation time"""
 
         # Create shops
-        shops = []
-        for i in range(5):
-            shop = ShopUtils.make_example(i+1)
-            shop.save()
-            shops.append(shop)
+        shops = [
+            ShopUtils.make_example(i+1)
+            for i in range(5)
+        ]
 
         # Check shops are on page in reverse order
         response = self.client.get(reverse('gsr:index'))
@@ -312,12 +311,12 @@ class HomeViewTest(ViewTestCase):
         """Tests that top rated is sorted by rating"""
 
         # Create shops with ascending ratings
-        shops = []
-        for i in range(5):
-            shop = ShopUtils.make_example(i+1)
-            shop.save()
+        shops = [
+            ShopUtils.make_example(i+1)
+            for i in range(5)
+        ]
+        for i, shop in enumerate(shops):
             ReviewUtils.make_with_rating(shop, i)
-            shops.append(shop)
 
         # Check shops are on page in reverse order
         response = self.client.get(reverse('gsr:index'))
@@ -329,7 +328,6 @@ class HomeViewTest(ViewTestCase):
 
         # Create shop
         shop = ShopUtils.make_example()
-        shop.save()
 
         # Check shop not present before visiting
         response = self.client.get(reverse('gsr:index'))
