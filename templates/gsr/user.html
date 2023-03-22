@@ -1,9 +1,13 @@
 {% extends 'gsr/base.html' %}
 {% load staticfiles %}
 {% load gsr_template_tags %}
+
+{% block head_block %}
+<script src="{% static 'js/gsr/user.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block body_block %}
 
-<script src="{% static 'gsr/user.js' %}"></script>
 <div class="delbutton">
 
     <button id="createshopbtn" onclick="window.location.href='{% url 'gsr:add_shop' %}'"
@@ -11,18 +15,26 @@
         Shop</button> </p>
 </div>
 <div class="container">
-    <p class="usernamebox"
+    <p id="usernamebox"
         style="display:inline-block ;background-color: white;margin-top:50px;margin-left:30px;width:40%;height:100%;">
-        Username: {{ user.username }} </p>
-    <button id="editusernamebtn" onclick="edit_username()"
+        Username: <span id="usernametext">{{ user.username }}</span> <span id="usernametext-updating"><i>Updating...</i></span> </p>
+    <button id="editusernamebtn"
         style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%;">Edit</button>
+    <input id="usernamebox-edit"
+        style="display:inline-block ;background-color: white;margin-top:50px;margin-left:30px;width:40%;height:100%;">
+    <button id="saveusernamebtn"
+        style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%;">Save</button>
 </div>
 <div class="container">
-    <p class="emailbox"
+    <p id="emailbox"
         style="display:inline-block ;background-color: white;margin-top:0px;margin-left:30px;width:40%;height:100%;">
-        Email: {{ user.email }} </p>
-    <button id="editemailbtn" onclick="edit_email()"
+        Email: <span id="emailtext">{{ user.email }}</span> <span id="emailtext-updating"><i>Updating...</i></span> </p>
+    <input id="emailbox-edit"
+        style="display:inline-block ;background-color: white;margin-top:50px;margin-left:30px;width:40%;height:100%;">
+    <button id="editemailbtn"
         style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%">Edit</button>
+    <button id="saveemailbtn"
+        style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;width:8%;height:100%">Save</button>
 </div>
 <div class="delbutton">
     <button onclick="window.location.href='{% url 'gsr:delete_account' %}'"

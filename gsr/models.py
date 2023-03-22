@@ -102,7 +102,6 @@ class Category(models.Model):
     description = models.TextField(max_length=MAX_DESCRIPTION_LENGTH)
 
     """The icon for the category"""
-    picture = models.ImageField(blank=True)
     picture = models.ImageField(upload_to=MEDIA_SUBDIR, blank=True)
     
     """True/False, states whether category is approved or not"""
