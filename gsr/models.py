@@ -102,7 +102,6 @@ class Category(models.Model):
     description = models.TextField(max_length=MAX_DESCRIPTION_LENGTH)
 
     """The icon for the category"""
-    picture = models.ImageField(blank=True)
     picture = models.ImageField(upload_to=MEDIA_SUBDIR, blank=True)
     
     """True/False, states whether category is approved or not"""
@@ -188,9 +187,10 @@ class Shop(DatedModel, RatedModel):
                 accept = False
         
         # Check query in name and description
-        # TODO: proper search
+        # TODO: proper search?
         if query is not None:
-            if query not in self.name and query not in self.description:
+            query = query.lower()
+            if query not in self.name.lower() and query not in self.description.lower():
                 accept = False
         
         return accept
