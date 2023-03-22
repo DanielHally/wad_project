@@ -1,5 +1,6 @@
 from datetime import timedelta
 from typing import List
+from unicodedata import category
 
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
@@ -7,7 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from pytz import utc
 
-from gsr.models import RatedModel, Review, Shop
+from gsr.models import Category, RatedModel, Review, Shop
 
 def to_query_set_strs(list):
     return [
@@ -213,7 +214,7 @@ class ShopUtils:
     """Helpers for ShopTest"""
 
     @staticmethod
-    def make_example(n=1) -> Shop:
+    def make_example(n=1, categories=None) -> Shop:
         """Makes an example Shop"""
 
         # Make base shop
@@ -225,6 +226,10 @@ class ShopUtils:
             location="TODO",
         )
         shop.save()
+
+        # Add categories to the shop
+        if categories is not None:
+            shop.categories.set(categories)
 
         # Add reviews to the shop
         ReviewUtils.make_examples(shop)
@@ -295,7 +300,7 @@ class HomeViewTest(ViewTestCase):
 
         # Create shops
         shops = [
-            ShopUtils.make_example(i+1)
+            ShopUtils.make_example(n=i+1)
             for i in range(5)
         ]
 
@@ -312,7 +317,7 @@ class HomeViewTest(ViewTestCase):
 
         # Create shops with ascending ratings
         shops = [
-            ShopUtils.make_example(i+1)
+            ShopUtils.make_example(n=i+1)
             for i in range(5)
         ]
         for i, shop in enumerate(shops):
@@ -340,3 +345,86 @@ class HomeViewTest(ViewTestCase):
         response = self.client.get(reverse('gsr:index'))
         expected = to_query_set_strs([shop])
         self.assertQuerysetEqual(response.context['shops_recently_visited'], expected)
+
+
+class CategoryUtils:
+    """Helpers to create categories"""
+
+    @staticmethod
+    def create() -> Category:
+        """Creates an example category"""
+
+        category = Category(
+            name="Test Category",
+            description="A testing category",
+            is_approved=True,
+        )
+        category.save()
+
+        return category
+
+
+class SearchViewTest(ViewTestCase):
+    """Tests the search page view"""
+
+    def test_unfiltered(self):
+        """Tests that a shop shows up if unfiltered"""
+
+        # Create shop
+        shop = ShopUtils.make_example()
+
+        # Load page
+        response = self.client.get(reverse('gsr:search'))
+
+        # Check shop in context
+        expected = to_query_set_strs([shop])
+        self.assertQuerysetEqual(response.context['results'], expected)
+    
+    def test_filtered_removed(self):
+        """Tests that a shop doesn't show up if another category is filtered"""
+
+        # Create shop and category
+        category = CategoryUtils.create()
+        shop = ShopUtils.make_example()
+
+        # Search with category that shop doesn't have
+        response = self.client.get(reverse('gsr:search') + f"?category={category.name}")
+        self.assertQuerysetEqual(response.context['results'], [])
+
+    def test_filtered_included(self):
+        """Tests that a shop shows up if another category is filtered"""
+
+        # Create shop and category
+        category = CategoryUtils.create()
+        shop = ShopUtils.make_example(categories=[category])
+
+        # Search with category that shop doesn't have
+        response = self.client.get(reverse('gsr:search') + f"?category={category.name}")
+        expected = to_query_set_strs([shop])
+        self.assertQuerysetEqual(response.context['results'], expected)
+    
+    def test_sorted(self):
+        """Tests that 2 shops show up in order of rating"""
+
+        # Create 2 shops with ascending rating
+        shops = [
+            ShopUtils.make_example(n=i+1)
+            for i in range(2)
+        ]
+        for i, shop in enumerate(shops):
+            ReviewUtils.make_with_rating(shop, i)
+
+        # Check shops are on page in reverse order
+        response = self.client.get(reverse('gsr:search'))
+        expected = to_query_set_strs(reversed(shops))
+        self.assertQuerysetEqual(response.context['results'], expected)
+
+    def test_category_display(self):
+        """Tests that the category is displayed when selected"""
+
+        # Create category
+        category = CategoryUtils.create()
+
+        # Check description in page
+        response = self.client.get(reverse('gsr:search') + f"?category={category.name}")
+        self.assertContains(response, category.description)
