@@ -252,18 +252,8 @@ def index(request):
 @login_required
 def user(request):
     thisUser = request.user
-    shops = []
-    for shop in Shop.objects.all():
-        for owner in shop.get_owners():
-            
-            if str(thisUser.username) == str(owner):
-                shops.append(shop)
-    
-    
-    reviews = []
-    for review in Review.objects.all():
-        if str(thisUser.username) == str(review.get_author()):
-            reviews.append(review)
+    shops = Shop.objects.filter(owners=thisUser)
+    reviews = Review.objects.filter(author=thisUser)
 
     
     return render(request, 'gsr/user.html', {'user': thisUser,'reviews':reviews, 'shops': shops})
