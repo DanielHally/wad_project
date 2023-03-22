@@ -1,4 +1,5 @@
 from itertools import chain
+from django.db import IntegrityError
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -345,5 +346,20 @@ def add_review(request,shop_name_slug):
 
     context_dict = {'form':form,'shop':shop}
     return render(request, 'gsr/add_review.html', context= context_dict)
-   
-   
+
+
+def edit_user(request: HttpRequest):
+    # Check that user is logged in
+    if not request.user.is_authenticated:
+        return HttpResponse("You must be logged in to do that.", status=403)
+    
+    # Try change name if requested
+    if 'name' in request.POST:
+        request.user.username = request.POST['name']
+        try:
+            request.user.save()
+        except IntegrityError:
+            return HttpResponse("This username is taken.", status=406)
+    
+    return HttpResponse("Updated.")
+
