@@ -31,7 +31,7 @@
 						<div class="my-1">
 							<span class="h3 gsr-blue border gsr-border">{{form.categories.label_tag}}</span>
 							<div class="gsr-cream input border gsr-border" style="height:50px;overflow-y:scroll;width:90%;">{{form.categories}}</div>
-							<button class="input" onclick="window.location.href='{% url 'gsr:add_category' %}'" style="margin-top:-10px"> + Add a new category </button>
+							<a class="input btn btn-outline-dark" onclick="window.location.href='{% url 'gsr:add_category' %}'" style="margin-top:-10px"> + Add a new category </a>
 						</div>
 						
 						{{ form.location }}
