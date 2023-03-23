@@ -95,7 +95,9 @@
                 {% star_rating review %}
                 <button id="show-replies-{{ review.id }}" class="show-replies gsr-blue" data-review-id ="{{ review.id }}">Show replies</button>
 
+                {% if user.is_authenticated %}
                 <button id="reply-button-{{ review.id }}" class="reply-button gsr-blue" data-review-id="{{ review.id }}">Reply</button>
+                {% endif %}
                 <div class="reply-form" id="reply-form-{{ review.id }}" style="display: none;">
                   <form class="reply_form" id="reply-form-{{ review.id }}">
                     {% csrf_token %}
