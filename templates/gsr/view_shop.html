@@ -93,9 +93,9 @@
                 <br />
                 {% endif %}
                 {% star_rating review %}
-                <button class="show-replies gsr-blue" data-review-id ="{{ review.id }}">Show replies</button>
+                <button id="show-replies-{{ review.id }}" class="show-replies gsr-blue" data-review-id ="{{ review.id }}">Show replies</button>
 
-                <button class="reply-button gsr-blue" data-review-id="{{ review.id }}">Reply</button>
+                <button id="reply-button-{{ review.id }}" class="reply-button gsr-blue" data-review-id="{{ review.id }}">Reply</button>
                 <div class="reply-form" id="reply-form-{{ review.id }}" style="display: none;">
                   <form class="reply_form" id="reply-form-{{ review.id }}">
                     {% csrf_token %}

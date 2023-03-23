@@ -14,6 +14,10 @@ $(document).ready(function() {
         const reviewId = $(this).data('review-id');
         if (buttonText === "Reply") {
             $(this).text("Close");
+            var showBtn = '#show-replies-' + $(this).data('review-id');
+            if ($(showBtn).text() == "Show replies") {
+                $(showBtn).trigger('click');
+            }
         }else {
             $(this).text("Reply");
         }
@@ -52,6 +56,10 @@ $(document).ready(function() {
             });
         } else {
             $(this).text("Show replies");
+            var closeBtn = '#reply-button-' + $(this).data('review-id');
+            if ($(closeBtn).text() == "Close") {
+                $(closeBtn).trigger('click');
+            }
         }
         $(`#replies-section-${reviewId}`).toggle()
     });
