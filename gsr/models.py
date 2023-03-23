@@ -148,10 +148,6 @@ class Shop(DatedModel, RatedModel):
     """The users who own this shop"""
     owners = models.ManyToManyField(User)
 
-    """The number of times the shop's page has been viewed"""
-    # TODO: should this be the number of users who viewed it instead?
-    views = models.IntegerField(default=0)
-
     """Set the fields to trigger date_updated to change"""
     DATED_FIELDS = ('name', 'description', 'picture', 'opening_hours', 'location')
 

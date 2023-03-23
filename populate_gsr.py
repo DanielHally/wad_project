@@ -150,7 +150,6 @@ shops = [
         'location': 'ChIJ-4qF7s5FiEgR6bRXbXOZeek',
         'owners': ["Owner1", "Owner2"],
         'categories': ["Corner Shop"],
-        'views': 200,
         'reviews' : [
             {
                 'id' : 4,
@@ -170,7 +169,6 @@ shops = [
         'location': 'ChIJiSKpi8xFiEgRPgcHFo1WdRI',
         'owners': ["Owner1", "Owner2"],
         'categories': ["Corner Shop"],
-        'views': 200,
         'reviews' : [
             {
                 'id' : 5,
@@ -205,7 +203,6 @@ shops = [
         'location': 'ChIJAzLzcsxFiEgRjTjT96NloVA',
         'owners': ["Tycoon"],
         'categories': ["Corner Shop"],
-        'views': 86,
         'reviews' : [
             {
                 'id' : 8,
@@ -240,7 +237,6 @@ shops = [
         'location': ' ChIJv3iNt8NFiEgRbbHwZjXzhW4',
         'owners': ["themanwhoowns"],
         'categories': ["Corner Shop"],
-        'views': 46,
         'reviews' : [
             {
                 'id' : 11,
@@ -274,7 +270,6 @@ shops = [
         'location': 'ChIJ8cF-6MtFiEgRwMvh3DDvPDY',
         'owners': ["Tycoon"],
         'categories': ["Supermarket"],
-        'views': 15,
         'reviews' : [
             {
                 'id' : 22,
@@ -294,7 +289,6 @@ shops = [
         'location': 'ChIJ8cF-6MtFiEgRwMvh3DDvPDY',
         'owners': ["Tycoon"],
         'categories': ["Supermarket"],
-        'views': 15,
         'reviews' : [
             {
                 'id' : 21,
@@ -314,7 +308,6 @@ shops = [
         'location': 'ChIJBa5oLsxFiEgR-TLrAGrNBDo',
         'owners': ["Tycoon"],
         'categories': ["Supermarket"],
-        'views': 1500,
         'reviews' : [
             {
                 'id' : 20,
@@ -334,7 +327,6 @@ shops = [
         'location': 'ChIJk8sA985FiEgRiBNqStymKBs',
         'owners': ["Tycoon"],
         'categories': ["Supermarket"],
-        'views': 12,
         'reviews' : [
             {
                 'id' : 19,
@@ -354,7 +346,6 @@ shops = [
         'location': 'ChIJk8sA985FiEgRiBNqStymKBs',
         'owners': ["anotherbloodyowner"],
         'categories': ["Supermarket"],
-        'views': 20000,
         'reviews' : [
             {
                 'id' : 18,
@@ -374,7 +365,6 @@ shops = [
         'location': 'ChIJH81g3A1FiEgRUm8QVTFC5_M',
         'owners': ["anotherbloodyowner"],
         'categories': ["Supermarket"],
-        'views': 4,
         'reviews' : [
             {
                 'id' : 17,
@@ -394,7 +384,6 @@ shops = [
         'location': 'ChIJH81g3A1FiEgRUm8QVTFC5_M',
         'owners': ["anotherbloodyowner"],
         'categories': ["Corner Shop"],
-        'views': 4,
         'reviews' : [
             {
                 'id' : 14,
@@ -414,7 +403,6 @@ shops = [
         'location': 'ChIJz11hvC9FiEgRc8ifQ5FWBtM',
         'owners': ["anotherbloodyowner"],
         'categories': ["Corner Shop"],
-        'views': 1000000000,
         'reviews' : [
             {
                 'id' : 15,
@@ -434,7 +422,6 @@ shops = [
         'location': 'ChIJ-TPET55FiEgR2pWRz4zRxgs',
         'owners': ["anotherbloodyowner"],
         'categories': ["Corner Shop"],
-        'views': 10000,
         'reviews' : [
             {
                 'id' : 16,
@@ -562,8 +549,6 @@ def add_shop(data: Dict[str, Any]) -> Shop:
 
     for review in data['reviews']:
         add_review(shop, review)
-
-    shop.views = data.get('views', 0)
 
     handle_date_added(shop, data)
 
