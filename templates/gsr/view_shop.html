@@ -29,7 +29,10 @@
         </div>
         <br>
         <h1 class="text-center gsr-blue">{{ shop.name }}</h1>
-        <h4 class="gsr-blue text-center card p-3 col-md-2">Description</h4>
+        {% if is_owner %}
+        <button class="btn btn-primary me-1 float-end" onclick="window.location.href = '{% url 'gsr:edit_shop' shop.slug %}'">Edit Shop</button>
+        {% endif %}
+        <p class="h4 gsr-blue text-center card p-3 col-md-2">Description</p>
         <div class="row">
             <div class="col-md-6 col-lg-9">
                 <div class="card p-3 gsr-cream" style="height: 256px;">

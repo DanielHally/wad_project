@@ -167,12 +167,14 @@ def view_shop(request,shop_name_slug):
         context_dict['shop'] = shop
         context_dict['reviews'] = reviews
         context_dict['categories'] = categories
+        context_dict['is_owner'] = request.user in shop.owners.all()
 
     except Shop.DoesNotExist:
         shop = None
         context_dict['shop'] = None
         context_dict['reviews'] = None
         context_dict['categories'] = None
+        context_dict['is_owner'] = False
 
     response = render(request,'gsr/view_shop.html',context = context_dict)
     
