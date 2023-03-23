@@ -90,17 +90,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username','email','password','groups')
-        
-        widgets = {
-            "groups" : forms.CheckboxSelectMultiple(attrs={
-                    "id" : "categories",
-                    "class" : " list-unstyled",
-                    
-                    }),
-                    
-                }
-
+        fields = ('username','email','password')
 
 class ReviewForm(forms.ModelForm):
     class Meta:
