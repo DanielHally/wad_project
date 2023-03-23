@@ -233,7 +233,7 @@ shops = [
         'picture': "jimmys.png",
         'description': "This is Jimmy's cornershop not to be mistaken with Jimmies cornershop",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
-        'location': ' ChIJv3iNt8NFiEgRbbHwZjXzhW4',
+        'location': 'ChIJv3iNt8NFiEgRbbHwZjXzhW4',
         'owners': ["themanwhoowns"],
         'categories': ["Corner Shop"],
         'reviews' : [
