@@ -70,7 +70,8 @@
         <div class="container"style="margin-top: 10px; margin-bottom: 0px;">
             <p class="shopname"
                 style="display:inline-block;background-color: white;margin-top:0px;margin-left:0px;width:75%;height:100%;border: 1px solid black;">
-                {{ review.shop }}</p>
+                <a href="{% url 'gsr:view_shop' review.shop.slug %}">{{ review.shop }}</a>
+            </p>
             <p class="rating"
                 style="display:inline-block;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
                 Rating</p>
@@ -100,7 +101,8 @@
         <div class="container" style="margin-top: 10px; margin-bottom: 0px;">
             <p class="shopname"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:75%;height:100%;border: 1px solid black;">
-                {{ shop.name }}</p>
+                <a href="{% url 'gsr:view_shop' shop.slug %}">{{ shop.name }}</a>
+            </p>
             <p class="rating"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:10%;height:100%;border: 1px solid black;">
                 Rating</p>
