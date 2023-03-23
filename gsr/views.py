@@ -288,7 +288,7 @@ def search(request: HttpRequest):
     
     category = None
     if category_name is not None:
-        filtered = Category.objects.filter(name=category_name)
+        filtered = Category.objects.filter(name=category_name, is_approved=True)
         if filtered:
             category = filtered[0]
 
@@ -301,7 +301,7 @@ def search(request: HttpRequest):
     results.sort(key=lambda s: -s.get_rating(rating_method))
 
     # Build category name list for dropdown
-    category_names = [ANY_CATEGORY] + [c.name for c in Category.objects.all()]
+    category_names = [ANY_CATEGORY] + [c.name for c in Category.objects.filter(is_approved=True)]
 
     # Return rendered template
     return render(
