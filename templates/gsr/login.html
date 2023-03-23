@@ -11,52 +11,47 @@
 {% endblock %}
 
 {% block body_block %}
-    {% if user.is_authenticated %}
-    <strong>{{ error }}</strong>
-    {% else %}
-        <div class = "container-fluid mt-5"></div>
+    <div class = "container-fluid mt-5"></div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="gsr-cream text-center card p-2 col-md-3">
+                <h1>Welcome Back</h1>
+                <strong>{{ error }}</strong><br />
+            </div>
+        </div>
+        <br /><br />
+            <form id="login_form" method="post" action="{% url 'gsr:login' %}">
+            {% csrf_token %}
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="gsr-cream text-center card p-2 col-md-3">
-                    <h1>Welcome Back</h1>
-                    <strong>{{ error }}</strong><br />
+                <div class="col-md-2"></div>
+                <div class="col-md-1">
+                    <h5>Username:</h5>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="username" value="" class="form-control"/>
                 </div>
             </div>
-            <br /><br />
-                <form id="login_form" method="post" action="{% url 'gsr:login' %}">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-1">
-                        <h5>Username:</h5>
-                    </div>
-                    <div class="col-md-5">
-                        <input type="text" name="username" value="" class="form-control"/>
-                    </div>
+
+            <br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1">
+                    <h5> Password:</h5>
                 </div>
-
-                <br />
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-1">
-                        <h5> Password:</h5>
-                    </div>
-                    <div class="col-md-5">
-                        <input type="password" name="password" value="" class="form-control"/>
-                    </div>
+                <div class="col-md-5">
+                    <input type="password" name="password" value="" class="form-control"/>
                 </div>
-                <br />
-                <input type="hidden" id="next" name="next" value="">
+            </div>
+            <br />
+            <input type="hidden" id="next" name="next" value="">
 
-                <div class="row">
-                    <div class="col-md-7"></div>
-                    <div class="col-md-1">
-                        <input type="submit" value="Login" class="form-control gsr-cream"/>
-                    </div>
+            <div class="row">
+                <div class="col-md-7"></div>
+                <div class="col-md-1">
+                    <input type="submit" value="Login" class="form-control gsr-cream"/>
                 </div>
+            </div>
 
-                </form>
-
-        </div>
-    {% endif %}
+            </form>
+    </div>
 {% endblock %}
