@@ -14,10 +14,12 @@ $(document).ready(function() {
         const reviewId = $(this).data('review-id');
         if (buttonText === "Reply") {
             $(this).text("Close");
-            var showBtn = '#show-replies-' + $(this).data('review-id');
+            var showBtn = '#show-replies-' + reviewId;
             if ($(showBtn).text() == "Show replies") {
                 $(showBtn).trigger('click');
             }
+            var comment = '#comment-' + reviewId;
+            $(comment).val("");
         }else {
             $(this).text("Reply");
         }
@@ -70,6 +72,8 @@ $(document).ready(function() {
 $(document).on('submit', '.reply_form', function(e){
   e.preventDefault();
   var reviewId = $(this).find('[name=review_id]').val();
+  closeBtn = '#reply-button-' + reviewId;
+  $(closeBtn).trigger('click');
   $.ajax({
     type: 'POST',
     url: 'create_reply/',
