@@ -75,7 +75,6 @@ body {
 .shops {
     flex: 0 0 200px;
     position: relative;
-    background-image: url(../static/rango.jpg);
     background-size: cover;
     margin-top: 0;
     margin-left: 20px;
