@@ -90,6 +90,8 @@ class Category(models.Model):
 
     MEDIA_SUBDIR = 'category_images'
 
+    DEFAULT_PICTURE = static('category_default_picture.png')
+
     """The display name of the category"""
     name = models.CharField(max_length=MAX_NAME_LENGTH)
 

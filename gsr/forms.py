@@ -11,7 +11,7 @@ class CategoryForm(forms.ModelForm):
 
     class Meta:
         model = Category
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'picture')
         widgets = {
             "name" : forms.TextInput(attrs={
                 "class" : "gsr-cream"

@@ -60,7 +60,7 @@ def category_picture(category: Category):
 
     return {
         'obj' : category,
-        'default' : Shop.DEFAULT_PICTURE,
+        'default' : Category.DEFAULT_PICTURE,
     }
 
 @register.filter
