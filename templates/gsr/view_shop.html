@@ -75,6 +75,15 @@
 
         <div class="gsr-cream">
             {% for review in reviews %}
+                {% if review.author == user %}
+                <button class="btn btn-danger float-end me-2" onclick="window.location.href='{% url 'gsr:delete_review' review.shop.slug review.id %}'">
+                    Delete
+                </button>
+                <button class="btn btn-primary float-end me-2" onclick="window.location.href='{% url 'gsr:edit_review' review.shop.slug review.id %}'">
+                    Edit
+                </button>
+                {% endif %}
+
                 <strong>{{ review.author }}</strong>
                 <br />
                 <strong>{{ review.date_added }}</strong>

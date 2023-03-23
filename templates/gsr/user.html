@@ -82,7 +82,7 @@
             <div class="commentbox"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:95.5%;;min-height: 100px;border: 1px solid black;">
                 {{ review.comment|linebreaks }} </div>
-            <button id="editreview"
+            <button id="editreview" onclick="window.location.href='{% url 'gsr:edit_review' review.shop.slug review.id %}'"
             style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;margin-bottom: 10px;width:10%;">
                 Edit</button>
         </div>

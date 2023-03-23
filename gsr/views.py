@@ -44,6 +44,7 @@ def user_login(request):
             "No_Role_On_Add" : "You can't add a shop without an owner account",
             "No_Role_On_Edit": "You can't edit a shop without an owner account",
             "Unowned_Shop"   : "You can't edit a shop you don't own",
+            "Unowned_Review" : "You can't edit a review you didn't write",
             "Account_Created": "Please login to your new account",
         }
         error = messages.get(reason, "")        
@@ -355,6 +356,52 @@ def add_review(request,shop_name_slug):
 
     context_dict = {'form':form,'shop':shop}
     return render(request, 'gsr/add_review.html', context= context_dict)
+
+
+@login_required
+def edit_review(request, shop_name_slug, review_id):
+    # Check shop and review
+    shop = get_object_or_404(Shop, slug=shop_name_slug)
+    review = get_object_or_404(Review, id=review_id)
+    if review.author != request.user and not request.user.is_superuser:
+        return redirect(reverse("gsr:login")+"?reason=Unowned_Review")
+
+    # Pre-fill form
+    form = ReviewForm(instance=review)
+
+    # Handle submission if using POST
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('gsr:view_shop', args=[shop.slug]))
+        else:
+            print(form.errors)
+
+    return render(
+        request,
+        'gsr/add_review.html',
+        context={
+            'form' : form,
+            'shop' : shop,
+            'editing' : True,
+            'review' : review
+        }
+    )
+
+
+@login_required
+def delete_review(request, shop_name_slug, review_id):
+    # Check shop and review
+    shop = get_object_or_404(Shop, slug=shop_name_slug)
+    review = get_object_or_404(Review, id=review_id)
+    if review.author != request.user and not request.user.is_superuser:
+        return redirect(reverse("gsr:login")+"?reason=Unowned_Review")
+
+    # Delete
+    review.delete()
+
+    return redirect(reverse('gsr:view_shop', args=[shop.slug]))
 
 
 @login_required

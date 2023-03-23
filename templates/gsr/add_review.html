@@ -3,7 +3,11 @@
 {% load gsr_template_tags %}
 
 {% block title_block %}
+    {% if editing %}
+    Edit Review
+    {% else %}
     Add Review
+    {% endif %}
 {% endblock %}
 
 {% block head_block %}
@@ -16,12 +20,20 @@
     <div class="row">
         <div class="col-md-4"></div>
         <div class="gsr-cream text-center card p-2 col-md-3">
+            {% if editing %}
+            <h1>Edit review</h1>
+            {% else %}
             <h1>Write a review</h1>
+            {% endif %}
         </div>
     </div>
     <br />
+    {% if editing %}
+    <form id="review_form" method="post" action="{% url 'gsr:edit_review' shop.slug review.id %}">
+    {% else %}
     <form id="review_form" method="post" action="{% url 'gsr:add_review' shop.slug %}">
-        {% csrf_token %}
+    {% endif %}
+            {% csrf_token %}
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-2">
@@ -71,7 +83,7 @@
         <div class="row">
             <div class="col-md-6"></div>
             <div class="col-md-1">
-                <input type="submit" name="Add a Review" value="Add Review" class="form-control gsr-cream" />
+                <input type="submit" value="Submit" class="form-control gsr-cream" />
             </div>
         </div>
 
