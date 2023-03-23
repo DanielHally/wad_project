@@ -217,7 +217,7 @@ def edit_shop(request,shop_name_slug):
 
 
 def index(request):
-    shoplistbyadddate = Shop.objects.order_by('-date_added')[:5]
+    shoplistbyadddate = Shop.objects.order_by('-date_added')
     shoplistbystars = [
         shop
         for shop in Shop.objects.all()
@@ -239,10 +239,11 @@ def index(request):
     # Iterate through the 'names' list and create a new list of Shop objects
     ordered_shops_recently_visited = [slug_to_shop[slug] for slug in names if slug in slug_to_shop]
 
+    SHOP_COUNT = 10
     context = {
-        'shoplistbystars':shoplistbystars,
-        'shoplistbyadddate':shoplistbyadddate,
-        'shops_recently_visited':ordered_shops_recently_visited,
+        'shoplistbystars':shoplistbystars[:SHOP_COUNT],
+        'shoplistbyadddate':shoplistbyadddate[:SHOP_COUNT],
+        'shops_recently_visited':ordered_shops_recently_visited[:SHOP_COUNT],
     }
 
     return render(request, 'gsr/home.html', context)
