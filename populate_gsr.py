@@ -163,7 +163,6 @@ shops = [
     },
         {
         'name': "Pantryplus",
-        'picture': "the_other_shop.png",
         'description': "Sells plenty of pantry filling items. Fun for the whole family",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
         'location': 'ChIJiSKpi8xFiEgRPgcHFo1WdRI',
@@ -197,7 +196,7 @@ shops = [
     },
         {
         'name': "Jimmies",
-        'picture': "the_other_shop.png",
+        'picture': "jimmies.png",
         'description': "This is Jimmies cornershop not to be mistaken with Jimmy's cornershop",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
         'location': 'ChIJAzLzcsxFiEgRjTjT96NloVA',
@@ -231,7 +230,7 @@ shops = [
     },
     {
         'name': "Jimmy's",
-        'picture': "the_other_shop.png",
+        'picture': "jimmys.png",
         'description': "This is Jimmy's cornershop not to be mistaken with Jimmies cornershop",
         'opening_hours': "Monday-Friday 9-5\nSaturday-Sunday 10-4",
         'location': ' ChIJv3iNt8NFiEgRbbHwZjXzhW4',
@@ -264,7 +263,6 @@ shops = [
     },
     {
         'name': "shoppy mc shop face",
-        'picture': "the_other_shop.png",
         'description': "This shop was named by the British public.",
         'opening_hours': "Wednesday 1-4\nTuesday 7-7\n Friday 5-6",
         'location': 'ChIJ8cF-6MtFiEgRwMvh3DDvPDY',
@@ -283,7 +281,6 @@ shops = [
     },
     {
         'name': "bingobango",
-        'picture': "the_other_shop.png",
         'description': "The only place your heart desires",
         'opening_hours': "24 Hour Shop",
         'location': 'ChIJ8cF-6MtFiEgRwMvh3DDvPDY',
@@ -302,7 +299,6 @@ shops = [
     },
     {
         'name': "El Salvador's",
-        'picture': "the_other_shop.png",
         'description': "Rises in the east.",
         'opening_hours': "24 Hour Shop",
         'location': 'ChIJBa5oLsxFiEgR-TLrAGrNBDo',
@@ -321,7 +317,6 @@ shops = [
     },
     {
         'name': "Spicy Tortailini",
-        'picture': "the_other_shop.png",
         'description': "Sponsored by Matteo Campinille",
         'opening_hours': "Wednesday 8-8",
         'location': 'ChIJk8sA985FiEgRiBNqStymKBs',
@@ -340,7 +335,6 @@ shops = [
     },
     {
         'name': "Door Dash",
-        'picture': "the_other_shop.png",
         'description': "Doors direct to your doors",
         'opening_hours': "Sunday 1-3",
         'location': 'ChIJk8sA985FiEgRiBNqStymKBs',
@@ -359,7 +353,6 @@ shops = [
     },
     {
         'name': "Deadeye",
-        'picture': "the_other_shop.png",
         'description': "We defintely dont sell illegal firearms",
         'opening_hours': "Wednesday 9-9",
         'location': 'ChIJH81g3A1FiEgRUm8QVTFC5_M',
@@ -378,7 +371,6 @@ shops = [
     },
     {
         'name': "Funky Monkey",
-        'picture': "the_other_shop.png",
         'description': "Not horsing arounds",
         'opening_hours': "Wednesday 9-9\nFriday 12-6",
         'location': 'ChIJH81g3A1FiEgRUm8QVTFC5_M',
@@ -397,7 +389,6 @@ shops = [
     },
     {
         'name': "No Porkin",
-        'picture': "the_other_shop.png",
         'description': "No Porkin",
         'opening_hours': "Wednesday 9-9\nFriday 12-6\nSaturday 4-3",
         'location': 'ChIJz11hvC9FiEgRc8ifQ5FWBtM',
@@ -416,7 +407,7 @@ shops = [
     },
     {
         'name': "Dog Food",
-        'picture': "the_other_shop.png",
+        'picture': "dogfood.png",
         'description': "I wonder what you can buy here.... Only cat food",
         'opening_hours': "Wednesday 9-9\nFriday 12-6\nSaturday 4-3",
         'location': 'ChIJ-TPET55FiEgR2pWRz4zRxgs',
