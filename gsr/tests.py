@@ -1,6 +1,5 @@
 from datetime import timedelta
 from typing import List
-from unicodedata import category
 
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
