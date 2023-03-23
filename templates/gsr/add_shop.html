@@ -3,7 +3,11 @@
 {% load gsr_template_tags %}
 
 {% block title_block %}
+	{% if editing %}
+	Edit Shop
+	{% else %}
 	Add Shop
+	{% endif %}
 {% endblock %}
 
 {% block head_block %}
@@ -17,8 +21,12 @@
 		<h1 class="text-center gsr-cream  border gsr-border" >{{ title }}</h1>
 	</div>
 	<div>
-		<form id="shop_form" method="POST" action="{{ action }}" enctype="multipart/form-data">
-			{% csrf_token %}
+		{% if editing %}
+		<form id="shop_form" method="POST" action="{% url 'gsr:edit_shop' shop.slug %}" enctype="multipart/form-data">
+		{% else %}
+		<form id="shop_form" method="POST" action="{% url 'gsr:add_shop' %}" enctype="multipart/form-data">
+		{% endif %}
+				{% csrf_token %}
 			<div class="container-fluid p-4">
 				<div class = "row mx-4 ">
 					

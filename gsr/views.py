@@ -104,7 +104,6 @@ def add_shop(request):
     
     context_dict['picture'] = Shop.DEFAULT_PICTURE
     context_dict['form'] = form
-    context_dict['action'] = reverse("gsr:add_shop")
     context_dict['title'] = "Add Your Shop"
     context_dict['submit_text'] = "Create Shop"
     
@@ -216,7 +215,7 @@ def edit_shop(request,shop_name_slug):
             print(form.errors)
     
     context_dict['form'] = form
-    context_dict['action'] = reverse("gsr:edit_shop", args=[shop.slug])
+    context_dict['editing'] = True
     context_dict['title'] = "Edit \"" + shop.name + "\""
     context_dict['submit_text'] = "Save Changes"
     
