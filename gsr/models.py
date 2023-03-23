@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import List, Optional
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils import timezone
@@ -315,3 +315,24 @@ class OwnerGroupRequest(DatedModel):
 
     """A file included by the user"""
     evidence_file = models.FileField(upload_to=MEDIA_SUBDIR)
+
+    """Whether the request has been approved by an admin
+    
+    Triggers the group promotion and deletion of the request on save"""
+    approved = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        """Override to apply the application if approved"""
+        super().save(*args, **kwargs)
+
+        if self.approved:
+            print(f"Promoting user {self.user.username} to Shop Owner Group")
+            group = Group.objects.get(name="Shop Owner")
+            self.user.groups.add(group)
+            self.user.save()
+            self.delete()
+    
+    def __str__(self):
+        """Include username in print"""
+
+        return f"OwnerGroupRequest({self.user.username})"
