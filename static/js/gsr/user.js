@@ -180,6 +180,19 @@ function setupEditor(ctx) {
 }
 
 $(document).ready(function() {
+    // Setup editor section
     setupEditor(username_edit_ctx);
     setupEditor(email_edit_ctx);
+
+    // Setup tabs
+    $('#Shopsid').hide();
+    $('#Reviewsid').show();
+    $("#reviewsbtn").click(function() {
+        $('#Shopsid').hide();
+        $('#Reviewsid').show();
+    });
+    $("#shopsbtn").click(function() {
+        $('#Shopsid').show();
+        $('#Reviewsid').hide();
+    });
 });
