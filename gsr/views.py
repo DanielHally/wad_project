@@ -15,8 +15,9 @@ def user_signup(request):
     """TODO: Need to change the groups input probably to a boolean of is shop owner
     or not shop owner"""
     registered = False
-
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        return redirect(reverse('gsr:index'))
+    elif request.method == 'POST':
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             user = user_form.save()
@@ -29,16 +30,22 @@ def user_signup(request):
     else:
         user_form = UserForm()
 
-    return render(request, 'gsr/signup.html', context={'user_form': user_form, 'registered': registered})
+    if registered:
+        return redirect(reverse('gsr:login') + "?reason=Account_Created")
+    else:
+        return render(request, 'gsr/signup.html', context={'user_form': user_form, 'registered': registered})
 
 
 def user_login(request):
     
     if request.method == 'GET':
         reason = request.GET.get("reason")
-        messages = {"No_Role_On_Add" : "You can't add a shop without an owner account",
-                    "No_Role_On_Edit": "You can't edit a shop without an owner account",
-                    "Unowned_Shop"   : "You can't edit a shop you don't own"}
+        messages = {
+            "No_Role_On_Add" : "You can't add a shop without an owner account",
+            "No_Role_On_Edit": "You can't edit a shop without an owner account",
+            "Unowned_Shop"   : "You can't edit a shop you don't own",
+            "Account_Created": "Please login to your new account",
+        }
         error = messages.get(reason, "")        
     elif request.method == 'POST':
 
