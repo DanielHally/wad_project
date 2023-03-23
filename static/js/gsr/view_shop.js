@@ -39,7 +39,7 @@ $('.show-replies').click(function(){
                 $('#replies-section-' + reviewId).empty();
                 $.each(replies, function(index, reply) {
                     const username = reply[0];
-                    const comment = reply[1];
+                    const comment = reply[1].replace('\n', '<br/>');
                     const replyText = '<div class="row">' +
                                           '<div class="col-md-1"></div>' +
                                               '<div class="col-md-10">' +
@@ -76,7 +76,7 @@ $(document).on('submit', '.reply_form', function(e){
     },
     success: function(data){
         const username = data.username;
-        const comment = data.comment;
+        const comment = data.comment.replace('\n', '<br/>');
         const replyText = '<div class="row">' +
                                           '<div class="col-md-1"></div>' +
                                               '<div class="col-md-10">' +

@@ -157,9 +157,6 @@ def view_shop(request,shop_name_slug):
         reviews = Review.objects.filter(shop=shop)
         categories = [category.name for category in shop.categories.all()]
 
-        """splits by new line to make the template take a new line"""
-        shop.opening_hours = shop.opening_hours.split("\n")
-
         context_dict['shop'] = shop
         context_dict['reviews'] = reviews
         context_dict['categories'] = categories

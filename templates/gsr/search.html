@@ -40,7 +40,7 @@ Search
             <h3>{{ category.name }}</h3>
         </div>
         <div class="col-sm-8">
-            {{ category.description }}
+            {{ category.description|linebreaks }}
         </div>
     </div>
 </div>
@@ -63,7 +63,7 @@ Search
                     </div>
                 </div>
                 <div class="col-sm-8 my-3 border gsr-border gsr-cream">
-                    {{ shop.description }}
+                    {{ shop.description|linebreaks }}
                 </div>
                 <div class="col-sm-2 my-3">
                     <div class="container border gsr-border gsr-blue text-center">

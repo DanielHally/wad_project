@@ -80,9 +80,9 @@
 
         </div>
         <div class="container">
-            <p class="commentbox"
+            <div class="commentbox"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:95.5%;;min-height: 100px;border: 1px solid black;">
-                {{ review.comment }} </p>
+                {{ review.comment|linebreaks }} </div>
             <button id="editreview"
             style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;margin-bottom: 10px;width:10%;">
                 Edit</button>
@@ -110,9 +110,9 @@
 
         </div>
         <div class="container">
-            <p class="descriptionbox"
+            <div class="descriptionbox"
                 style="display:inline-block ;background-color: white;margin-top:0px;margin-left:0px;width:95.5%;;min-height: 100px;border: 1px solid black;">
-                {{ shop.description}} </p>
+                {{ shop.description|linebreaks }} </div>
                 <button id="editshop" onclick="window.location.href='{{ shop.get_edit_url}}'"
                 style="display:inline-block ;background-color:yellow;margin-top:0px;margin-left:0px;margin-bottom: 10px;width:10%;">
                 Edit</button>
