@@ -23,7 +23,7 @@
         {% for shop in shoplistbystars %}
         <div class="shops border gsr-border"  style="background-image: url({% shop_picture shop %}) " >
 
-                <div class="text">
+                <div class="text text-truncate">
 
                     <a href="{{ shop.get_absolute_url }}" style=" cursor: pointer ;">{{ shop.name }}</a>
 
