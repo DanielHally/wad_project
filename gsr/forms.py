@@ -7,9 +7,7 @@ from gsr.models import Category, OwnerGroupRequest, Shop, Review, ReviewReply
 
 
 class CategoryForm(forms.ModelForm):
-    """A form to create a new category
-    
-    TODO: this needs admin approval in some way"""
+    """A form to create a new category"""
 
     class Meta:
         model = Category

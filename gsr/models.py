@@ -10,11 +10,6 @@ from django.urls import reverse
 
 
 
-# TODO: does anything need a UserProfile model? All attribtues in design's ERD are in django's User
-
-# TODO: create shop owner user group
-
-
 class RatedModel:
     OVERALL_RATING = "Overall Rating"
     CUSTOMER_INTERACTION_RATING = "Customer Interaction Rating"
@@ -158,7 +153,6 @@ class Shop(DatedModel, RatedModel):
     views = models.IntegerField(default=0)
 
     """Set the fields to trigger date_updated to change"""
-    # TODO: categories views and owners?
     DATED_FIELDS = ('name', 'description', 'picture', 'opening_hours', 'location')
 
     class Meta:
@@ -187,7 +181,6 @@ class Shop(DatedModel, RatedModel):
                 accept = False
         
         # Check query in name and description
-        # TODO: proper search?
         if query is not None:
             query = query.lower()
             if query not in self.name.lower() and query not in self.description.lower():

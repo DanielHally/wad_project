@@ -221,7 +221,6 @@ class ShopUtils:
         shop = Shop(
             name=f"Test shop {n}",
             description="Test description",
-            # TODO: picture, categories, owners
             opening_hours="Test opening hours",
             location="TODO",
         )
